@@ -1,0 +1,115 @@
+<!-- <form #personalForm="ngForm" class="editForm" novalidate>
+    <div class="tab-pane fade in active">
+        <h4 class="head text-center">{{title}}</h4>
+        <br/>
+        <div class='row'>
+            <div class='col-xs-offset-1 col-xs-10 col-sm-offset-2 col-sm-8'>
+                <!-- <div class="row">
+                    <div class='col-xs-12 col-sm-6'>
+                        <div class="form-group">
+                            <label class="control-label" for="firstname">First Name</label>  
+                            <input class="form-control input-md" #firstname="ngModel" required id="firstname" name="firstname" type="text" placeholder="First Name" [(ngModel)]="personal.firstName">   
+                            <div class="alert alert-danger" [hidden]="firstname.valid">First Name is required</div>
+                        </div>
+                    </div>
+                    <div class='col-xs-12 col-sm-6'>
+                        <div class="form-group">
+                            <label class="control-label" for="lastname">Last Name</label>  
+                            <input class="form-control input-md" #lastname="ngModel" required id="lastname" name="lastname" type="text" placeholder="Last Name" [(ngModel)]="personal.lastName">
+                            <div class="alert alert-danger" [hidden]="lastname.valid">Last Name is required</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="email">Email</label>
+                    <input class="form-control input-md" #email="ngModel" pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$" id="email" name="email" type="text" placeholder="Email" [(ngModel)]="personal.email">
+                    <div class="alert alert-danger" [hidden]="email.valid">Email must be valid</div>
+                </div>
+  
+                <div class="form-group">
+                    <label class="control-label" for="phnumber">Contact Number</label>
+                    <input class="form-control input-md" #phnumber="ngModel" required pattern="^[0-9]+$" id="phnumber" name="phnumber" type="text" placeholder="0302255511255" [(ngModel)]="personal.contactNumber">
+                    <div class="alert alert-danger" [hidden]="phnumber.valid">Number must be valid</div>
+                </div>
+                    
+                <div class="form-group text-center">
+                    <button class="btn btn-success btn-outline-rounded btn-info" [disabled]="!personalForm.valid" (click)="goToNext(personalForm)"> Next <span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span></button>
+                </div>
+
+
+    <div class="form-group">
+        <label for="options">Options:</label>
+        <div *ngFor="let option of options">
+            <label>
+                <input type="checkbox"
+                       name="options"
+                       value="{{option.value}}"
+                       [(ngModel)]="option.checked"/>
+                {{option.name}}
+            </label>
+        </div>
+    </div>
+            </div>
+        </div>
+    </div>
+
+
+  </form> -->
+
+  <div class="example-header">
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+  
+  <div class="example-container mat-elevation-z8">
+  
+    <mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="select">
+                    <mat-header-cell *matHeaderCellDef>
+                    Select
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let games">
+                      <mat-checkbox
+                      [(ngModel)]="games.checked"
+                      >
+                      </mat-checkbox>
+                    </mat-cell>
+                  </ng-container>
+              
+                  <!-- Position Column -->
+                  <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+                    <mat-cell *matCellDef="let games"> {{games.id}} </mat-cell>
+                  </ng-container>
+              
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let games"> {{games.name}} </mat-cell>
+                  </ng-container>
+              
+                  <!-- Weight Column
+                  <ng-container matColumnDef="genre">
+                    <mat-header-cell *matHeaderCellDef> genre </mat-header-cell>
+                    <mat-cell *matCellDef="let games"> {{games.genre}} </mat-cell>
+                  </ng-container> -->
+              
+                  <!-- Symbol Column -->
+                  <ng-container matColumnDef="date">
+                    <mat-header-cell *matHeaderCellDef> date </mat-header-cell>
+                    <mat-cell *matCellDef="let games" class="datepicker"> 
+                        <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions"
+                    [(ngModel)]="games.dates" required></my-date-range-picker> 
+                    </mat-cell>
+                  </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"  (click)="selection.toggle(row)">
+      </mat-row>
+    </mat-table>
+  
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </div>
+
+  <button class="btn btn-success btn-outline-rounded btn-info" (click)="goToNext()"> Next <span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span></button>

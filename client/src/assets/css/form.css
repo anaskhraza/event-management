@@ -1,15 +1,44 @@
-.tab-content .tab-pane{
+.tab-content .tab-pane {
     padding-top: 20px;
 }
 
 .alert {
-  padding: 8px;
-  margin-bottom: 8px;
+    padding: 8px;
+    margin-bottom: 8px;
 }
 
-.ng-valid[required], .ng-valid.required  {
-  border-left: 5px solid #42A948; /* green */
+.ng-valid[required],
+.ng-valid.required {
+    border-left: 5px solid #42A948;
+    /* green */
 }
-.ng-invalid:not(form)  {
-  border-left: 5px solid #a94442; /* red */
+
+.ng-invalid:not(form) {
+    border-left: 5px solid #a94442;
+    /* red */
+}
+
+.body-container {
+    margin-top: 10em;
+    position: relative;
+}
+
+.heading {
+    text-align: center;
+    align-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: large;
+    font-weight: 200;
+}
+
+.event-form-datepicker {
+    text-align: center;
+    align-content: center;
+    width: 500px;
+}
+
+.form-stepper-next {
+    float: left;
+    padding-top: 2px;
+    position: relative;
 }

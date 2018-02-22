@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { eventDetails } from '../../FormService/form.model'
 import { FormService } from '../../FormService/form.service';
-import { trigger, state, style, animate, transition } from '@angular/animations';
+
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { IMyDrpOptions } from 'mydaterangepicker';
-
-
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+ 
 @Component({
   selector: 'app-event-details',
   templateUrl: './event-details.component.html',
@@ -146,7 +146,7 @@ export class EventDetailsComponent implements OnInit {
   eventDetails: eventDetails;
   date: Date = new Date();
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort
+  @ViewChild(MatSort) sort: MatSort;
   form: any;
   myDateRangePickerOptions: IMyDrpOptions = {
     // other options...
@@ -176,8 +176,11 @@ export class EventDetailsComponent implements OnInit {
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
+  
+      // this.dataSource.filter = filterValue;
+    
   }
+
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {

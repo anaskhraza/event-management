@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeModule } from './components/home/home.module';
-import { CreateEventModule } from './components/create-event/create-event.module';
 import { ModuleWithProviders } from '@angular/core'
 import { AppComponent } from './app.component';
 // import { HomeComponent } from './components/home/home.component';
@@ -22,6 +21,10 @@ export const router: Routes = [
     {
       path: 'createEvent',
       loadChildren: 'app/components/create-event/create-event.module#CreateEventModule',
+    },
+    {
+      path: 'searchItems',
+      loadChildren: 'app/components/search-items/search-items.module#SearchItemsModule',
     }
 ];
 

@@ -6,7 +6,7 @@ import { ModuleWithProviders } from "@angular/core";
 import { BrowserModule }      from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule }        from '@angular/forms';
 import { CustomerInfoComponent } from './customer-info/customer-info.component';
-import { MaterialModule } from './material.module';
+import { MaterialModule } from '../material.module';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 
 
@@ -17,7 +17,11 @@ import { EventDetailsComponent } from './event-details/event-details.component';
 const Create_Event_Router: Routes = [
   {
     path: '',
-    component: CreateEventComponent
+    component: CreateEventComponent,
+    children: [
+      { path: 'eventdetails',  component:  EventDetailsComponent},
+      { path: '', component:  CustomerInfoComponent}
+    ]
   },
 ]
 

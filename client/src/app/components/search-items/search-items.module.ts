@@ -8,7 +8,7 @@ import { MaterialModule } from '../material.module';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { SearchItemsComponent } from './search-items.component';
 import { CommonService } from '../../common.service'
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 
 /* Feature Components */
@@ -31,7 +31,7 @@ export const searchItemsRouter = RouterModule.forChild(Search_Items_Router);
     ReactiveFormsModule,
     MaterialModule,
     MyDateRangePickerModule,
-    HttpModule
+    HttpClientModule
   ],
   providers: [CommonService, { provide: FormService, useClass: FormService }],
   declarations: [SearchItemsComponent],

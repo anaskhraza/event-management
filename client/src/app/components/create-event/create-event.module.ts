@@ -17,12 +17,9 @@ import { EventDetailsComponent } from './event-details/event-details.component';
 const Create_Event_Router: Routes = [
   {
     path: '',
-    component: CreateEventComponent,
-    children: [
-      { path: 'eventdetails',  component:  EventDetailsComponent},
-      { path: '', component:  CustomerInfoComponent}
-    ]
+    component: CreateEventComponent
   },
+  { path: 'eventdetails',  component:  EventDetailsComponent}
 ]
 
 export const createEventRouter = RouterModule.forChild(Create_Event_Router);

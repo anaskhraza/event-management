@@ -35,11 +35,7 @@ export class SearchItemsComponent{
   getAllGrocery(){
 		this.commonService.getGrocery().subscribe(res =>{
 			
-			console.log(res.json());
-			res.json().map(e => {
-				
-				this.list.push(e.Name,false);
-			})
+			console.log(res);
 		})
 	}
   

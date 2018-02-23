@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 // import { CreateEventComponent } from './components/create-event/create-event.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 // import { SearchEventsComponent } from './components/search-events/search-events.component';
-
+import { HttpClientModule } from '@angular/common/http';
 
 export const router: Routes = [
     {
@@ -37,6 +37,7 @@ export const appRouter: ModuleWithProviders = RouterModule.forRoot(router);
   imports: [
     BrowserModule,
     CommonModule,
+    HttpClientModule,
     appRouter,
     BrowserAnimationsModule
   ],

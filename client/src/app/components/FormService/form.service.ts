@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { FormData, customerInfo, eventCostDetails, eventDetails } from './form.model';
 import { Subject } from 'rxjs/Subject';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 @Injectable()
 export class FormService {
   private formData: FormData = new FormData();
-  constructor(private http : Http) { }
+  constructor(private http : HttpClient) { }
 
   getPersonal(): customerInfo {
     // Return the Personal data

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 @Injectable()
 export class CommonService {
 	public add_subject=new Subject<String>()
 
-	constructor(private http : Http){
+	constructor(private http : HttpClient){
     
 	}
 

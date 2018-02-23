@@ -1,6 +1,5 @@
-
 let BaseController = require('./base-controller');
-let CustomerModel = require('../models/customer-model');
+let CustomerService = require('../service/customer-service');
 var redis = require('redis');
 
 
@@ -11,7 +10,7 @@ class CustomerController extends BaseController {
     }
 
     getCustomers() {
-        let customersPromise = CustomerModel.getCustomers(null);
+        let customersPromise = CustomerService.getCustomers(null);
         return customersPromise;
     }
     getCustomerById(id) {
@@ -29,13 +28,11 @@ class CustomerController extends BaseController {
     }
 
     getCachedInfo(id) {
-        return [
-            {
-                "id": 1,
-                "Customer Name": "FMW",
-                "Customer Email": "arehman@folio3.com"
-            }
-        ];
+        return [{
+            "id": 1,
+            "Customer Name": "FMW",
+            "Customer Email": "arehman@folio3.com"
+        }];
     }
 }
 

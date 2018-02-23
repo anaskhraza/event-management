@@ -1,6 +1,6 @@
 var connection = require('../config/connection');
 
-class CustomerModel {
+class CustomerService {
 
     constructor() {
 

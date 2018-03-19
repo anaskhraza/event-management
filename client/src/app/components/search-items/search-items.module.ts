@@ -13,12 +13,16 @@ import { HttpClientModule } from '@angular/common/http';
 
 /* Feature Components */
 import { FormService }    from '../FormService/form.service';
+import { AddItemsComponent } from './add-items/add-items.component';
+import { UpdateItemsComponent } from './update-items/update-items.component';
 
 const Search_Items_Router: Routes = [
   {
     path: '',
     component: SearchItemsComponent
-  }
+  },
+  { path: 'addItem', component: AddItemsComponent },
+  { path: 'updateItem/:id', component: UpdateItemsComponent }
 ]
 
 export const searchItemsRouter = RouterModule.forChild(Search_Items_Router);
@@ -34,6 +38,6 @@ export const searchItemsRouter = RouterModule.forChild(Search_Items_Router);
     HttpClientModule
   ],
   providers: [CommonService, { provide: FormService, useClass: FormService }],
-  declarations: [SearchItemsComponent],
+  declarations: [SearchItemsComponent, AddItemsComponent, UpdateItemsComponent],
 })
 export class SearchItemsModule { }

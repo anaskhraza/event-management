@@ -1,21 +1,26 @@
 let BaseController = require('./base-controller');
-let ItemService = require('../service/item-service');
+let EventService = require('../service/event-service');
 var redis = require('redis');
 
 
-class ItemController extends BaseController {
+class EventController extends BaseController {
     constructor() {
         super();
 
     }
 
     getItems() {
-        let itemPromise = ItemService.getItems(null);
+        let itemPromise = EventService.getItems(null);
         return itemPromise;
     }
 
     getItemsCategories() {
-        let itemPromise = ItemService.getItemCategories(null);
+        let itemPromise = EventService.getItemCategories(null);
+        return itemPromise;
+    }
+
+    createEvent(eventObject) {
+        let itemPromise = EventService.addEvent(eventObject);
         return itemPromise;
     }
 
@@ -29,7 +34,7 @@ class ItemController extends BaseController {
 
             return Promise.resolve(cachedData);
         } else {
-            return CustomerService.getCustomerById(id);
+            return EventService.getCustomerById(id);
         }
     }
 
@@ -42,4 +47,4 @@ class ItemController extends BaseController {
     }
 }
 
-module.exports = new ItemController();
+module.exports = new EventController();

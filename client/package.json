@@ -23,6 +23,7 @@
     "@angular/platform-browser": "^5.2.3",
     "@angular/platform-browser-dynamic": "^5.2.3",
     "@angular/router": "^5.2.3",
+    "@types/underscore": "^1.8.7",
     "angular4-datepicker": "^1.0.1",
     "bootstrap": "^4.0.0-beta",
     "core-js": "^2.4.1",
@@ -32,6 +33,7 @@
     "mydaterangepicker": "^4.2.1",
     "popper.js": "^1.12.9",
     "rxjs": "^5.5.6",
+    "underscore": "^1.8.3",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {

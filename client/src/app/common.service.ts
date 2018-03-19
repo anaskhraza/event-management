@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 @Injectable()
@@ -17,7 +17,37 @@ export class CommonService {
 		})
 	}
 	
-	getGrocery(){
-		return this.http.get('/api/getGrocery',{})
+	getItems(){
+		return this.http.get('/api/items',{})
+	}
+
+	getItemCategories(){
+		return this.http.get('/api/itemscategory',{})
+	}
+
+	saveItem(item){
+		const myheader = new HttpHeaders().set('Content-Type', 'application/json')
+		  this.http.post('/api/addItem',
+          item, {
+            headers: myheader
+          })
+          .subscribe(data => {
+                alert(JSON.stringify(data));
+          }, error => {
+              console.log(JSON.stringify(error.json()));
+          });
+	}
+
+	saveEvent(event){
+		const myheader = new HttpHeaders().set('Content-Type', 'application/json')
+		  this.http.post('/api/addEvent',
+          event, {
+            headers: myheader
+          })
+          .subscribe(data => {
+                alert(JSON.stringify(data));
+          }, error => {
+              console.log(JSON.stringify(error.json()));
+          });
 	}
 }

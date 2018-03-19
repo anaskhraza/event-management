@@ -1,5 +1,17 @@
 <section>
-    <div class="container" style="margin-top: 20%;">
-        <a class="nav-link" [routerLink]="['/','createEvent','eventdetails']">Event Details</a>
+    <div class="container form-custom" style="margin-top: 20%;">
+        <div class="row">
+            <div class="align-center col-md-12">
+                <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions" [(ngModel)]="eventRequisites" placeholder="Enter Event Date"></my-date-range-picker>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="align-center btn-custom col-md-12 btn-color-1">
+                <button type="button" mat-raised-button color="primary" [disabled]=!eventRequisites (click)="next()">Event Details</button>
+            </div>
+        </div>
+
+
     </div>
 </section>

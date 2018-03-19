@@ -42,4 +42,4 @@ class CustomerService {
 }
 
 
-module.exports = new CustomerModel();
+module.exports = new CustomerService();

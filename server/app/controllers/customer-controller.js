@@ -23,7 +23,7 @@ class CustomerController extends BaseController {
 
             return Promise.resolve(cachedData);
         } else {
-            return CustomerModel.getCustomerById(id);
+            return CustomerService.getCustomerById(id);
         }
     }
 

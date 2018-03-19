@@ -3,23 +3,22 @@ import { CommonModule } from '@angular/common';
 import { CreateEventComponent } from './create-event.component';
 import { Routes, RouterModule } from "@angular/router";
 import { ModuleWithProviders } from "@angular/core";
-import { BrowserModule }      from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule }        from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CustomerInfoComponent } from './customer-info/customer-info.component';
 import { MaterialModule } from '../material.module';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
-
-
 /* Feature Components */
-import { FormService }    from '../FormService/form.service';
+import { FormService } from '../FormService/form.service';
 import { EventDetailsComponent } from './event-details/event-details.component';
 
+import { CommonService } from '../../common.service'
+import { HttpClientModule } from '@angular/common/http';
+
 const Create_Event_Router: Routes = [
-  {
-    path: '',
-    component: CreateEventComponent
-  },
-  { path: 'eventdetails',  component:  EventDetailsComponent}
+  { path: '', component: CreateEventComponent },
+  { path: 'eventdetails', component: EventDetailsComponent },
+  { path: 'custeveinfo', component: CustomerInfoComponent }
 ]
 
 export const createEventRouter = RouterModule.forChild(Create_Event_Router);
@@ -31,9 +30,10 @@ export const createEventRouter = RouterModule.forChild(Create_Event_Router);
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    MyDateRangePickerModule
+    MyDateRangePickerModule,
+    HttpClientModule
   ],
-  providers: [{ provide: FormService, useClass: FormService }],
-  declarations: [CreateEventComponent, CustomerInfoComponent, EventDetailsComponent],
+  providers: [CommonService, { provide: FormService, useClass: FormService }],
+  declarations: [CreateEventComponent, CustomerInfoComponent, EventDetailsComponent]
 })
 export class CreateEventModule { }

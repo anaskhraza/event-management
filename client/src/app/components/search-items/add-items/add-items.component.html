@@ -1,0 +1,59 @@
+<div class="body">
+    <div class="row">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Title" [(ngModel)]="itemDetails.name" [formControl]="textFormControl" value="">
+            <mat-error *ngIf="textFormControl.hasError('required')">
+                Name is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="row">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="SKU" [(ngModel)]="itemDetails.sku" [formControl]="textFormControl" value="">
+            <mat-error *ngIf="textFormControl.hasError('required')">
+                SKU is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="row">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Quantity" [(ngModel)]="itemDetails.quantity" [formControl]="numberFormControl" value="">
+            <mat-error *ngIf="numberFormControl.hasError('pattern')">
+                Please enter a valid number
+            </mat-error>
+            <mat-error *ngIf="numberFormControl.hasError('required')">
+                Number is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </div>
+    <div class="row">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Rate" [(ngModel)]="itemDetails.rate" [formControl]="numberFormControl" value="">
+            <mat-error *ngIf="numberFormControl.hasError('pattern')">
+                Please enter a valid number
+            </mat-error>
+            <mat-error *ngIf="numberFormControl.hasError('required')">
+                Number is <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+
+    <div class="example-header">
+        <mat-form-field>
+            <mat-select placeholder="Select Category" (ngModelChange)="filterChange($event)" [(ngModel)]="itemDetails.selectedCategory">
+                <mat-option *ngFor="let category of categories" [value]="category.category_name">
+                    {{ category.category_name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="row">
+        <div class="align-center btn-custom col-md-12 btn-color-1">
+            <button type="button" mat-raised-button color="primary" (click)="saveItem()">Save</button>
+        </div>
+    </div>
+</div>

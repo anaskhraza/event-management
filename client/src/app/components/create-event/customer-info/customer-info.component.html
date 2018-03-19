@@ -1,45 +1,118 @@
-<form #personalForm="ngForm" class="editForm" novalidate>
-  <div class="tab-pane fade in active">
-      <h4 class="head text-center">{{title}}</h4>
-      <br/>
-      <div class='row'>
-          <div class='col-xs-offset-1 col-xs-10 col-sm-offset-2 col-sm-8'>
-              <div class="row">
-                  <div class='col-xs-12 col-sm-6'>
-                      <div class="form-group">
-                          <label class="control-label" for="firstname">First Name</label>  
-                          <input class="form-control input-md" #firstname="ngModel" required id="firstname" name="firstname" type="text" placeholder="First Name" [(ngModel)]="personal.firstName">   
-                          <div class="alert alert-danger" [hidden]="firstname.valid">First Name is required</div>
-                      </div>
-                  </div>
-                  <div class='col-xs-12 col-sm-6'>
-                      <div class="form-group">
-                          <label class="control-label" for="lastname">Last Name</label>  
-                          <input class="form-control input-md" #lastname="ngModel" required id="lastname" name="lastname" type="text" placeholder="Last Name" [(ngModel)]="personal.lastName">
-                          <div class="alert alert-danger" [hidden]="lastname.valid">Last Name is required</div>
-                      </div>
-                  </div>
-              </div>
-              <div class="form-group">
-                  <label class="control-label" for="email">Email</label>
-                  <input class="form-control input-md" #email="ngModel" pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$" id="email" name="email" type="text" placeholder="Email" [(ngModel)]="personal.email">
-                  <div class="alert alert-danger" [hidden]="email.valid">Email must be valid</div>
-              </div>
+<div class="body">
+    <h4 class="head text-center">{{title}}</h4>
+    <br/>
+    <div class="container">
+        <div class='row'>
+            <div class='col-md-12 example-form'>
+                <div class="row">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Your Name" [(ngModel)]="personal.name" [formControl]="textFormControl" value="">
+                        <mat-error *ngIf="textFormControl.hasError('required')">
+                            Name is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
 
-              <div class="form-group">
-                  <label class="control-label" for="phnumber">Contact Number</label>
-                  <input class="form-control input-md" #phnumber="ngModel" required pattern="^[0-9]+$" id="phnumber" name="phnumber" type="text" placeholder="0302255511255" [(ngModel)]="personal.contactNumber">
-                  <div class="alert alert-danger" [hidden]="phnumber.valid">Number must be valid</div>
-              </div>
-                  
-              <div class="form-group text-center">
-                  <button class="btn btn-success btn-outline-rounded btn-info" [disabled]="!personalForm.valid" (click)="goToNext(personalForm)"> Next <span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span></button>
-              </div>
-          </div>
-      </div>
-  </div>
-</form>
+                <div class="row">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Email" [(ngModel)]="personal.email" [formControl]="emailFormControl">
+                        <mat-error *ngIf="emailFormControl.hasError('email')">
+                            Please enter a valid email address
+                        </mat-error>
+                    </mat-form-field>
+                </div>
 
-<div class="tab-pane fade in active" *ngIf="toggle" [@fadeInOut] >
-        <app-event-details> </app-event-details>
-  </div>`
+                <div class="row">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="number" [(ngModel)]="personal.number" [formControl]="numberFormControl" value="">
+                        <mat-error *ngIf="numberFormControl.hasError('pattern')">
+                            Please enter a valid number
+                        </mat-error>
+                        <mat-error *ngIf="numberFormControl.hasError('required')">
+                            Number is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group text-center">
+                    <mat-slide-toggle (change)="onChange($event)" [(ngModel)]="toggle">Slide me!</mat-slide-toggle>
+                    <!-- <button class="btn btn-success btn-outline-rounded btn-info" [disabled]="!personalForm.valid" (click)="goToNext(personalForm)"> Next <span style="margin-left:10px;" class="glyphicon glyphicon-arrow-right"></span></button> -->
+                </div>
+
+                <div class="row">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Title" [(ngModel)]="eventDetails.title" [formControl]="textFormControl" value="">
+                        <mat-error *ngIf="textFormControl.hasError('required')">
+                            Title is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Address" [(ngModel)]="eventDetails.location" [formControl]="textFormControl" value="">
+                        <mat-error *ngIf="textFormControl.hasError('required')">
+                            Address is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="container tab-pane fade in active" *ngIf="toggle">
+                <div class="row">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Per Head" [(ngModel)]="eventDetails.perHead" [formControl]="numberFormControl" value="">
+                        <mat-error *ngIf="numberFormControl.hasError('pattern')">
+                            Please enter a valid number
+                        </mat-error>
+                        <mat-error *ngIf="numberFormControl.hasError('required')">
+                            Number is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="no of guests" [(ngModel)]="eventDetails.noOfGuests" [formControl]="numberFormControl" value="">
+                        <mat-error *ngIf="numberFormControl.hasError('pattern')">
+                            Please enter a valid number
+                        </mat-error>
+                        <mat-error *ngIf="numberFormControl.hasError('required')">
+                            Number is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>`
+        </div>
+        <div class="row">
+            <div class="container">
+                <div class="row">
+
+                    <mat-form-field class="example-full-width">
+                        <input matInput disabled placeholder="Gross Amount" [(ngModel)]="finance.totalCost" value="{{ getTotalCost(eventDetails.perHead, eventDetails.noOfGuests) }}">
+                    </mat-form-field>
+                </div>
+                <div class="row">
+
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Discount" [(ngModel)]="finance.discount" value="0">
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+
+                    <mat-form-field class="example-full-width">
+                        <input matInput disabled placeholder="Net Amount" [(ngModel)]="finance.netAmount" value="{{ getNetAmount(finance.totalCost, finance.discount) }}">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="align-center btn-custom col-md-12 btn-color-1">
+                <button type="button" mat-raised-button color="primary" (click)="saveEvent()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

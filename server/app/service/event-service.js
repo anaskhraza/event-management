@@ -1,12 +1,12 @@
 var connection = require('../config/connection');
 
-class ItemService {
+class EventService {
 
     constructor() {
 
     }
 
-    getItems(filters) {
+    getEvents(filters) {
         return new Promise(function(resolve, reject) {
             let query = "select * from Items";
             connection.query(query, function(err, results, fields) {
@@ -17,6 +17,22 @@ class ItemService {
                     reject(err)
                 }
             });
+
+        });
+    }
+
+    addEvent(eventObject) {
+        return new Promise(function(resolve, reject) {
+            eventObject
+            // let query = "select * from Items";
+            // connection.query(query, function(err, results, fields) {
+            //     console.log(eventObject);
+            //     if (!err) {
+            //         resolve(results);
+            //     } else {
+            //         reject(err)
+            //     }
+            // });
 
         });
     }
@@ -57,4 +73,4 @@ class ItemService {
 }
 
 
-module.exports = new ItemService();
+module.exports = new EventService();

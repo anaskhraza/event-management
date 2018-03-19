@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { eventDetails } from './../FormService/form.model'
+import { eventRequisites } from './../FormService/form.model'
 import { FormService } from './../FormService/form.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { IMyDrpOptions } from 'mydaterangepicker';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-event',
@@ -17,25 +18,27 @@ export class CreateEventComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   form: any;
-  eventDetails: eventDetails;
+  dateRange: any;
+
   myDateRangePickerOptions: IMyDrpOptions = {
     // other options...
-    dateFormat: 'dd.mm.yyyy',
+    dateFormat: 'yyyy-mm-dd',
+    inline: false,
+    editableDateRangeField: false,
+    openSelectorOnInputClick: true
   };
+  eventRequisites: eventRequisites;
 
-  eventDate = "";
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-
-  constructor(private formDataService: FormService, private _formBuilder: FormBuilder) { }
+  constructor(private formDataService: FormService, private _formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });
+    this.eventRequisites = this.formDataService.getEventRequisites();
+  }
+
+  next() {
+    this.formDataService.setEventRequisites(this.eventRequisites);
+    this.router.navigateByUrl('/createEvent/eventdetails');
   }
 
 }
+

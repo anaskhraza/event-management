@@ -25,7 +25,7 @@ export class UpdateItemsComponent implements OnInit {
 
   ngOnInit() {
     
-    this.hero = this.route.params.subscribe(params => {
+    this.itemDetails = this.route.params.subscribe(params => {
       console.log(params['id']); 
       this.getItemDetails(params['id']);
 
@@ -34,7 +34,7 @@ export class UpdateItemsComponent implements OnInit {
   }
   
  getItemDetails(sku){
-   this.itemDetails = this.formDataService.getItemDetails();
+   //this.itemDetails = this.formDataService.getItemDetails();
   }
 
 }

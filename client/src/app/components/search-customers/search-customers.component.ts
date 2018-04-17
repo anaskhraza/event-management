@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from "@angular/router";
 import { FormService } from './../FormService/form.service';
-
-
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MaterialModule } from '../material.module';
@@ -15,14 +13,12 @@ import { Router } from '@angular/router';
 
 
 @Component({
-  selector: 'app-search-items',
-  templateUrl: './search-items.component.html',
-  styleUrls: ['./search-items.component.css']
+  selector: 'app-search-customers',
+  templateUrl: './search-customers.component.html',
+  styleUrls: ['./search-customers.component.css']
 })
-export class SearchItemsComponent implements OnInit{
-  
-
-  displayedColumns = ['id', 'sku', 'name',  'unitprice', 'category', 'quantity', 'color', 'update'];
+export class SearchCustomersComponent implements OnInit {
+  displayedColumns = ['id', 'name',  'unitprice', 'category', 'color', 'update'];
   dataSource: MatTableDataSource<ItemData>;
   list = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -36,7 +32,7 @@ export class SearchItemsComponent implements OnInit{
   ngOnInit(){
     var itemsArray = this.formDataService.getItemsArray();
     this.commonService.getItems().subscribe(res => {
-      this.itemSource = this.formDataService.parseItemsResponse(res, null, null);
+      this.itemSource = this.formDataService.parseItemsResponse(res, this.commonService, false);
       this.dataSource = new MatTableDataSource(this.itemSource);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -55,9 +51,9 @@ export class SearchItemsComponent implements OnInit{
 
   getAllItems(){
     var res= '';
-		// this.commonService.getItems().subscribe(res =>{
-		//  console.log(res);
-		// })
+		this.commonService.getItems().subscribe(res =>{
+		 console.log(res);
+		})
 	}
   
 
@@ -68,9 +64,8 @@ export class SearchItemsComponent implements OnInit{
     this.dataSource.filter = filterValue;
   }
 
-  updateItem(itemObject){
-    this.formDataService.setTempItemObjectInstace(itemObject);
-    this.router.navigateByUrl('/searchItems/updateItem/'+itemObject.items_code);
+  updateItem(name){
+    this.router.navigateByUrl('/searchItems/updateItem/'+name);
   }
 
 }
@@ -80,4 +75,3 @@ export interface ItemData {
   quantity: string;
   color: string;
 }
-

@@ -27,6 +27,7 @@ export class CustomerInfoComponent implements OnInit {
   eventLocationValid = false;
   eventTitle = '';
   eventAddress = '';
+  eventCode = '';
   perHead = '';
   noOfGuests = '';
   discount = '';
@@ -58,8 +59,7 @@ export class CustomerInfoComponent implements OnInit {
     this.personal = this.formDataService.getPersonal();
     this.finance = this.formDataService.getFinanceDetails();
     this.eventDetails = this.formDataService.getEventDetails();
-
-    console.log('Personal feature loaded!');
+    this.eventCode = this.formDataService.getEventCodes(this.commonService);
   }
 
   getTotalCost(perHead, noOfGuests) {
@@ -101,11 +101,22 @@ export class CustomerInfoComponent implements OnInit {
     }
   }
 
+  getBalance(netAmount, advance){
+      var advanceAmount: string = "0";
+      if(advance){
+        advanceAmount = advance || 0;
+      }
+      this.finance.amountPaid = advanceAmount;
+      this.finance.amountRemaining = parseFloat(netAmount) - parseFloat(advanceAmount);
+    
+  }
+
   saveEvent(){
     this.formDataService.setEventDetails(this.eventDetails);
     this.formDataService.setFinanceDetails(this.finance);
     this.formDataService.setPersonal(this.personal);
-    this.formDataService.saveEvent(this.commonService);
+    console.log("222"+ this.eventCode);
+    this.formDataService.saveEvent(this.commonService, this.eventCode);
   }
 
 }

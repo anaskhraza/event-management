@@ -1,7 +1,7 @@
 <div class="body">
     <div class="row">
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Title" [(ngModel)]="itemDetails.name" [formControl]="textFormControl" value="">
+            <input matInput placeholder="Title" [(ngModel)]="name" value="">
             <mat-error *ngIf="textFormControl.hasError('required')">
                 Name is <strong>required</strong>
             </mat-error>
@@ -10,7 +10,7 @@
 
     <div class="row">
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="SKU" disabled [(ngModel)]="itemDetails.sku" [formControl]="textFormControl" value="">
+            <input matInput placeholder="SKU" disabled [(ngModel)]="sku" value="">
             <mat-error *ngIf="textFormControl.hasError('required')">
                 SKU is <strong>required</strong>
             </mat-error>
@@ -19,7 +19,7 @@
 
     <div class="row">
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Quantity" [(ngModel)]="itemDetails.quantity" [formControl]="numberFormControl" value="">
+            <input matInput placeholder="Quantity" [(ngModel)]="quantity" value="">
             <mat-error *ngIf="numberFormControl.hasError('pattern')">
                 Please enter a valid number
             </mat-error>
@@ -30,7 +30,7 @@
     </div>
     <div class="row">
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Rate" [(ngModel)]="itemDetails.rate" [formControl]="numberFormControl" value="">
+            <input matInput placeholder="Rate" [(ngModel)]="rate" value="">
             <mat-error *ngIf="numberFormControl.hasError('pattern')">
                 Please enter a valid number
             </mat-error>

@@ -15,8 +15,6 @@ import { Router } from '@angular/router';
 })
 export class CreateEventComponent implements OnInit {
   date: Date = new Date();
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
   form: any;
   dateRange: any;
 

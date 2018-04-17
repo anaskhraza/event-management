@@ -14,6 +14,12 @@ class ItemController extends BaseController {
         return itemPromise;
     }
 
+    getSelectedItemQuantity(dateStart, dateEnd) {
+        console.log("www" + dateEnd);
+        let itemPromise = ItemService.getSelectedItemQuantity(dateStart, dateEnd);
+        return itemPromise;
+    }
+
     getItemsCategories() {
         let itemPromise = ItemService.getItemCategories(null);
         return itemPromise;

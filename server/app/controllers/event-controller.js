@@ -24,6 +24,49 @@ class EventController extends BaseController {
         return itemPromise;
     }
 
+    updateEvent(eventObject) {
+        let itemPromise = EventService.updateEvent(eventObject);
+        return itemPromise;
+    }
+
+    deleteEventItems(eventObject) {
+        if (eventObject.hasOwnProperty("events_code")) {
+            let itemPromise = EventService.deleteEventItems(eventObject.events_code);
+            return itemPromise;
+        }
+    }
+
+    addEventDetails(eventObject) {
+        let eventPromise = EventService.addEventDetails(eventObject);
+        return eventPromise;
+    }
+
+    addEventItems(eventObject) {
+
+        let eventPromise = EventService.addEventItems(eventObject);
+        return eventPromise;
+    }
+
+    getSpecificEvents(eventCode) {
+        let itemPromise = EventService.getSpecificEvents(eventCode);
+        return itemPromise;
+    }
+
+    getSpecificEventDetails(eventCode) {
+        let itemPromise = EventService.getSpecificEventDetails(eventCode);
+        return itemPromise;
+    }
+
+    getEventCodes() {
+        let itemPromise = EventService.getEventCodes();
+        return itemPromise;
+    }
+
+    getEvents() {
+        let itemPromise = EventService.getEvents();
+        return itemPromise;
+    }
+
     getItemById(id) {
 
         let cachedData = this.getCachedInfo(id);

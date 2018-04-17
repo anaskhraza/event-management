@@ -15,6 +15,8 @@ export class finance {
     discount: string = '';
     netAmount: string = '';
     grossAmount: string = '';
+    amountPaid: string = '';
+    amountRemaining = '';
 }
 
 export class item {

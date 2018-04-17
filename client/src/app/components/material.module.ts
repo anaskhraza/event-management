@@ -36,6 +36,7 @@ import {
     MatTooltipModule,
     MatStepperModule
 } from '@angular/material';
+import { SearchCustomersComponent } from './search-customers/search-customers.component';
 
 @NgModule({
     exports: [
@@ -72,6 +73,7 @@ import {
       MatTabsModule,
       MatToolbarModule,
       MatTooltipModule,
-    ]
+    ],
+    declarations: [SearchCustomersComponent]
   })
   export class MaterialModule {}

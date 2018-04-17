@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CreateEventComponent } from './create-event.component';
 import { Routes, RouterModule } from "@angular/router";
 import { ModuleWithProviders } from "@angular/core";
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CustomerInfoComponent } from './customer-info/customer-info.component';
+import { CommonService } from '../../common.service'
+import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from '../material.module';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CreateEventComponent } from './create-event.component';
+import { CustomerInfoComponent } from './customer-info/customer-info.component';
 /* Feature Components */
 import { FormService } from '../FormService/form.service';
 import { EventDetailsComponent } from './event-details/event-details.component';
 
-import { CommonService } from '../../common.service'
-import { HttpClientModule } from '@angular/common/http';
 
 const Create_Event_Router: Routes = [
   { path: '', component: CreateEventComponent },

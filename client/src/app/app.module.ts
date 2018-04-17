@@ -23,6 +23,10 @@ export const router: Routes = [
       loadChildren: 'app/components/create-event/create-event.module#CreateEventModule',
     },
     {
+      path: 'searchEvents',
+      loadChildren: 'app/components/search-events/search-event.module#SearchEventModule',
+    },
+    {
       path: 'searchItems',
       loadChildren: 'app/components/search-items/search-items.module#SearchItemsModule',
     }

@@ -1,0 +1,230 @@
+<div class="body">
+    <div class="">
+        <div class="example-header">
+            <mat-form-field>
+                <mat-select placeholder="Select Category" (ngModelChange)="filterChange($event)" [(ngModel)]="selectedcategory">
+                    <mat-option *ngFor="let category of categories" [value]="category.category_name">
+                        {{ category.category_name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="example-header">
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+        </div>
+
+        <div class="example-container mat-elevation-z8">
+
+            <mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="select">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass1">
+                        Select
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
+                        <mat-checkbox (ngModelChange)="itemChecked($event ,itemSource)" [(ngModel)]="itemSource.checked">
+                        </mat-checkbox>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Position Column -->
+                <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass5"></mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource" [ngStyle]="{'background-color': itemSource.quantity <= 4? 'green' : 'red'}" class="customWidthClass5 example-full-width" matTooltip="{{itemSource.quantity}}">
+                        <span>&nbsp;</span>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="quantity">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass1"> Quantity </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Quantity" value="0" [(ngModel)]="itemSource.quantity_booked">
+                        </mat-form-field>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="unitprice">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass1"> Unit Price </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
+                        {{itemSource.price}}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="price">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass1"> Price </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
+                        <mat-form-field class="example-full-width">
+                            <input matInput disabled placeholder="Quantity" [(ngModel)]="itemSource.cost" value="{{ getTotal(itemSource.quantity_booked, itemSource.price, itemSource) }}">
+                        </mat-form-field>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass3 "> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource " class="customWidthClass3 "> {{itemSource.name}} </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="category">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass2 "> Category </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> {{itemSource.category}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="color">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass2 ">
+                        Color
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource " class="customWidthClass2 ">
+                        <mat-select placeholder="Select Color " [(ngModel)]="itemSource.selectedColor">
+                            <mat-option *ngFor="let c of itemSource.color " [value]="c">
+                                {{ c }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-cell>
+                </ng-container>
+
+
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="date">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass4 "> date </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource " class="datepicker " class="customWidthClass4 ">
+                        <my-date-range-picker name="mydaterange " [options]="myDateRangePickerOptions " [(ngModel)]="itemSource.dates " required></my-date-range-picker>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns "></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns; " (click)="selection.toggle(row) ">
+                </mat-row>
+            </mat-table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100] "></mat-paginator>
+        </div>
+
+        <div class="row">
+            <div class="align-center btn-custom col-md-12 btn-color-1">
+                <button type="button" mat-raised-button color="primary" (click)="updatePrice()">Event Details</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class='row'>
+            <div class='col-md-12 example-form'>
+                <div class="row">
+                    <mat-form-field class="example-full-width">
+                        <input matInput disabled placeholder="Your Name" [(ngModel)]="name" value="">
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field class="example-full-width">
+                        <input matInput disabled placeholder="Number" [(ngModel)]="number" value="">
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field class="example-full-width">
+                        <input matInput disabled placeholder="Email" [(ngModel)]="email" value="">
+                    </mat-form-field>
+                </div>
+
+                <div class="form-group text-center">
+                    <mat-slide-toggle (change)="onChange($event)" [(ngModel)]="toggle">Slide me!</mat-slide-toggle>
+
+                </div>
+
+                <div class="row">
+
+                    <mat-form-field class="example-full-width">
+                        <input matInput disabled placeholder="Title" [(ngModel)]="title" value="">
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <mat-form-field class="example-full-width">
+                        <input matInput disabled placeholder="Address" [(ngModel)]="location" value="">
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+                    <div class="align-center col-md-12">
+                        <my-date-range-picker disabled name="mydaterange" [options]="myDateRangePickerOptions" [(ngModel)]="eventRequisites" placeholder="Enter Event Date"></my-date-range-picker>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="container tab-pane fade in active" *ngIf="toggle">
+                <div class="row">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Per Head" [(ngModel)]="perHead" [formControl]="numberFormControl" value="">
+                        <mat-error *ngIf="numberFormControl.hasError('pattern')">
+                            Please enter a valid number
+                        </mat-error>
+                        <mat-error *ngIf="numberFormControl.hasError('required')">
+                            Number is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="no of guests" [(ngModel)]="noOfGuests" [formControl]="numberFormControl" value="">
+                        <mat-error *ngIf="numberFormControl.hasError('pattern')">
+                            Please enter a valid number
+                        </mat-error>
+                        <mat-error *ngIf="numberFormControl.hasError('required')">
+                            Number is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>`
+        </div>
+        <div class="row">
+            <div class="container">
+                <div class="row">
+
+                    <mat-form-field class="example-full-width">
+                        <input matInput disabled placeholder="Gross Amount" [(ngModel)]="totalCost" value="{{ getTotalCost(perHead, noOfGuests) }}">
+                    </mat-form-field>
+                </div>
+                <div class="row">
+
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Discount" [(ngModel)]="discount" value="0">
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+
+                    <mat-form-field class="example-full-width">
+                        <input matInput disabled placeholder="Net Amount" [(ngModel)]="netAmount" value="{{ getNetAmount(totalCost, discount) }}">
+                    </mat-form-field>
+                </div>
+                <div class="row">
+
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Advance" [(ngModel)]="amountPaid" value="0">
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+
+                    <mat-form-field class="example-full-width">
+                        <input matInput disabled placeholder="Balance" [(ngModel)]="amountRemaining" value="{{ getBalance(netAmount, advance) }}">
+                    </mat-form-field>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="align-center btn-custom col-md-12 btn-color-1">
+                <button type="button" mat-raised-button color="primary" (click)="saveEvent()">Save and Update</button>
+            </div>
+        </div>
+    </div>
+
+</div>

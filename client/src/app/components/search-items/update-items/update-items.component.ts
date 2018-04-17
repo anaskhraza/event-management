@@ -21,20 +21,33 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class UpdateItemsComponent implements OnInit {
   itemDetails: any;
-  constructor(private formDataService: FormService, private _formBuilder: FormBuilder, private route: ActivatedRoute) {}
+  name: string = '';
+  sku: string = '';
+  rate: number  = 0;
+  quantity: number = 0;
+
+ constructor(private formDataService: FormService, private _formBuilder: FormBuilder, private route: ActivatedRoute) {}
+ numberFormControl = new FormControl('', [
+    Validators.pattern("^[0-9]+$"),
+    Validators.required
+  ])
+
+  emailFormControl = new FormControl('', [
+    Validators.email,
+  ]);
+
+  textFormControl = new FormControl('', [
+    Validators.required,
+  ]);
 
   ngOnInit() {
+    this.itemDetails = this.formDataService.getTempItemObjectInstace();
+    this.name = this.itemDetails.name;
+    this.sku = this.itemDetails.items_code;
+    this.rate = this.itemDetails.price;
+    this.quantity = this.itemDetails.quantity;
+    console.log("itemDetails" + JSON.stringify(this.itemDetails));
     
-    this.itemDetails = this.route.params.subscribe(params => {
-      console.log(params['id']); 
-      this.getItemDetails(params['id']);
-
-   });
-    
-  }
-  
- getItemDetails(sku){
-   //this.itemDetails = this.formDataService.getItemDetails();
   }
 
 }

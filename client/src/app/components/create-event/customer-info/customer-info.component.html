@@ -107,6 +107,20 @@
                         <input matInput disabled placeholder="Net Amount" [(ngModel)]="finance.netAmount" value="{{ getNetAmount(finance.totalCost, finance.discount) }}">
                     </mat-form-field>
                 </div>
+                <div class="row">
+
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Advance" [(ngModel)]="finance.amountPaid" value="0">
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+
+                    <mat-form-field class="example-full-width">
+                        <input matInput disabled placeholder="Balance" [(ngModel)]="finance.amountRemaining" value="{{ getBalance(finance.netAmount, finance.advance) }}">
+                    </mat-form-field>
+                </div>
+
             </div>
         </div>
         <div class="row">

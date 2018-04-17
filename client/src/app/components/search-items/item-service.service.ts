@@ -4,5 +4,7 @@ import { Injectable } from '@angular/core';
 export class ItemServiceService {
 
   constructor() { }
+  itemObject: any;
+ 
 
 }

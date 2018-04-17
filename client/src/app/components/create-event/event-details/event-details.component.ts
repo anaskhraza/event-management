@@ -50,9 +50,8 @@ export class EventDetailsComponent implements OnInit {
 
   ngOnInit() {
     var itemsArray = this.formDataService.getItemsArray();
-
-    this.commonService.getItems().subscribe(res => {
-      this.itemSource = this.formDataService.parseItemsResponse(res);
+    this.formDataService.getCalculatedItems(this.commonService).subscribe(res => {
+      this.itemSource = this.formDataService.parseItemsResponse(res, this.commonService, true);
       this.dataSource = new MatTableDataSource(this.itemSource);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -115,7 +114,6 @@ export class EventDetailsComponent implements OnInit {
   }
 
   filterChange(filter) {
-    console.log("here1 " + filter);
     this.applyFilter(filter);
   }
 

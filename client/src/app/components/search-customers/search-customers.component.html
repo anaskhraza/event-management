@@ -1,4 +1,4 @@
-<div class="body">
+<!-- <div class="body">
     <div class="example-header">
         <mat-form-field>
             <mat-select placeholder="Select Category" (ngModelChange)="filterChange($event)" [(ngModel)]="selectedcategory">
@@ -18,19 +18,11 @@
 
         <mat-table [dataSource]="dataSource" matSort>
 
-            <!-- Position Column -->
             <ng-container matColumnDef="id">
                 <mat-header-cell *matHeaderCellDef class="customWidthClass5"></mat-header-cell>
                 <mat-cell *matCellDef="let itemSource" [ngStyle]="{'background-color': itemSource.quantity <= 4? 'green' : 'red'}" class="customWidthClass5 example-full-width" matTooltip="{{itemSource.quantity}}">
                     <span>&nbsp;</span>
                 </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="sku">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass2 ">
-                    SKU
-                </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> {{itemSource.items_code}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="unitprice">
@@ -40,23 +32,14 @@
                 </mat-cell>
             </ng-container>
 
-            <!-- Name Column -->
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef class="customWidthClass3 "> Name </mat-header-cell>
                 <mat-cell *matCellDef="let itemSource " class="customWidthClass3 "> {{itemSource.name}} </mat-cell>
             </ng-container>
 
-            <!-- Name Column -->
             <ng-container matColumnDef="category">
                 <mat-header-cell *matHeaderCellDef class="customWidthClass2 "> Category </mat-header-cell>
                 <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> {{itemSource.category}} </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="quantity">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass2 ">
-                    Quantity
-                </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> {{itemSource.quantity}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="color">
@@ -70,7 +53,7 @@
                 <mat-header-cell *matHeaderCellDef class="customWidthClass2 ">
                     Update
                 </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> <button type="button" mat-raised-button color="primary" (click)="updateItem(itemSource)">Update Item</button> </mat-cell>
+                <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> <button type="button" mat-raised-button color="primary" (click)="updateItem(itemSource.name)">Update Item</button> </mat-cell>
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="displayedColumns "></mat-header-row>
@@ -86,4 +69,4 @@
             <button type="button" mat-raised-button color="primary" (click)="goToNext()">Add Item</button>
         </div>
     </div>
-</div>
+</div> -->

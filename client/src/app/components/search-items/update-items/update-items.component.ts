@@ -25,8 +25,10 @@ export class UpdateItemsComponent implements OnInit {
   sku: string = '';
   rate: number  = 0;
   quantity: number = 0;
-
- constructor(private formDataService: FormService, private _formBuilder: FormBuilder, private route: ActivatedRoute) {}
+  categories: any;
+  selectedCategory = '';
+  color = '';
+ constructor(private formDataService: FormService, private commonService: CommonService, private _formBuilder: FormBuilder, private route: ActivatedRoute) {}
  numberFormControl = new FormControl('', [
     Validators.pattern("^[0-9]+$"),
     Validators.required
@@ -46,8 +48,29 @@ export class UpdateItemsComponent implements OnInit {
     this.sku = this.itemDetails.items_code;
     this.rate = this.itemDetails.price;
     this.quantity = this.itemDetails.quantity;
+    this.selectedCategory = this.itemDetails.category;
+    this.color = JSON.stringify(this.itemDetails.color);
+
     console.log("itemDetails" + JSON.stringify(this.itemDetails));
+
+
+  this.commonService.getItemCategories().subscribe(res => {
+    this.categories = res;
+  });
     
   }
+
+  saveItem() {
+    var postData = {
+      name: this.name,
+      sku: this.sku,
+      price: this.rate,
+      quantity: this.quantity,
+      category: this.selectedCategory,
+      colors: this.color
+    }
+    
+  }
+
 
 }

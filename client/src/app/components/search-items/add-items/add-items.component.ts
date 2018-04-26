@@ -10,6 +10,7 @@ import { IMyDrpOptions } from 'mydaterangepicker';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { CommonService } from '../../../common.service';
 import { Router } from '@angular/router';
+import { AlertService } from '../../_services/index';
 
 @Component({
   selector: 'app-add-items',
@@ -17,14 +18,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./add-items.component.css']
 })
 export class AddItemsComponent implements OnInit {
+  saveSuccess: boolean;
+  saveError: boolean;
   itemDetails: any = {
     name: '',
     selectedCategory: '',
     quantity: '',
-    rate: ''
+    rate: '',
+    colors: '[]'
   };
   categories: any;
-  constructor(private formDataService: FormService, private commonService:CommonService) { }
+  constructor(private alertService: AlertService, private formDataService: FormService, private commonService:CommonService) { }
   ngOnInit() {
 
     this.commonService.getItemCategories().subscribe(res => {
@@ -47,10 +51,18 @@ export class AddItemsComponent implements OnInit {
 
   saveItem(){
     if(this.itemDetails.name && this.itemDetails.sku && this.itemDetails.quantity && this.itemDetails.rate){
-      this.formDataService.setItemData(this.itemDetails);
+      
+    } else{
+      this.error("Filture");
     }
-
   }
+
+  error(message: string) {
+    console.log(message);
+    this.alertService.error(message);
+}
+
+  
   
 
 }

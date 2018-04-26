@@ -16,6 +16,9 @@ import { FormService }    from '../FormService/form.service';
 import { AddItemsComponent } from './add-items/add-items.component';
 import { UpdateItemsComponent } from './update-items/update-items.component';
 
+import { AlertComponent } from '../_directives/index';
+import { AlertService } from '../_services/index';
+
 const Search_Items_Router: Routes = [
   {
     path: '',
@@ -37,7 +40,7 @@ export const searchItemsRouter = RouterModule.forChild(Search_Items_Router);
     MyDateRangePickerModule,
     HttpClientModule
   ],
-  providers: [CommonService, { provide: FormService, useClass: FormService }],
-  declarations: [SearchItemsComponent, AddItemsComponent, UpdateItemsComponent],
+  providers: [AlertService, CommonService, { provide: FormService, useClass: FormService }],
+  declarations: [SearchItemsComponent, AddItemsComponent, UpdateItemsComponent, AlertComponent],
 })
 export class SearchItemsModule { }

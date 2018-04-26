@@ -41,7 +41,7 @@
     </div>
 
 
-    <div class="example-header">
+    <div class="row">
         <mat-form-field>
             <mat-select placeholder="Select Category" (ngModelChange)="filterChange($event)" [(ngModel)]="itemDetails.selectedCategory">
                 <mat-option *ngFor="let category of categories" [value]="category.category_name">
@@ -52,8 +52,17 @@
     </div>
 
     <div class="row">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Color" [(ngModel)]="itemDetails.colors" value="">
+        </mat-form-field>
+    </div>
+
+    <div class="row">
         <div class="align-center btn-custom col-md-12 btn-color-1">
             <button type="button" mat-raised-button color="primary" (click)="saveItem()">Save</button>
         </div>
+    </div>
+    <div class="row">
+        <alert style="width: 100%"></alert>
     </div>
 </div>

@@ -29,7 +29,7 @@ class EventService {
             if (totalAmount == recievedAmount) {
                 recieved = 1;
             }
-            let query = 'Update cost_booking Set amount_balance ="' + eventObject.remaining + '", recieved_amount ="' + eventObject.advance + '", total_amount ="' + eventObject.netAmount + '", gross_amount ="' + eventObject.totalCost + '", perHeadCost ="' + eventObject.perHead + '", noOfGuests ="' + eventObject.noOfGuests + '", discount_amount ="' + eventObject.discount + '" where events_code = "' + eventObject.events_code + '"';
+            let query = 'Update cost_booking Set amount_balance ="' + eventObject.remaining + '", recieved_amount ="' + eventObject.advance + '" where events_code = "' + eventObject.events_code + '"';
 
             console.log("query" + query);
             connection.query(query, function(err, results, fields) {

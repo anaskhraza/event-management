@@ -20,12 +20,14 @@ import { AlertService } from '../../_services/index';
 export class AddItemsComponent implements OnInit {
   saveSuccess: boolean;
   saveError: boolean;
+  colors = '';
   itemDetails: any = {
     name: '',
     selectedCategory: '',
+    sku: '',
     quantity: '',
     rate: '',
-    colors: '[]'
+    colors: ''
   };
   categories: any;
   constructor(private alertService: AlertService, private formDataService: FormService, private commonService:CommonService) { }
@@ -51,7 +53,8 @@ export class AddItemsComponent implements OnInit {
 
   saveItem(){
     if(this.itemDetails.name && this.itemDetails.sku && this.itemDetails.quantity && this.itemDetails.rate){
-      
+      this.itemDetails.colors = this.colors;
+      this.commonService.createItem(this.itemDetails);
     } else{
       this.error("Filture");
     }

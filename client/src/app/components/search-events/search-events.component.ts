@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { itemSelector, item } from './../FormService/form.model'
 import { FormService } from './../FormService/form.service';
 import { MatPaginator, MatSort, MatTableDataSource, MatChipList, MatChipListChange, MatChipSelectionChange } from '@angular/material';
@@ -19,18 +19,22 @@ import { Router } from '@angular/router';
 })
 export class SearchEventsComponent implements OnInit {
 
-  displayedColumns = ['eventcode', 'eventdatestart', 'eventdateend', 'totalamount', 'amountremaining', 'updatebtn'];
+  displayedColumns = ['eventcode', 'eventdatestart', 'eventdateend', 'totalamount', 'amountremaining', 'updatebtn', 'chargebilling'];
   dataSource: MatTableDataSource<ItemData>;
   list = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private formDataService: FormService, private commonService: CommonService, private router: Router) {
+  constructor(public dialog: MatDialog, private formDataService: FormService, private commonService: CommonService, private router: Router) {
   }
   eventSource: any = [];
   categories:any;
 
   ngOnInit(){
+    this.refresh();
+  }
+
+  refresh() {
     this.commonService.getEvents().subscribe(res => {
       console.log(JSON.stringify(res));
       this.eventSource = res;
@@ -52,6 +56,19 @@ export class SearchEventsComponent implements OnInit {
 		})
 	}
   
+  openDialog(eventCode, amountRemaining) {
+    if(parseInt(amountRemaining) > 0) {
+      let dialogRef = this.dialog.open(dialogReceivePayment, {
+        width: '250px',
+        data: { name: eventCode, payment: amountRemaining }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed' + result);
+        amountRemaining = result;
+      });
+    }
+  }
 
 
   applyFilter(filterValue: string) {
@@ -63,7 +80,22 @@ export class SearchEventsComponent implements OnInit {
   updateItem(name){
     this.router.navigateByUrl('/searchItems/updateItem;param1=value1'+name);
   }
+}
 
+@Component({
+  selector: 'dialog-overview-example-dialog',
+  templateUrl: '../dialog-recieve-payment/dialog-recieve-payment.html',
+})
+
+export class dialogReceivePayment {
+
+  constructor(
+    public dialogRef: MatDialogRef<dialogReceivePayment>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }
 export interface ItemData {
   id: string;

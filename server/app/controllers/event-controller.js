@@ -24,6 +24,12 @@ class EventController extends BaseController {
         return itemPromise;
     }
 
+    updateAmount(eventObject) {
+        // let itemPromise = EventService.updateAmount(eventObject);
+        // return itemPromise;
+    }
+
+
     updateEvent(eventObject) {
         let itemPromise = EventService.updateEvent(eventObject);
         return itemPromise;

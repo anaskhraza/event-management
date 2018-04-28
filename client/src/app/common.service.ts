@@ -46,6 +46,48 @@ export class CommonService {
           });
 	}
 
+	createItem(postData) {
+		console.log(postData);
+		const myheader = new HttpHeaders().set('Content-Type', 'application/json')
+		this.http.post('/api/addItem',
+		postData, {
+            headers: myheader
+          })
+          .subscribe(data => {
+                alert(JSON.stringify(data));
+          }, error => {
+              console.log(JSON.stringify(error.json()));
+          });
+	}
+
+	recieveAmount(postData) {
+		console.log(postData);
+		const myheader = new HttpHeaders().set('Content-Type', 'application/json')
+		this.http.post('/api/receiveAmount',
+		postData, {
+            headers: myheader
+          })
+          .subscribe(data => {
+                alert(JSON.stringify(data));
+          }, error => {
+              console.log(JSON.stringify(error.json()));
+          });
+	}
+
+	updateItem(postData) {
+		console.log(postData);
+		const myheader = new HttpHeaders().set('Content-Type', 'application/json')
+		this.http.post('/api/updateItem',
+		postData, {
+            headers: myheader
+          })
+          .subscribe(data => {
+                alert(JSON.stringify(data));
+          }, error => {
+              console.log(JSON.stringify(error.json()));
+          });
+	}
+
 	updateEvent(postData) {
 		const myheader = new HttpHeaders().set('Content-Type', 'application/json')
 		this.http.post('/api/updateEvent',

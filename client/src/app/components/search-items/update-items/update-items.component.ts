@@ -50,6 +50,9 @@ export class UpdateItemsComponent implements OnInit {
     this.quantity = this.itemDetails.quantity;
     this.selectedCategory = this.itemDetails.category;
     this.color = JSON.stringify(this.itemDetails.color);
+    if(this.color) {
+      this.color = this.color.replace(/\[|"|]/g, "");
+    }
 
     console.log("itemDetails" + JSON.stringify(this.itemDetails));
 
@@ -69,6 +72,7 @@ export class UpdateItemsComponent implements OnInit {
       category: this.selectedCategory,
       colors: this.color
     }
+    this.commonService.updateItem(postData);
     
   }
 

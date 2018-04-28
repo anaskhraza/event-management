@@ -13,7 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 /* Feature Components */
 import { FormService }    from './../FormService/form.service';
-import { SearchEventsComponent} from './search-events.component';
+import { SearchEventsComponent, dialogReceivePayment} from './search-events.component';
 import { UpdateEventComponent } from './update-event/update-event.component';
 const Search_Event_Router: Routes =[
   {
@@ -35,7 +35,8 @@ export const searchEventRouter = RouterModule.forChild(Search_Event_Router);
     MyDateRangePickerModule,
     HttpClientModule
   ],
+  entryComponents: [SearchEventsComponent, dialogReceivePayment],
   providers: [CommonService, { provide: FormService, useClass: FormService }],
-  declarations: [SearchEventsComponent, UpdateEventComponent]
+  declarations: [SearchEventsComponent, UpdateEventComponent, dialogReceivePayment]
 })
 export class SearchEventModule { }

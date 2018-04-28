@@ -147,6 +147,43 @@ router.get('/customer/:id', function(req, res) {
 
 });
 
+router.post('/receiveAmount', function(req, res) {
+    var obj = req.body;
+    var eventCode = obj.eventCode;
+    eventController
+        .getSpecificEventDetails(eventCode)
+        .then((response) => {
+            console.log("res" + JSON.stringify(response))
+
+            if (response.length > 0) {
+                obj.netAmount = response[0].total_amount;
+                obj.amountRecieved = parseFloat(response[0].recieved_amount) + parseFloat(obj.amount);
+                eventController.updateAmount(obj)
+
+            }
+        })
+        .then((response) => {
+            res.send(JSON.stringify(response));
+        })
+
+});
+
+router.post('/updateItem', function(req, res) {
+    itemController
+        .updateItem(req.body)
+        .then((response) => {
+            res.send(JSON.stringify(response));
+        })
+});
+
+router.post('/addItem', function(req, res) {
+    itemController
+        .createItem(req.body)
+        .then((response) => {
+            res.send(JSON.stringify(response));
+        })
+});
+
 router.post('/addEvent', function(req, res) {
     eventController
         .createEvent(req.body)

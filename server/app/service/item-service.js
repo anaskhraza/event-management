@@ -45,6 +45,38 @@ class ItemService {
         });
     }
 
+    addItem(itemObject) {
+        return new Promise(function(resolve, reject) {
+            let query = 'INSERT INTO items (items_code, name, quantity, price, color, category)' +
+                'SELECT * FROM (SELECT "' + itemObject.sku + '", "' + itemObject.name + '", "' + itemObject.quantity + '", "' + itemObject.rate + '", "' + itemObject.colors + '", "' + itemObject.selectedCategory + '") AS tmp' +
+                ' WHERE NOT EXISTS (' +
+                'SELECT items_code FROM items WHERE items_code = "' + itemObject.sku + '"' +
+                ') LIMIT 1';
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+        });
+    }
+
+    updateItem(itemObject) {
+        return new Promise(function(resolve, reject) {
+            let query = 'UPDATE items SET name ="' + itemObject.name + '", price ="' + itemObject.price + '", color ="' + itemObject.colors + '", category ="' + itemObject.category + '", quantity ="' + itemObject.quantity + '" WHERE items_code = "' + itemObject.sku + '"';
+
+            console.log(query);
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+        });
+    }
+
     getItemCategories(filters) {
         return new Promise(function(resolve, reject) {
             let query = "select * from items_category";

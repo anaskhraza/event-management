@@ -73,6 +73,10 @@ export class SearchItemsComponent implements OnInit{
     this.router.navigateByUrl('/searchItems/updateItem/'+itemObject.items_code);
   }
 
+  filterChange(filter) {
+    this.applyFilter(filter);
+  }
+
 }
 export interface ItemData {
   id: string;

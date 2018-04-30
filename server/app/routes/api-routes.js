@@ -95,7 +95,10 @@ router.post('/updateEvent', function(req, res) {
             eventController.addEventItems(req.body)
         })
         .then((response) => {
-            res.send(JSON.stringify(response));
+            res.send({ status: "202", response: JSON.stringify(response) });
+        })
+        .catch((e) => {
+            res.send({ status: "501", response: "Error " + e });
         })
 
 });
@@ -158,12 +161,16 @@ router.post('/receiveAmount', function(req, res) {
             if (response.length > 0) {
                 obj.netAmount = response[0].total_amount;
                 obj.amountRecieved = parseFloat(response[0].recieved_amount) + parseFloat(obj.amount);
+                obj.amountBalanced = parseFloat(response[0].total_amount) - obj.amountRecieved;
                 eventController.updateAmount(obj)
 
             }
         })
         .then((response) => {
-            res.send(JSON.stringify(response));
+            res.send({ status: "202", response: JSON.stringify(response) });
+        })
+        .catch((e) => {
+            res.send({ status: "501", response: "Error " + e });
         })
 
 });
@@ -173,6 +180,11 @@ router.post('/updateItem', function(req, res) {
         .updateItem(req.body)
         .then((response) => {
             res.send(JSON.stringify(response));
+        }).then((response) => {
+            res.send({ status: "202", response: JSON.stringify(response) });
+        })
+        .catch((e) => {
+            res.send({ status: "501", response: "Error " + e });
         })
 });
 
@@ -180,29 +192,59 @@ router.post('/addItem', function(req, res) {
     itemController
         .createItem(req.body)
         .then((response) => {
-            res.send(JSON.stringify(response));
+            res.send({ status: "202", response: JSON.stringify(response) });
+        })
+        .catch((e) => {
+            res.send({ status: "501", response: "Error " + e });
         })
 });
 
 router.post('/addEvent', function(req, res) {
+    console.log(req.body);
     eventController
         .createEvent(req.body)
         .then((response) => {
-            eventController.addEventDetails(req.body)
+            return eventController.addEventDetails(req.body)
+        })
+        .then((response1) => {
+            return eventController.addEventItems(req.body)
+        })
+        .then((response2) => {
+            return customerController.addCustomer(req.body)
+        })
+        .then((response3) => {
+            console.log("xx" + JSON.stringify(response3));
+            return customerController.getSpecificCustomer(req.body)
+        })
+        .then((response4) => {
+            console.log("xx1" + JSON.stringify(response4));
+            return eventController.addCustomerEventRelation(req.body, response4)
         })
         .then((response) => {
-            eventController.addEventItems(req.body)
+            res.send({ status: "202", response: JSON.stringify(response) });
         })
+        .catch((e) => {
+            res.send({ status: "501", response: "Error " + e });
+        })
+});
+
+router.post('/addCategory', function(req, res) {
+    itemController
+        .createCategory(req.body)
         .then((response) => {
-            res.send(JSON.stringify(response));
+            res.send({ status: "202", response: JSON.stringify(response) });
+        })
+        .catch((e) => {
+            res.send({ status: "501", response: "Error " + e });
         })
 });
 
 router.get('/items', function(req, res) {
 
-    itemController.getItems().then((response) => {
-        res.json(response);
-    });
+    itemController.getItems()
+        .then((response) => {
+            res.json(response);
+        });
 
 });
 

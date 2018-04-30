@@ -6,21 +6,6 @@ class EventService {
 
     }
 
-    getEvents(filters) {
-        return new Promise(function(resolve, reject) {
-            let query = "select * from Items";
-            connection.query(query, function(err, results, fields) {
-
-                if (!err) {
-                    resolve(results);
-                } else {
-                    reject(err)
-                }
-            });
-
-        });
-    }
-
     updateAmount(eventObject) {
         return new Promise(function(resolve, reject) {
             var totalAmount = parseFloat(eventObject.netAmount);
@@ -29,7 +14,7 @@ class EventService {
             if (totalAmount == recievedAmount) {
                 recieved = 1;
             }
-            let query = 'Update cost_booking Set amount_balance ="' + eventObject.remaining + '", recieved_amount ="' + eventObject.advance + '" where events_code = "' + eventObject.events_code + '"';
+            let query = 'Update cost_booking Set amount_balance ="' + eventObject.amountBalanced + '", recieved_amount ="' + eventObject.amountRecieved + '" where events_code = "' + eventObject.eventCode + '"';
 
             console.log("query" + query);
             connection.query(query, function(err, results, fields) {
@@ -115,9 +100,31 @@ class EventService {
         });
     }
 
+    addCustomerEventRelation(eventObject, response) {
+        return new Promise(function(resolve, reject) {
+            if (response.length > 0) {
+                var id = response[0].id;
+                let query = 'INSERT INTO customer_booking (events_code, customer_id)' +
+                    'SELECT * FROM (SELECT "' + eventObject.eventCode + '", "' + id + '") AS tmp' +
+                    ' WHERE NOT EXISTS (' +
+                    'SELECT customer_id FROM customer_booking WHERE events_code = "' + eventObject.eventCode + '"' +
+                    ') LIMIT 1';
+                connection.query(query, function(err, results, fields) {
+                    if (!err) {
+                        resolve(results);
+                    } else {
+                        reject(err)
+                    }
+                });
+            } else {
+                reject(err)
+            }
+        });
+    }
+
     getSpecificEventDetails(eventCode) {
         return new Promise(function(resolve, reject) {
-            let query = 'SELECT cost_booking.events_code, cost_booking.gross_amount, cost_booking.discount_amount, cost_booking.total_amount, cost_booking.amount_balance, cost_booking.recieved_amount, event_booking.event_name, event_booking.event_date_start, event_booking.event_date_end, event_booking.location, event_booking.booking_date, customer.name, customer.number from cost_booking Left JOIN `event_booking` ON cost_booking.events_code = event_booking.events_code Left Join customer ON  cost_booking.events_code = customer.events_code Where event_booking.events_code =' + eventCode;
+            let query = 'SELECT cost_booking.events_code, cost_booking.gross_amount, cost_booking.discount_amount, cost_booking.total_amount, cost_booking.amount_balance, cost_booking.recieved_amount, event_booking.event_name, event_booking.event_date_start, event_booking.event_date_end, event_booking.location, event_booking.booking_date, customer.name, customer.number from cost_booking Left JOIN `event_booking` ON cost_booking.events_code = event_booking.events_code Left Join customer_booking ON  cost_booking.events_code = customer_booking.events_code Left Join customer ON  customer_booking.customer_id = customer.id Where event_booking.events_code =' + eventCode;
             connection.query(query, function(err, results, fields) {
                 if (!err) {
                     resolve(results);
@@ -131,7 +138,7 @@ class EventService {
 
     getEvents() {
         return new Promise(function(resolve, reject) {
-            let query = 'SELECT event_booking.events_code, event_booking.event_date_start, event_booking.event_date_end, cost_booking.gross_amount, cost_booking.discount_amount, cost_booking.total_amount, cost_booking.amount_balance, cost_booking.recieved_amount FROM `event_booking` LEFT JOIN  `cost_booking` ON event_booking.events_code = cost_booking.events_code INNER JOIN `customer` ON event_booking.events_code = customer.events_code  ORDER BY event_booking.event_date_start';
+            let query = 'SELECT event_booking.events_code, event_booking.event_date_start, event_booking.event_date_end, cost_booking.gross_amount, cost_booking.discount_amount, cost_booking.total_amount, cost_booking.amount_balance, cost_booking.recieved_amount FROM `event_booking` LEFT JOIN  `cost_booking` ON event_booking.events_code = cost_booking.events_code INNER JOIN `customer_booking` ON event_booking.events_code = customer_booking.events_code INNER JOIN `customer` ON customer_booking.customer_id = customer.id ORDER BY event_booking.event_date_start';
             connection.query(query, function(err, results, fields) {
                 if (!err) {
                     resolve(results);

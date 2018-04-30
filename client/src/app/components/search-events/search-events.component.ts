@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject,  ChangeDetectorRef } from '@angular/core';
 import { itemSelector, item } from './../FormService/form.model'
 import { FormService } from './../FormService/form.service';
 import { MatPaginator, MatSort, MatTableDataSource, MatChipList, MatChipListChange, MatChipSelectionChange } from '@angular/material';
@@ -11,6 +11,7 @@ import { MaterialModule } from '../material.module';
 import { SelectionModel } from '@angular/cdk/collections';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-search-events',
@@ -25,10 +26,11 @@ export class SearchEventsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public dialog: MatDialog, private formDataService: FormService, private commonService: CommonService, private router: Router) {
+  constructor(public dialog: MatDialog, private formDataService: FormService, private commonService: CommonService, private router: Router,  private changeDetectorRefs: ChangeDetectorRef) {
   }
   eventSource: any = [];
   categories:any;
+  isLoadingResults = false;
 
   ngOnInit(){
     this.refresh();
@@ -41,7 +43,9 @@ export class SearchEventsComponent implements OnInit {
       this.dataSource = new MatTableDataSource(this.eventSource);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.isLoadingResults = false;
     });
+    
   }
 
   goToNext(eventCode) {
@@ -65,9 +69,17 @@ export class SearchEventsComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(result => {
         console.log('The dialog was closed' + result);
-        amountRemaining = result;
+        this.commonService.recieveAmount({eventCode: eventCode, amount: result});
+        this.refresh();
       });
     }
+  }
+
+  refreshTable() {
+    this.isLoadingResults = true;
+   setTimeout(() => {
+    this.isLoadingResults = false;
+    }, 1000);
   }
 
 

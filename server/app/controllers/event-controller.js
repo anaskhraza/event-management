@@ -63,6 +63,12 @@ class EventController extends BaseController {
         return itemPromise;
     }
 
+    addCustomerEventRelation(eventObject, response) {
+        let itemPromise = EventService.addCustomerEventRelation(eventObject, response);
+        return itemPromise;
+    }
+
+
     getEventCodes() {
         let itemPromise = EventService.getEventCodes();
         return itemPromise;

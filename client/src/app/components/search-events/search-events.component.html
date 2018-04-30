@@ -1,60 +1,66 @@
 <div class="body">
+
     <div class="example-header">
         <mat-form-field>
             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
         </mat-form-field>
     </div>
+    <div class="custom-table">
+        <button type="button" style="width:50px; height: 50px; background-color: transparent; border:none;" (click)="refreshTable()"><i style="color:#673ab7" class="fa fa-refresh fa-2x"></i></button>
+        <div class="head-table example-container mat-elevation-z8">
 
-    <div class="example-container mat-elevation-z8">
-
+            <div class="example-loading-shade" *ngIf="isLoadingResults">
+                <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+            </div>
+        </div>
         <mat-table [dataSource]="dataSource" matSort>
 
             <ng-container matColumnDef="eventcode">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass1"> Event Code </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
+                <mat-header-cell *matHeaderCellDef class="customWidthClass3"> Event Code </mat-header-cell>
+                <mat-cell *matCellDef="let itemSource" class="customWidthClass3">
                     {{itemSource.events_code}}
                 </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="eventdatestart">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass1"> Event Date Start </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
+                <mat-header-cell *matHeaderCellDef class="customWidthClass3"> Event Date Start </mat-header-cell>
+                <mat-cell *matCellDef="let itemSource" class="customWidthClass3">
                     {{itemSource.event_date_start}}
                 </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="eventdateend">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass1"> Event Date End </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
+                <mat-header-cell *matHeaderCellDef class="customWidthClass3"> Event Date End </mat-header-cell>
+                <mat-cell *matCellDef="let itemSource" class="customWidthClass3">
                     {{itemSource.event_date_end}}
                 </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="totalamount">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass1"> Total Amount </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
+                <mat-header-cell *matHeaderCellDef class="customWidthClass3"> Total Amount </mat-header-cell>
+                <mat-cell *matCellDef="let itemSource" class="customWidthClass3">
                     {{itemSource.total_amount}}
                 </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="amountremaining">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass1"> Amount Remaining </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
+                <mat-header-cell *matHeaderCellDef class="customWidthClass3"> Amount Remaining </mat-header-cell>
+                <mat-cell *matCellDef="let itemSource" class="customWidthClass3">
                     {{itemSource.amount_balance}}
                 </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="updatebtn">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass1"> Update </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
-                    <button mat-button (click)="goToNext(itemSource.events_code)">Update</button>
+                <mat-header-cell *matHeaderCellDef class="customWidthClass3"> Update </mat-header-cell>
+                <mat-cell *matCellDef="let itemSource" class="customWidthClass3">
+                    <button mat-raised-button color="primary" (click)="goToNext(itemSource.events_code)">Update</button>
                 </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="chargebilling">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass1"> Recieve Amount </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
-                    <button mat-button (click)="openDialog(itemSource.events_code, itemSource.amount_balance)">RecieveAmount</button>
+                <mat-header-cell *matHeaderCellDef class="customWidthClass3"> Recieve Amount </mat-header-cell>
+                <mat-cell *matCellDef="let itemSource" class="customWidthClass3">
+                    <button mat-raised-button color="accent" (click)="openDialog(itemSource.events_code, itemSource.amount_balance)">RecieveAmount</button>
                 </mat-cell>
             </ng-container>
 

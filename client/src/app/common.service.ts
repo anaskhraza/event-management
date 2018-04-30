@@ -60,6 +60,20 @@ export class CommonService {
           });
 	}
 
+	createCategory(postData) {
+		console.log(postData);
+		const myheader = new HttpHeaders().set('Content-Type', 'application/json')
+		this.http.post('/api/addCategory',
+		postData, {
+            headers: myheader
+          })
+          .subscribe(data => {
+                alert(JSON.stringify(data));
+          }, error => {
+              console.log(JSON.stringify(error.json()));
+          });
+	}
+
 	recieveAmount(postData) {
 		console.log(postData);
 		const myheader = new HttpHeaders().set('Content-Type', 'application/json')
@@ -82,7 +96,6 @@ export class CommonService {
             headers: myheader
           })
           .subscribe(data => {
-                alert(JSON.stringify(data));
           }, error => {
               console.log(JSON.stringify(error.json()));
           });

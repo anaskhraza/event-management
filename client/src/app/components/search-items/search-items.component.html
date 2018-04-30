@@ -86,4 +86,22 @@
             <button type="button" mat-raised-button color="primary" (click)="goToNext()">Add Item</button>
         </div>
     </div>
+
+    <div class="row">
+        <div class="align-center btn-custom col-md-12 btn-color-1">
+            <h4>Categories</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <mat-chip-list *ngFor="let c of categoryArray.slice(1);" style="padding:4px">
+            <mat-chip color="primary" selected="true">{{c.category_name}}</mat-chip>
+        </mat-chip-list>
+    </div>
+
+    <div class="row">
+        <div class="align-center btn-custom col-md-12 btn-color-1">
+            <button type="button" mat-raised-button color="primary" (click)="goToCategory()">Add Category</button>
+        </div>
+    </div>
 </div>

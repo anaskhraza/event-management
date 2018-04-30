@@ -62,6 +62,23 @@ class ItemService {
         });
     }
 
+    addCategory(itemObject) {
+        return new Promise(function(resolve, reject) {
+            let query = 'INSERT INTO items_category (category_name)' +
+                'SELECT * FROM (SELECT "' + itemObject.category + '") AS tmp' +
+                ' WHERE NOT EXISTS (' +
+                'SELECT category_name FROM items_category WHERE category_name = "' + itemObject.category + '"' +
+                ') LIMIT 1';
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+        });
+    }
+
     updateItem(itemObject) {
         return new Promise(function(resolve, reject) {
             let query = 'UPDATE items SET name ="' + itemObject.name + '", price ="' + itemObject.price + '", color ="' + itemObject.colors + '", category ="' + itemObject.category + '", quantity ="' + itemObject.quantity + '" WHERE items_code = "' + itemObject.sku + '"';

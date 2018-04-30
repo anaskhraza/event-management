@@ -19,6 +19,11 @@ class ItemController extends BaseController {
         return itemPromise;
     }
 
+    createCategory(eventObject) {
+        let itemPromise = ItemService.addCategory(eventObject);
+        return itemPromise;
+    }
+
     updateItem(eventObject) {
         let itemPromise = ItemService.updateItem(eventObject);
         return itemPromise;

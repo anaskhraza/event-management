@@ -1,0 +1,16 @@
+<div class="body">
+    <div class="row">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Title" [(ngModel)]="category" [formControl]="textFormControl" value="">
+            <mat-error *ngIf="textFormControl.hasError('required')">
+                Category <strong>required</strong>
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="row">
+        <div class="align-center btn-custom col-md-12 btn-color-1">
+            <button type="button" mat-raised-button color="primary" (click)="saveItem()">Save</button>
+        </div>
+    </div>
+</div>

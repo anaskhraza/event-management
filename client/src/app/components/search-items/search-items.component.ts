@@ -32,6 +32,7 @@ export class SearchItemsComponent implements OnInit{
   }
   itemSource: any = [];
   categories:any;
+  categoryArray: any;
 
   ngOnInit(){
     var itemsArray = this.formDataService.getItemsArray();
@@ -44,13 +45,19 @@ export class SearchItemsComponent implements OnInit{
 
     this.commonService.getItemCategories().subscribe(res => {
       this.categories = res;
+      this.categoryArray = res;
     });
+    
 
   }
 
   goToNext() {
     this.formDataService.setItemArray(this.itemSource);
     this.router.navigateByUrl('/searchItems/addItem');
+  }
+
+  goToCategory() {
+    this.router.navigateByUrl('/searchItems/addCategory');
   }
 
   getAllItems(){
@@ -71,10 +78,6 @@ export class SearchItemsComponent implements OnInit{
   updateItem(itemObject){
     this.formDataService.setTempItemObjectInstace(itemObject);
     this.router.navigateByUrl('/searchItems/updateItem/'+itemObject.items_code);
-  }
-
-  filterChange(filter) {
-    this.applyFilter(filter);
   }
 
 }

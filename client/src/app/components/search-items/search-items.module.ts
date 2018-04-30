@@ -18,6 +18,7 @@ import { UpdateItemsComponent } from './update-items/update-items.component';
 
 import { AlertComponent } from '../_directives/index';
 import { AlertService } from '../_services/index';
+import { AddCategoryComponent } from './add-category/add-category.component';
 
 const Search_Items_Router: Routes = [
   {
@@ -25,6 +26,7 @@ const Search_Items_Router: Routes = [
     component: SearchItemsComponent
   },
   { path: 'addItem', component: AddItemsComponent },
+  { path: 'addCategory', component: AddCategoryComponent },
   { path: 'updateItem/:id', component: UpdateItemsComponent }
 ]
 
@@ -41,6 +43,6 @@ export const searchItemsRouter = RouterModule.forChild(Search_Items_Router);
     HttpClientModule
   ],
   providers: [AlertService, CommonService, { provide: FormService, useClass: FormService }],
-  declarations: [SearchItemsComponent, AddItemsComponent, UpdateItemsComponent, AlertComponent],
+  declarations: [SearchItemsComponent, AddItemsComponent, UpdateItemsComponent, AlertComponent, AddCategoryComponent],
 })
 export class SearchItemsModule { }

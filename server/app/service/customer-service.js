@@ -21,21 +21,38 @@ class CustomerService {
         });
     }
 
-    getCustomerById(id) {
-        return new Promise((resolve, reject) => {
-            if (!!id) {
-                let query = `SELECT * FROM customers where id=${id}`;
-                connection.query(query, function(err, results, fields) {
+    addCustomer(customerObject) {
+        return new Promise(function(resolve, reject) {
+            var personal = customerObject.personal;
+            let query = 'INSERT INTO customer (name, email, number)' +
+                'SELECT * FROM (SELECT "' + personal.name + '", "' + personal.email + '", "' + personal.number + '") AS tmp' +
+                ' WHERE NOT EXISTS (' +
+                'SELECT number FROM customer WHERE number = "' + personal.number + '"' +
+                ') LIMIT 1';
+            console.log(query);
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
 
-                    if (!err) {
-                        resolve(results);
-                    } else {
-                        reject(err)
-                    }
-                });
-            } else {
-                reject("error")
-            }
+        });
+    }
+
+    getSpecificCustomer(customerObject) {
+        return new Promise((resolve, reject) => {
+            var personal = customerObject.personal;
+            let query = 'SELECT * FROM customer where number="' + personal.number + '"';
+            console.log(query);
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
 
         });
     }

@@ -13,18 +13,13 @@ class CustomerController extends BaseController {
         let customersPromise = CustomerService.getCustomers(null);
         return customersPromise;
     }
-    getCustomerById(id) {
+    getSpecificCustomer(id) {
+        return CustomerService.getSpecificCustomer(id);
+    }
 
-        let cachedData = this.getCachedInfo(id);
-
-        if (!!cachedData && cachedData.length > 0) {
-
-            console.log("getting data from cache");
-
-            return Promise.resolve(cachedData);
-        } else {
-            return CustomerService.getCustomerById(id);
-        }
+    addCustomer(customerObject) {
+        let customersPromise = CustomerService.addCustomer(customerObject);
+        return customersPromise;
     }
 
     getCachedInfo(id) {

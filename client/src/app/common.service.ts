@@ -46,6 +46,14 @@ export class CommonService {
           });
 	}
 
+	getMontlySales() {
+		return this.http.get('/api/monthlysales',{})
+	}
+
+	getBookingItems() {
+		return this.http.get('/api/bookingitems',{})
+	}
+
 	createItem(postData) {
 		console.log(postData);
 		const myheader = new HttpHeaders().set('Content-Type', 'application/json')

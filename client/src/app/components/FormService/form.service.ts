@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as _ from 'underscore';
+import * as _lodash from 'lodash';
 
 @Injectable()
 export class FormService {

@@ -103,6 +103,20 @@ router.post('/updateEvent', function(req, res) {
 
 });
 
+router.get('/monthlysales/:id', function(req, res) {
+    let id = req.param('id');
+    eventController.getMontlySales(id).then((response) => {
+        res.json(response);
+    });
+});
+
+router.get('/bookingitems', function(req, res) {
+    let id = req.param('id');
+    eventController.getBookingItems().then((response) => {
+        res.json(response);
+    });
+});
+
 router.get('/specificeventdetails/:id', function(req, res) {
 
     let id = req.param('id');

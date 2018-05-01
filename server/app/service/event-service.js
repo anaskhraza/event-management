@@ -100,6 +100,34 @@ class EventService {
         });
     }
 
+    getMontlySales(month) {
+        return new Promise(function(resolve, reject) {
+            let query = 'SELECT DATE_FORMAT(`booking_date`,"%M") AS showdate FROM event_booking where YEAR(booking_date) =' + month;
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+
+        });
+    }
+
+    getBookingItems() {
+        return new Promise(function(resolve, reject) {
+            let query = 'SELECT * from booking_items Limit 8';
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+
+        });
+    }
+
     addCustomerEventRelation(eventObject, response) {
         return new Promise(function(resolve, reject) {
             if (response.length > 0) {

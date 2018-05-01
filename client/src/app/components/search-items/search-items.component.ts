@@ -46,6 +46,7 @@ export class SearchItemsComponent implements OnInit{
     this.commonService.getItemCategories().subscribe(res => {
       this.categories = res;
       this.categoryArray = res;
+      this.categoryArray = this.categoryArray.slice(1);
     });
     
 

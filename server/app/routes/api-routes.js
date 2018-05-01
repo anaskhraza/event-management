@@ -6,6 +6,7 @@ let itemController = require('../controllers/item-controller');
 let eventController = require('../controllers/event-controller');
 let bodyParser = require('body-parser');
 var _ = require('lodash');
+var moment = require('moment');
 
 // configure the app to use bodyParser()
 app.use(bodyParser.urlencoded({
@@ -116,6 +117,24 @@ router.get('/bookingitems', function(req, res) {
         res.json(response);
     });
 });
+
+router.get('/todayevents', function(req, res) {
+    var date = moment().format('YYYY-DD-MM');
+    console.log(date);
+    eventController.getTodayEvents().then((response) => {
+        res.json(response);
+    });
+});
+
+router.get('/recentevents', function(req, res) {
+    var date = moment().format('YYYY-DD-MM');
+    dateEnd = moment().add(7, 'days').format('YYYY-DD-MM')
+    eventController.getRecentEvents(dateEnd).then((response) => {
+        res.json(response);
+    });
+});
+
+
 
 router.get('/specificeventdetails/:id', function(req, res) {
 

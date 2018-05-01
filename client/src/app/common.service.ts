@@ -47,7 +47,8 @@ export class CommonService {
 	}
 
 	getMontlySales() {
-		return this.http.get('/api/monthlysales',{})
+		var year = new Date().getFullYear()
+		return this.http.get('/api/monthlysales/'+year,{})
 	}
 
 	getBookingItems() {

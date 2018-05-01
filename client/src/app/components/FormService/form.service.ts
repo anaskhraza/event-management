@@ -287,6 +287,10 @@ export class FormService {
       return eventObject;
     }
 
+    getEventChartsData(eventArray) {
+      console.log("events" + JSON.stringify(eventArray));
+    }
+
     createItemQueryUpdate(eventObject) {
     let sql = '';
     let dateSelected = '';

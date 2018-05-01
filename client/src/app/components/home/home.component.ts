@@ -34,12 +34,19 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    var events  = this.commonService.getEvents();
-    var items = this.commonService.getItems();
-    var itemsSold = this.commonService.getBookingItems();
-    var monthlySales = this.commonService.getMontlySales();
+    var events  = this.commonService.getEvents().subscribe(res => {
+      this.formDataService.getEventChartsData(res);
+    });
+    var items = this.commonService.getItems().subscribe(res => {
+      
+    });
+    var itemsSold = this.commonService.getBookingItems().subscribe(res => {
+      
+    });
+    var monthlySales = this.commonService.getMontlySales().subscribe(res => {
+      console.log(res);
+    });
 
-    console.log("events " + JSON.stringify(events) )
   }
 
 }

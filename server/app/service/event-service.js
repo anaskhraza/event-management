@@ -102,7 +102,53 @@ class EventService {
 
     getMontlySales(month) {
         return new Promise(function(resolve, reject) {
-            let query = 'SELECT DATE_FORMAT(`booking_date`,"%M") AS showdate FROM event_booking where YEAR(booking_date) =' + month;
+            let query = 'SELECT DATE_FORMAT(`booking_date`,"%M") AS month, COUNT(`booking_date`) AS showdate FROM event_booking where YEAR(booking_date) = "' + month + '" GROUP BY month';
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+
+        });
+    }
+
+    getMontlyTargetSales(month) {
+        return new Promise(function(resolve, reject) {
+            let query = 'SELECT DATE_FORMAT(`booking_date`,"%M") AS month, COUNT(`booking_date`) AS showdate FROM event_booking where YEAR(booking_date) = "' + month + '" GROUP BY month';
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+
+        });
+    }
+
+    getTodayEvents() {
+        return new Promise(function(resolve, reject) {
+            let query = 'SELECT event_booking.events_code , event_booking.event_name, event_booking.event_date_start, cost_booking.total_amount, cost_booking.recieved_amount FROM `event_booking` ' +
+                'INNER JOIN `cost_booking` On event_booking.events_code = cost_booking.events_code ' +
+                'WHERE event_booking.event_date_start  = CURDATE()';
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+
+        });
+    }
+
+    getRecentEvents(dateEnd) {
+        return new Promise(function(resolve, reject) {
+            let query = 'SELECT event_booking.events_code , event_booking.event_name, event_booking.event_date_start, cost_booking.total_amount, cost_booking.recieved_amount FROM `event_booking` ' +
+                'INNER JOIN `cost_booking` On event_booking.events_code = cost_booking.events_code ' +
+                'WHERE event_booking.event_date_start  > CURDATE() AND event_booking.event_date_end <"' + dateEnd + '"';
             connection.query(query, function(err, results, fields) {
                 if (!err) {
                     resolve(results);

@@ -1,8 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import { Routes, RouterModule } from "@angular/router";
+import { ModuleWithProviders } from "@angular/core";
+import { BrowserModule } from '@angular/platform-browser';
+import { CommonService } from '../../common.service'
+import { HttpClientModule } from '@angular/common/http';
+import { MaterialModule } from '../material.module';
+import { MyDateRangePickerModule } from 'mydaterangepicker';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {HomeComponent} from "./home.component";
-import {Routes, RouterModule} from "@angular/router";
-import { ModuleWithProviders } from '@angular/core';
+
+import { FormService } from '../FormService/form.service';
 import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
 import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.carbon';
@@ -20,8 +29,14 @@ export const homeRouter = RouterModule.forChild(Home_Router);
   imports: [
     CommonModule,
     homeRouter,
+    FormsModule,
+    ReactiveFormsModule,
+    MaterialModule,
+    MyDateRangePickerModule,
+    HttpClientModule,
     FusionChartsModule.forRoot(FusionCharts, Charts, FintTheme)
   ],
+  providers: [CommonService, { provide: FormService, useClass: FormService }],
   declarations: [HomeComponent]
 })
 export class HomeModule { }

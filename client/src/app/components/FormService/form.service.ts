@@ -10,6 +10,19 @@ import * as _lodash from 'lodash';
 export class FormService {
   private formData: FormData = new FormData();
   eventCode;
+  monthArray = [{ "label": "January", "value": 0},
+                { "label": "February", "value": 0},
+                { "label": "March", "value": 0},
+                { "label": "April", "value": 0},
+                { "label": "May", "value": 0},
+                { "label": "June", "value": 0},
+                { "label": "July", "value": 0},
+                { "label": "August", "value": 0},
+                { "label": "September", "value": 0},
+                { "label": "October", "value": 0},
+                { "label": "November","value": 0},
+                { "label": "December", "value": 0}
+              ]
   constructor(private http: HttpClient) { }
   
   getPersonal(): customerInfo {
@@ -289,6 +302,54 @@ export class FormService {
 
     getEventChartsData(eventArray) {
       console.log("events" + JSON.stringify(eventArray));
+    }
+
+    getMonthlySalesData(array) {
+      var monthsSalesArray  =this.monthArray;
+      var response = array;
+      for(var  i = 0; i < response.length; i++ ) {
+      _.map(monthsSalesArray, function(obj) {
+        if(response[i].label == obj.label) {
+          obj.value = response[i].value;
+        }
+      });
+    }
+    console.log("monthsSalesArray" + JSON.stringify(monthsSalesArray));
+    return monthsSalesArray
+  }
+
+    getMontlyTargetSales (object) {
+      console.log("events1" + JSON.stringify(object));
+      var monthsArraySales  =this.monthArray;
+      var monthsArrayTargets =this.monthArray;
+      var monthlySales = JSON.parse(object.response.monthlySalesTarget);
+
+      var monthlyTargets = JSON.parse(object.response.monthlyTarget);
+
+      for(var  i = 0; i < monthlySales.length; i++ ) {
+      _.map(monthsArraySales, function(obj) {
+        if(monthlySales[i].month == obj.label) {
+          obj.value = monthlySales[i].amount;
+        }
+      });
+    }
+
+    for(var  i = 0; i < monthlyTargets.length; i++ ) {
+      _.map(monthsArrayTargets, function(obj) {
+        if(monthlyTargets[i].Month == obj.label) {
+          obj.value = monthlyTargets[i].Target;
+        }
+      });
+    }
+    var categoryObj = {label: ""};
+    var category = _.map(monthsArraySales, function (obj){
+      return categoryObj.label = obj.label 
+    })
+
+      console.log("events2" + JSON.stringify(category));
+
+      console.log("events3" + JSON.stringify(monthsArrayTargets));
+      return category
     }
 
     createItemQueryUpdate(eventObject) {

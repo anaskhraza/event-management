@@ -102,7 +102,7 @@ class EventService {
 
     getMontlySales(month) {
         return new Promise(function(resolve, reject) {
-            let query = 'SELECT DATE_FORMAT(`booking_date`,"%M") AS month, COUNT(`booking_date`) AS showdate FROM event_booking where YEAR(booking_date) = "' + month + '" GROUP BY month';
+            let query = 'SELECT DATE_FORMAT(`booking_date`,"%M") AS label, COUNT(`booking_date`) AS value FROM event_booking where YEAR(booking_date) = "' + month + '" GROUP BY label';
             connection.query(query, function(err, results, fields) {
                 if (!err) {
                     resolve(results);
@@ -116,7 +116,21 @@ class EventService {
 
     getMontlyTargetSales(month) {
         return new Promise(function(resolve, reject) {
-            let query = 'SELECT DATE_FORMAT(`booking_date`,"%M") AS month, COUNT(`booking_date`) AS showdate FROM event_booking where YEAR(booking_date) = "' + month + '" GROUP BY month';
+            let query = 'SELECT DATE_FORMAT(`date_created`,"%M") AS month, SUM(`total_amount`) AS amount FROM cost_booking where YEAR(date_created)= "' + month + '"  GROUP BY month';
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+
+        });
+    }
+
+    getMonthlyTargets(year) {
+        return new Promise(function(resolve, reject) {
+            let query = 'Select Target, Month from projected_revenue where Year = "' + year + '"';
             connection.query(query, function(err, results, fields) {
                 if (!err) {
                     resolve(results);

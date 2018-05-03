@@ -104,11 +104,39 @@ router.post('/updateEvent', function(req, res) {
 
 });
 
+router.get('/monthlytargets/:id', function(req, res) {
+    let id = req.param('id');
+    eventController.getMonthlyTargets(id).then((response) => {
+        res.json(response);
+    });
+});
+
 router.get('/monthlysales/:id', function(req, res) {
     let id = req.param('id');
     eventController.getMontlySales(id).then((response) => {
         res.json(response);
     });
+});
+
+
+
+router.get('/monthlysalestarget/:id', function(req, res) {
+    let id = req.param('id');
+    var resp = '';
+    var resp1 = '';
+    eventController.getMontlySalesTarget(id)
+        .then((response) => {
+            resp = response;
+
+            eventController.getMonthlyTargets(id)
+                .then((response1) => {
+                    resp1 = response1;
+                    res.send({ status: "202", response: { monthlySalesTarget: JSON.stringify(resp), monthlyTarget: JSON.stringify(resp1) } });
+                })
+        })
+        .catch((e) => {
+            res.send({ status: "501", response: "Error " + e });
+        })
 });
 
 router.get('/bookingitems', function(req, res) {

@@ -23,12 +23,12 @@ export class HomeComponent implements OnInit {
   itemsCategoryChart = 'itemsCategoryChart';
   MonnthlySalesChart = 'monthlySalesChart';
 
-  width = 600;
-  height = 400;
-  type = 'column2d';
-  dataFormat = 'json';
-  jsonData: any;
-  dataSource;
+  monthlyOrdersChartWidth = 800;
+  monthlyOrdersChartHeight = 400;
+  monthlyOrdersChartType = 'column2d';
+  monthlyOrdersChartDataFormat = 'json';
+  monthlyOrdersChartJsonData: any;
+  monthlyOrdersChartDataSource: any = {};
   title = 'Angular4 FusionCharts Sample';
   constructor(private formDataService: FormService, private commonService: CommonService, private router: Router) {
   }
@@ -44,8 +44,18 @@ export class HomeComponent implements OnInit {
       
     });
     var monthlySales = this.commonService.getMontlySales().subscribe(res => {
-      console.log(res);
+      this.monthlyOrdersChartDataSource.data = this.formDataService.getMonthlySalesData(res);
+      this.monthlyOrdersChartDataSource.chart = {
+        "caption": "Monthly Report",
+        "subCaption": "Monthly Sales Report",
+        "numberPrefix": "",
+        "theme": "ocean"
+    }
     });
+
+    var monthlyTargets = this.commonService.getMontlyTargetSales().subscribe(res => {
+      var temp = this.formDataService.getMontlyTargetSales(res);
+    })
 
   }
 

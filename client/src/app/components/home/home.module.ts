@@ -14,7 +14,7 @@ import {HomeComponent} from "./home.component";
 import { FormService } from '../FormService/form.service';
 import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
-import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.carbon';
+import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.ocean';
 import { FusionChartsModule } from 'angular4-fusioncharts';
 
 const Home_Router: Routes =[

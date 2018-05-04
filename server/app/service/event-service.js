@@ -14,7 +14,7 @@ class EventService {
             if (totalAmount == recievedAmount) {
                 recieved = 1;
             }
-            let query = 'Update cost_booking Set amount_balance ="' + eventObject.amountBalanced + '", recieved_amount ="' + eventObject.amountRecieved + '" where events_code = "' + eventObject.eventCode + '"';
+            let query = 'Update cost_booking Set amount_balance ="' + eventObject.amountBalanced + '", recieved ="' + recieved + '", recieved_amount ="' + eventObject.amountRecieved + '" where events_code = "' + eventObject.eventCode + '"';
 
             console.log("query" + query);
             connection.query(query, function(err, results, fields) {
@@ -49,11 +49,13 @@ class EventService {
         return new Promise(function(resolve, reject) {
             var totalAmount = parseFloat(eventObject.netAmount);
             var recievedAmount = parseFloat(eventObject.amountRecieved)
+            console.log("totalAmount " + totalAmount);
+            console.log("recievedAmount " + recievedAmount);
             var recieved = 0;
             if (totalAmount == recievedAmount) {
                 recieved = 1;
             }
-            let query = 'Update cost_booking Set amount_balance ="' + eventObject.remaining + '", recieved_amount ="' + eventObject.advance + '", total_amount ="' + eventObject.netAmount + '", gross_amount ="' + eventObject.totalCost + '", perHeadCost ="' + eventObject.perHead + '", noOfGuests ="' + eventObject.noOfGuests + '", discount_amount ="' + eventObject.discount + '" where events_code = "' + eventObject.events_code + '"';
+            let query = 'Update cost_booking Set amount_balance ="' + eventObject.remaining + '", recieved_amount ="' + eventObject.advance + '", total_amount ="' + eventObject.netAmount + '", recieved ="' + recieved + '", gross_amount ="' + eventObject.totalCost + '", perHeadCost ="' + eventObject.perHead + '", noOfGuests ="' + eventObject.noOfGuests + '", discount_amount ="' + eventObject.discount + '" where events_code = "' + eventObject.events_code + '"';
 
             console.log("query" + query);
             connection.query(query, function(err, results, fields) {
@@ -144,7 +146,7 @@ class EventService {
 
     getTodayEvents() {
         return new Promise(function(resolve, reject) {
-            let query = 'SELECT event_booking.events_code , event_booking.event_name, event_booking.event_date_start, cost_booking.total_amount, cost_booking.recieved_amount FROM `event_booking` ' +
+            let query = 'SELECT event_booking.events_code , event_booking.event_name, event_booking.event_date_start, cost_booking.total_amount, cost_booking.recieved_amount,cost_booking.amount_balance FROM `event_booking` ' +
                 'INNER JOIN `cost_booking` On event_booking.events_code = cost_booking.events_code ' +
                 'WHERE event_booking.event_date_start  = CURDATE()';
             connection.query(query, function(err, results, fields) {

@@ -79,6 +79,7 @@ export class SearchEventsComponent implements OnInit {
     this.isLoadingResults = true;
    setTimeout(() => {
     this.isLoadingResults = false;
+    this.refresh();
     }, 1000);
   }
 

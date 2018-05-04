@@ -14,7 +14,7 @@ import {HomeComponent} from "./home.component";
 import { FormService } from '../FormService/form.service';
 import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
-import * as FintTheme from 'fusioncharts/themes/fusioncharts.theme.ocean';
+import * as OceanTheme from 'fusioncharts/themes/fusioncharts.theme.ocean';
 import { FusionChartsModule } from 'angular4-fusioncharts';
 
 const Home_Router: Routes =[
@@ -34,7 +34,7 @@ export const homeRouter = RouterModule.forChild(Home_Router);
     MaterialModule,
     MyDateRangePickerModule,
     HttpClientModule,
-    FusionChartsModule.forRoot(FusionCharts, Charts, FintTheme)
+    FusionChartsModule.forRoot(FusionCharts, Charts, OceanTheme)
   ],
   providers: [CommonService, { provide: FormService, useClass: FormService }],
   declarations: [HomeComponent]

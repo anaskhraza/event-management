@@ -48,10 +48,12 @@ class ItemService {
     addItem(itemObject) {
         return new Promise(function(resolve, reject) {
             let query = 'INSERT INTO items (items_code, name, quantity, price, color, category)' +
-                'SELECT * FROM (SELECT "' + itemObject.sku + '", "' + itemObject.name + '", "' + itemObject.quantity + '", "' + itemObject.rate + '", "' + itemObject.colors + '", "' + itemObject.selectedCategory + '") AS tmp' +
+                ' SELECT "' + itemObject.sku + '", "' + itemObject.name + '", "' + itemObject.quantity + '", "' + itemObject.rate + '", "' + itemObject.colors + '", "' + itemObject.selectedCategory + '" FROM DUAL' +
                 ' WHERE NOT EXISTS (' +
                 'SELECT items_code FROM items WHERE items_code = "' + itemObject.sku + '"' +
                 ') LIMIT 1';
+
+            console.log(query);
             connection.query(query, function(err, results, fields) {
                 if (!err) {
                     resolve(results);

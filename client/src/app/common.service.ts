@@ -47,11 +47,30 @@ export class CommonService {
 	}
 
 	getMontlySales() {
-		return this.http.get('/api/monthlysales',{})
+		var year = new Date().getFullYear()
+		return this.http.get('/api/monthlysales/'+year,{})
+	}
+
+	getMontlyTargets() {
+		var year = new Date().getFullYear()
+		return this.http.get('/api/monthlytargets/'+year,{})
+	}
+
+	getMontlyTargetSales() {
+		var year = new Date().getFullYear()
+		return this.http.get('/api/monthlysalestarget/'+year,{})
 	}
 
 	getBookingItems() {
 		return this.http.get('/api/bookingitems',{})
+	}
+
+	getTodayEvents() {
+		return this.http.get('/api/todayevents',{})
+	}
+
+	getRecentEvents() {
+		return this.http.get('/api/recentevents',{})
 	}
 
 	createItem(postData) {

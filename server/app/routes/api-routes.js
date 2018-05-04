@@ -6,6 +6,7 @@ let itemController = require('../controllers/item-controller');
 let eventController = require('../controllers/event-controller');
 let bodyParser = require('body-parser');
 var _ = require('lodash');
+var moment = require('moment');
 
 // configure the app to use bodyParser()
 app.use(bodyParser.urlencoded({
@@ -103,11 +104,39 @@ router.post('/updateEvent', function(req, res) {
 
 });
 
+router.get('/monthlytargets/:id', function(req, res) {
+    let id = req.param('id');
+    eventController.getMonthlyTargets(id).then((response) => {
+        res.json(response);
+    });
+});
+
 router.get('/monthlysales/:id', function(req, res) {
     let id = req.param('id');
     eventController.getMontlySales(id).then((response) => {
         res.json(response);
     });
+});
+
+
+
+router.get('/monthlysalestarget/:id', function(req, res) {
+    let id = req.param('id');
+    var resp = '';
+    var resp1 = '';
+    eventController.getMontlySalesTarget(id)
+        .then((response) => {
+            resp = response;
+
+            eventController.getMonthlyTargets(id)
+                .then((response1) => {
+                    resp1 = response1;
+                    res.send({ status: "202", response: { monthlySalesTarget: JSON.stringify(resp), monthlyTarget: JSON.stringify(resp1) } });
+                })
+        })
+        .catch((e) => {
+            res.send({ status: "501", response: "Error " + e });
+        })
 });
 
 router.get('/bookingitems', function(req, res) {
@@ -116,6 +145,24 @@ router.get('/bookingitems', function(req, res) {
         res.json(response);
     });
 });
+
+router.get('/todayevents', function(req, res) {
+    var date = moment().format('YYYY-DD-MM');
+    console.log(date);
+    eventController.getTodayEvents().then((response) => {
+        res.json(response);
+    });
+});
+
+router.get('/recentevents', function(req, res) {
+    var date = moment().format('YYYY-DD-MM');
+    dateEnd = moment().add(7, 'days').format('YYYY-DD-MM')
+    eventController.getRecentEvents(dateEnd).then((response) => {
+        res.json(response);
+    });
+});
+
+
 
 router.get('/specificeventdetails/:id', function(req, res) {
 

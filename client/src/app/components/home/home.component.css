@@ -1,0 +1,15 @@
+.event_dashboard {
+    font-family: "Quattrocento Sans", sans-serif;
+    font-size: 16px;
+    color: #262626;
+    text-align: center;
+    align-content: center;
+}
+
+.event_card {
+    max-width: 500px;
+}
+
+.charts {
+    margin-top: 20px;
+}

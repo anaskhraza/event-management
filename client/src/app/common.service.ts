@@ -69,6 +69,18 @@ export class CommonService {
 		return this.http.get('/api/todayevents',{})
 	}
 
+	getTotalEvents() {
+		return this.http.get('/api/totalevents',{})
+	}
+	
+	getTotalItems() {
+		return this.http.get('/api/totalitems',{})
+	}
+
+	getTotalCustomers() {
+		return this.http.get('/api/totalcustomers',{})
+	}
+
 	getRecentEvents() {
 		return this.http.get('/api/recentevents',{})
 	}

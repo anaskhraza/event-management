@@ -22,6 +22,11 @@ class CustomerController extends BaseController {
         return customersPromise;
     }
 
+    getTotalCustomer() {
+        let customersPromise = CustomerService.getTotalCustomer();
+        return customersPromise;
+    }
+
     getCachedInfo(id) {
         return [{
             "id": 1,

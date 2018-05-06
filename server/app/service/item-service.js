@@ -64,6 +64,20 @@ class ItemService {
         });
     }
 
+    getTotalItems() {
+        return new Promise(function(resolve, reject) {
+            let query = 'Select COUNT(items_code) AS count from items';
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+
+        });
+    }
+
     addCategory(itemObject) {
         return new Promise(function(resolve, reject) {
             let query = 'INSERT INTO items_category (category_name)' +

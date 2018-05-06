@@ -6,10 +6,99 @@
     align-content: center;
 }
 
+.dashboard {
+    margin-top: 20px;
+}
+
 .event_card {
     max-width: 500px;
 }
 
 .charts {
     margin-top: 20px;
+}
+
+.light_blue {
+    background-color: #36c6d3;
+    color: #FFFFFF;
+}
+
+.light_red {
+    background-color: #ed6b75;
+    color: #FFFFFF;
+}
+
+.light_yellow {
+    color: #FFFFFF;
+    background-color: #f1c40f;
+}
+
+widget .widget-body {
+    padding: 15px 15px 15px 25px;
+}
+
+.widget {
+    border: none;
+    border-radius: 0px;
+}
+
+.title {
+    font-size: 44px;
+    color: #ffffff;
+    line-height: 46px;
+    padding-top: 8px;
+}
+
+.comment {
+    font-size: 15px;
+    /* color: #B0B0B0; */
+    color: #ffffff;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.info-box-icon {
+    width: 75px;
+    height: 75px;
+    font-size: 75px;
+    padding-top: 20px;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: 15px;
+    float: right;
+    margin-top: -40px;
+}
+
+.gauges-container {
+    display: flex;
+}
+
+
+/* ------ Default Style ---------- */
+
+mwl-gauge {
+    flex: 1;
+    display: block;
+    padding: 10px;
+    margin: 7px;
+    border-radius: 3px;
+}
+
+mwl-gauge>.gauge>.dial {
+    stroke: #334455;
+    stroke-width: 2;
+    fill: rgba(0, 0, 0, 0);
+}
+
+mwl-gauge>.gauge>.value {
+    stroke: rgb(47, 227, 255);
+    stroke-width: 2;
+    fill: rgba(0, 0, 0, 0);
+}
+
+mwl-gauge>.gauge>.value-text {
+    fill: rgb(47, 227, 255);
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 0.8em;
 }

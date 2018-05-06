@@ -42,6 +42,8 @@ export class FormService {
     return eventRequisites;
   }
 
+
+
   getCalculatedItems(commonService) {
     var eventRequisiteObj: any = {};
     var parsedData: any;
@@ -245,6 +247,9 @@ export class FormService {
      console.log(JSON.stringify("evnet" + eventObject));
     eventObject.eventRequisite = this.getEventRequisites();
     eventObject.personal = this.getPersonal();
+    if(!eventObject.personal.number || parseInt(eventObject.personal.number) == 0 ) {
+      return {status: 301, Error: "Invalid Input value"};
+    }
     eventObject.eventDetails = this.getEventDetails();
     eventObject.eventDetails.dates = eventObject.eventRequisite.formatted.split(" - ");
     eventObject.finance = this.getFinanceDetails();
@@ -289,7 +294,26 @@ export class FormService {
     }
 
     getEventChartsData(eventArray) {
+      var countOfOrderDue = 0;
       console.log("events" + JSON.stringify(eventArray));
+      var totalRevenue = _lodash.sumBy(eventArray, function(o: any) {
+        return o.total_amount
+      })
+
+      var amountDue = _lodash.sumBy(eventArray, function(o: any) {
+        if(parseInt(o.amount_balance) > 0) {
+          countOfOrderDue = countOfOrderDue + 1;
+        }
+        return o.amount_balance
+      })
+      console.log("events amountDue " + amountDue);
+
+      return {
+        totalRevenue: totalRevenue,
+        amountDue: amountDue,
+        countOfOrderDue: countOfOrderDue
+      }
+
     }
 
     getMonthlySalesData(array) {

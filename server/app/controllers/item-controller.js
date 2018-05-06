@@ -36,6 +36,11 @@ class ItemController extends BaseController {
         return itemPromise;
     }
 
+    getTotalItems() {
+        let itemPromise = ItemService.getTotalItems();
+        return itemPromise;
+    }
+
     getItemsCategories() {
         let itemPromise = ItemService.getItemCategories(null);
         return itemPromise;

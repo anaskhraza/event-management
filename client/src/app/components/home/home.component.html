@@ -1,12 +1,68 @@
-<div class="panel panel-primary">
-    <div class="panel-heading">Home Component</div>
-    <div class="panel-body">Open the chrome dev tool and go to Network tab. Navigate to other page to see lazy load module works. You will see it load the *.chunk.js file when you visit that page for forst time.</div>
-</div>
-
 <div class="container">
     <div class="row">
+        <div class="col-lg-4 col-md-8 col-xs-12">
+            <div class="widget">
+                <mat-card class="light_blue">
+                    <div class="widget-body" ng-class="classes">
+                        <div class="widget-content">
+                            <!--<div class="widget-icon green pull-left"><i class="fa fa-users"></i></div>-->
+                            <div class="info-box-icon">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <div class="title">{{totalCustomers}}</div>
+                            <div class="comment">Customers</div>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-8 col-xs-12">
+            <div class="widget">
+                <mat-card class="light_red">
+                    <div class="widget-body" ng-class="classes">
+                        <div class="widget-content">
+                            <!--<div class="widget-icon green pull-left"><i class="fa fa-users"></i></div>-->
+                            <div class="info-box-icon">
+                                <i class="fa fa-book"></i>
+                            </div>
+                            <div class="title">{{totalEvents}}</div>
+                            <div class="comment">Events</div>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-8 col-xs-12">
+            <div class="widget">
+                <mat-card class="light_yellow">
+                    <div class="widget-body" ng-class="classes">
+                        <div class="widget-content">
+                            <!--<div class="widget-icon green pull-left"><i class="fa fa-users"></i></div>-->
+                            <div class="info-box-icon">
+                                <i class="fa fa-list"></i>
+                            </div>
+                            <div class="title">{{totalItems}}</div>
+                            <div class="comment">Items</div>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row dashboard">
+        <div class="col-md-12">
+            <div class="title-heading text-center headings">
 
-        <div class="col-md-5" *ngFor="let c of todayEvents;">
+                <div class="good-food-title style-1 fadeInUp" data-wow-delay=".2s">
+
+                    <h2 class="lg text-uppercase">Today Events</h2>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 contents" *ngFor="let c of todayEvents;" style="margin-top:10px;">
             <div class="event_dashboard">
                 <mat-card class="event_card">
                     <div class="table-responsive">
@@ -57,16 +113,185 @@
                                         {{c.amount_balance}}
                                     </td>
                                 </tr>
+                                <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
+                                    <td>
+                                        <button mat-raised-button color="primary" (click)="goToNext(c.events_code)">Update</button>
+
+                                    </td>
+                                    <td>
+                                        <button mat-raised-button color="accent" (click)="openDialog(c.events_code, c.amount_balance)">RecieveAmount</button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </mat-card>
             </div>
         </div>
+        <div *ngIf="todayEvents?.length==0">
+            <div class="alert alert-danger">
+                <strong>Sorry!</strong> No Records Found.
+            </div>
+        </div>
     </div>
-</div>
-<div class="charts">
-    <fusioncharts [id]=" monthlyOrdersChart " [width]="monthlyOrdersChartWidth " [height]="monthlyOrdersChartHeight " [type]="monthlyOrdersChartType " [dataFormat]="monthlyOrdersChartDataFormat " [dataSource]="monthlyOrdersChartDataSource "></fusioncharts>
-</div>
 
-<fusioncharts [id]="monthlySalesChart " [width]="monthlySalesChartWidth " [height]="monthlySalesChartHeight " [type]="monthlySalesChartType " [dataFormat]="monthlySalesChartDataFormat " [dataSource]="monthlySalesChartDataSource "></fusioncharts>
+    <div class="row dashboard">
+        <div class="col-md-12">
+            <div class="title-heading text-center headings">
+
+                <div class="good-food-title style-1 fadeInUp" data-wow-delay=".2s">
+
+                    <h2 class="lg text-uppercase">Upcoming Events</h2>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 contents" style="margin-top: 10px;">
+            <div *ngFor="let c of recentEvents;">
+                <div class="event_dashboard">
+                    <mat-card class="event_card">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    <tr class="table-row" style="font-weight: 600; border-top: none;">
+                                        <td colspan="2" style="border-top: none;">
+                                            {{c.events_code}}
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
+                                        <td>
+                                            Event Name
+                                        </td>
+                                        <td>
+                                            {{c.event_name}}
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
+                                        <td>
+                                            Date Start
+                                        </td>
+                                        <td>
+                                            {{c.event_date_start}}
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
+                                        <td>
+                                            Total Amount
+                                        </td>
+                                        <td>
+                                            {{c.total_amount}}
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
+                                        <td>
+                                            Recieve Amount
+                                        </td>
+                                        <td>
+                                            {{c.recieved_amount}}
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
+                                        <td>
+                                            Amount Balance
+                                        </td>
+                                        <td>
+                                            {{c.amount_balance}}
+                                        </td>
+                                    </tr>
+                                    <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
+                                        <td>
+                                            <button mat-raised-button color="primary" (click)="goToNext(c.events_code)">Update</button>
+
+                                        </td>
+                                        <td>
+                                            <button mat-raised-button color="accent" (click)="openDialog(c.events_code, c.amount_balance)">RecieveAmount</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 contents" style="margin-top: 10px;">
+            <div *ngIf="recentEvents?.length==0">
+                <div class="alert alert-danger notice">
+                    <strong>Sorry!</strong> No Records Found.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="title-heading text-center headings">
+
+                <div class="good-food-title style-1 fadeInUp" data-wow-delay=".2s">
+
+                    <h2 class="lg text-uppercase">Stats</h2>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row contents">
+        <div class="col-lg-4 col-md-8 col-xs-12">
+            <div class="widget">
+                <mat-card class="light_blue">
+                    <div class="widget-body" ng-class="classes">
+                        <div class="widget-content">
+                            <!--<div class="widget-icon green pull-left"><i class="fa fa-users"></i></div>-->
+                            <div class="info-box-icon">
+                                <i class="fa fa-sort-amount-desc"></i>
+                            </div>
+                            <div class="title">{{dueAmountGaugeValue}}</div>
+                            <div class="comment">Total Amount Over Due</div>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-8 col-xs-12">
+            <div class="widget">
+                <mat-card class="light_red">
+                    <div class="widget-body" ng-class="classes">
+                        <div class="widget-content">
+                            <!--<div class="widget-icon green pull-left"><i class="fa fa-users"></i></div>-->
+                            <div class="info-box-icon">
+                                <i class="fa fa-sort-amount-asc"></i>
+                            </div>
+                            <div class="title">{{totalRevenueGaugeValue}}</div>
+                            <div class="comment">Total Revenue</div>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-8 col-xs-12">
+            <div class="widget">
+                <mat-card class="light_yellow">
+                    <div class="widget-body" ng-class="classes">
+                        <div class="widget-content">
+                            <!--<div class="widget-icon green pull-left"><i class="fa fa-users"></i></div>-->
+                            <div class="info-box-icon">
+                                <i class="fa fa-list-ol"></i>
+                            </div>
+                            <div class="title">{{soDueGaugeValue}}</div>
+                            <div class="comment">No Of Orders Unpaid</div>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+    <div class="charts contents" style="text-align: center">
+        <fusioncharts [id]=" monthlyOrdersChart " [width]="monthlyOrdersChartWidth " [height]="monthlyOrdersChartHeight " [type]="monthlyOrdersChartType " [dataFormat]="monthlyOrdersChartDataFormat " [dataSource]="monthlyOrdersChartDataSource "></fusioncharts>
+
+        <div class="charts contents">
+            <fusioncharts [id]="monthlySalesChart " [width]="monthlySalesChartWidth " [height]="monthlySalesChartHeight " [type]="monthlySalesChartType " [dataFormat]="monthlySalesChartDataFormat " [dataSource]="monthlySalesChartDataSource "></fusioncharts>
+        </div>
+    </div>

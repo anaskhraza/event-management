@@ -73,6 +73,11 @@ class EventController extends BaseController {
         return itemPromise;
     }
 
+    getTotalEvents() {
+        let itemPromise = EventService.getTotalEvents();
+        return itemPromise;
+    }
+
     getMonthlySales(year) {
         let itemPromise = EventService.getMonthlySales(year);
         return itemPromise;

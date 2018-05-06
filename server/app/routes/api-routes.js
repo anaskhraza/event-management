@@ -24,6 +24,7 @@ router.get('/customers', function(req, res) {
 
 });
 
+
 router.get('/events', function(req, res) {
 
     eventController.getEvents().then((response) => {
@@ -150,6 +151,27 @@ router.get('/todayevents', function(req, res) {
     var date = moment().format('YYYY-DD-MM');
     console.log(date);
     eventController.getTodayEvents().then((response) => {
+        res.json(response);
+    });
+});
+
+router.get('/totalevents', function(req, res) {
+
+    eventController.getTotalEvents().then((response) => {
+        res.json(response);
+    });
+});
+
+router.get('/totalcustomers', function(req, res) {
+
+    customerController.getTotalCustomer().then((response) => {
+        res.json(response);
+    });
+});
+
+router.get('/totalitems', function(req, res) {
+
+    itemController.getTotalItems().then((response) => {
         res.json(response);
     });
 });

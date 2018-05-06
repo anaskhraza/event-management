@@ -116,6 +116,20 @@ class EventService {
         });
     }
 
+    getTotalEvents() {
+        return new Promise(function(resolve, reject) {
+            let query = 'Select COUNT(events_code) AS count from cost_booking';
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+
+        });
+    }
+
     getMontlyTargetSales(month) {
         return new Promise(function(resolve, reject) {
             let query = 'SELECT DATE_FORMAT(`date_created`,"%M") AS month, SUM(`total_amount`) AS amount FROM cost_booking where YEAR(date_created)= "' + month + '"  GROUP BY month';
@@ -146,9 +160,9 @@ class EventService {
 
     getTodayEvents() {
         return new Promise(function(resolve, reject) {
-            let query = 'SELECT event_booking.events_code , event_booking.event_name, event_booking.event_date_start, cost_booking.total_amount, cost_booking.recieved_amount,cost_booking.amount_balance FROM `event_booking` ' +
+            let query = 'SELECT event_booking.events_code , event_booking.event_name, DATE_FORMAT(event_booking.event_date_start, "%d-%m-%y") AS event_date_start, cost_booking.total_amount, cost_booking.recieved_amount,cost_booking.amount_balance FROM `event_booking` ' +
                 'INNER JOIN `cost_booking` On event_booking.events_code = cost_booking.events_code ' +
-                'WHERE event_booking.event_date_start  = CURDATE()';
+                'WHERE event_booking.event_date_start  = CURDATE() LIMIT 3';
             connection.query(query, function(err, results, fields) {
                 if (!err) {
                     resolve(results);
@@ -162,9 +176,9 @@ class EventService {
 
     getRecentEvents(dateEnd) {
         return new Promise(function(resolve, reject) {
-            let query = 'SELECT event_booking.events_code , event_booking.event_name, event_booking.event_date_start, cost_booking.total_amount, cost_booking.recieved_amount FROM `event_booking` ' +
+            let query = 'SELECT event_booking.events_code , event_booking.event_name, DATE_FORMAT(event_booking.event_date_start, "%d-%m-%y") AS event_date_start, cost_booking.total_amount, cost_booking.recieved_amount FROM `event_booking` ' +
                 'INNER JOIN `cost_booking` On event_booking.events_code = cost_booking.events_code ' +
-                'WHERE event_booking.event_date_start  > CURDATE() AND event_booking.event_date_end <"' + dateEnd + '"';
+                'WHERE event_booking.event_date_start  > CURDATE() AND event_booking.event_date_end <"' + dateEnd + '"  LIMIT 3';
             connection.query(query, function(err, results, fields) {
                 if (!err) {
                     resolve(results);

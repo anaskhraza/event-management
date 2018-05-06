@@ -16,6 +16,9 @@ import * as FusionCharts from 'fusioncharts';
 import * as Charts from 'fusioncharts/fusioncharts.charts';
 import * as OceanTheme from 'fusioncharts/themes/fusioncharts.theme.ocean';
 import { FusionChartsModule } from 'angular4-fusioncharts';
+import { dialogReceivePayment} from './home.component';
+import { GaugeModule } from 'angular-gauge';
+
 
 const Home_Router: Routes =[
   {
@@ -31,12 +34,14 @@ export const homeRouter = RouterModule.forChild(Home_Router);
     homeRouter,
     FormsModule,
     ReactiveFormsModule,
+    GaugeModule.forRoot(),
     MaterialModule,
     MyDateRangePickerModule,
     HttpClientModule,
     FusionChartsModule.forRoot(FusionCharts, Charts, OceanTheme)
   ],
+  entryComponents: [HomeComponent, dialogReceivePayment],
   providers: [CommonService, { provide: FormService, useClass: FormService }],
-  declarations: [HomeComponent]
+  declarations: [HomeComponent, dialogReceivePayment]
 })
 export class HomeModule { }

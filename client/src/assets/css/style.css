@@ -76,3 +76,23 @@
 body {
     margin-top: 65px;
 }
+
+.headings {
+    height: 40px;
+    margin-top: 20px;
+    color: #3f51b5;
+    font-size: 40px;
+    font-family: sans-serif;
+    font-weight: 600;
+    border-bottom: 1px solid #e7e7e7;
+    text-align: center;
+}
+
+.contents {
+    margin-top: 20px;
+}
+
+.notice {
+    font-size: 15px;
+    font-family: sans-serif;
+}

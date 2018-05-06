@@ -21,6 +21,21 @@ class CustomerService {
         });
     }
 
+    getTotalCustomer() {
+        return new Promise(function(resolve, reject) {
+            let query = "Select COUNT(number) AS count from customer";
+            connection.query(query, function(err, results, fields) {
+
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+
+        });
+    }
+
     addCustomer(customerObject) {
         return new Promise(function(resolve, reject) {
             var personal = customerObject.personal;

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { itemSelector, item } from '../../FormService/form.model'
 import { FormService } from '../../FormService/form.service';
 import { MatPaginator, MatSort, MatTableDataSource, MatChipList, MatChipListChange, MatChipSelectionChange } from '@angular/material';
@@ -58,6 +58,7 @@ export class UpdateEventComponent implements OnInit {
   finance: any;
   eventDetails: any;
   form: any;
+  responseStatus: any = {status: 203};;
 
 
   itemSource: any = [];
@@ -71,7 +72,7 @@ export class UpdateEventComponent implements OnInit {
     editableDateRangeField: false,
     openSelectorOnInputClick: true,
   };
-  constructor(private formDataService: FormService, private commonService: CommonService,
+  constructor(public dialog: MatDialog,private formDataService: FormService, private commonService: CommonService,
               private router: Router, private activatedRoute: ActivatedRoute) {
   }
   selection = new SelectionModel(true, []);
@@ -190,6 +191,20 @@ toggle: boolean = false;
     }
   }
 
+  openDialog(eventCode, amountRemaining) {
+      let dialogRef = this.dialog.open(dialogConfirmMessage, {
+        width: '300px',
+        height: '300px',
+        data: { name: eventCode, payment: amountRemaining }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        this.router.navigateByUrl('/searchEvents');
+        console.log('The dialog was closed' + result);
+      });
+    
+  }
+
   getNetAmount(totalCost, discount) {
     if(totalCost){
       this.discount = discount? discount: 0;
@@ -235,8 +250,36 @@ toggle: boolean = false;
       this.noOfGuests = 0;
       this.perHead = 0;
     }
-    this.formDataService.updateEvent(this.commonService, this.itemSource, this.totalCost, this.discount, this.netAmount, this.amountPaid, this.amountRemaining, this.perHead, this.noOfGuests, this.eventDetails, this.eventCode)
-    this.router.navigateByUrl('/searchEvents');
+    this.formDataService.updateEvent(this.commonService, this.itemSource, this.totalCost, 
+      this.discount, this.netAmount, this.amountPaid, this.amountRemaining, 
+      this.perHead, this.noOfGuests, this.eventDetails, this.eventCode)
+      .then((response) => {
+        console.log(response);
+        this.responseStatus = response;
+        this.openDialog(response, "");
+      });
+    
+    //this.router.navigateByUrl('/searchEvents');
+  }
+}
+
+@Component({
+  selector: 'dialog-confirm-example-dialog',
+  templateUrl: '../../dialog-confirm/dialog-confirm.html',
+})
+
+export class dialogConfirmMessage {
+
+  constructor(
+    public dialogRef: MatDialogRef<dialogConfirmMessage>,
+    @Inject(MAT_DIALOG_DATA) public data: any, private formDataService: FormService, private commonService: CommonService) { }
+
+  onPrint(obj): void {
+    var eventCode = obj.response;
+    this.formDataService.printInvoice(eventCode, this.commonService).subscribe(res => {
+      var template = res.data;
+      this.formDataService.printData(template, this.commonService, eventCode);
+    });;
   }
 }
 

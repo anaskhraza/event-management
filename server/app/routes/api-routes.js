@@ -7,6 +7,7 @@ let eventController = require('../controllers/event-controller');
 let bodyParser = require('body-parser');
 var _ = require('lodash');
 var moment = require('moment');
+var fs = require('fs');
 
 // configure the app to use bodyParser()
 app.use(bodyParser.urlencoded({
@@ -28,15 +29,19 @@ router.get('/customers', function(req, res) {
 router.get('/events', function(req, res) {
 
     eventController.getEvents().then((response) => {
+
+        console.log(JSON.stringify(response));
         var resd = JSON.stringify(response);
         resd = JSON.parse(resd);
         console.log(resd);
         for (var i = 0; i < resd.length; i++) {
             console.log('x' + resd[i]);
             var startDate = resd[i].event_date_start.split("T");
-            resd[i].event_date_start = startDate[0];
+
+            resd[i].event_date_start = moment(startDate[0]).add(1, 'days').format('YYYY-MM-DD');
             var endDate = resd[i].event_date_end.split("T");
-            resd[i].event_date_end = endDate[0];
+
+            resd[i].event_date_end = moment(endDate[0]).add(1, 'days').format('YYYY-MM-DD');;
         }
         res.json(resd);
     }).catch(function(err) {
@@ -60,9 +65,9 @@ router.get('/specificeventitems/:id', function(req, res) {
             console.log("11" + JSON.stringify(finalRes));
             for (var i = 0; i < finalRes.length; i++) {
                 var startDate = finalRes[i].event_date_start ? finalRes[i].event_date_start.split("T") : [];
-                finalRes[i].event_date_start = startDate.length > 0 ? startDate[0] : "";
+                finalRes[i].event_date_start = startDate.length > 0 ? moment(startDate[0]).add(1, 'days').format('YYYY-MM-DD') : "";
                 var endDate = finalRes[i].event_date_end ? finalRes[i].event_date_end.split("T") : [];
-                finalRes[i].event_date_end = endDate.length > 0 ? endDate[0] : "";
+                finalRes[i].event_date_end = endDate.length > 0 ? moment(endDate[0]).add(1, 'days').format('YYYY-MM-DD') : "";
                 finalRes[i].color = !!finalRes[i].color ? finalRes[i].color.split(",") : [];
                 if (finalRes[i].events_code) {
                     finalRes[i].checked = true
@@ -85,8 +90,12 @@ router.get('/specificeventitems/:id', function(req, res) {
 
 });
 
+
+
 router.post('/updateEvent', function(req, res) {
     console.log("req", req.body)
+    var obj = req.body;
+    var eventCode = obj.events_code;
     eventController
         .updateEvent(req.body)
         .then((response) => {
@@ -97,7 +106,7 @@ router.post('/updateEvent', function(req, res) {
             eventController.addEventItems(req.body)
         })
         .then((response) => {
-            res.send({ status: "202", response: JSON.stringify(response) });
+            res.send({ status: "202", response: eventCode.toString() });
         })
         .catch((e) => {
             res.send({ status: "501", response: "Error " + e });
@@ -148,7 +157,7 @@ router.get('/bookingitems', function(req, res) {
 });
 
 router.get('/todayevents', function(req, res) {
-    var date = moment().format('YYYY-DD-MM');
+    var date = moment().format('YYYY-MM-DD');
     console.log(date);
     eventController.getTodayEvents().then((response) => {
         res.json(response);
@@ -177,8 +186,8 @@ router.get('/totalitems', function(req, res) {
 });
 
 router.get('/recentevents', function(req, res) {
-    var date = moment().format('YYYY-DD-MM');
-    dateEnd = moment().add(7, 'days').format('YYYY-DD-MM')
+    var date = moment().format('YYYY-MM-DD');
+    dateEnd = moment().add(7, 'days').format('YYYY-MM-DD')
     eventController.getRecentEvents(dateEnd).then((response) => {
         res.json(response);
     });
@@ -194,9 +203,9 @@ router.get('/specificeventdetails/:id', function(req, res) {
         resd = JSON.parse(resd);
         resd = resd.length > 0 ? resd[0] : '';
         var startDate = resd.event_date_start ? resd.event_date_start.split("T") : [];
-        resd.event_date_start = startDate.length > 0 ? startDate[0] : "";
+        resd.event_date_start = startDate.length > 0 ? moment(startDate[0]).add(1, 'days').format('YYYY-MM-DD') : "";
         var endDate = resd.event_date_end ? resd.event_date_end.split("T") : [];
-        resd.event_date_end = endDate.length > 0 ? endDate[0] : "";
+        resd.event_date_end = endDate.length > 0 ? moment(endDate[0]).add(1, 'days').format('YYYY-MM-DD') : "";
         var stDate = resd.event_date_start.length > 0 ? resd.event_date_start.split("-") : [];
         var enDate = resd.event_date_end.length > 0 ? resd.event_date_end.split("-") : [];
         resd.dates = { beginDate: { year: stDate[0], month: parseInt(stDate[1]), day: parseInt(stDate[2]) }, endDate: { year: enDate[0], month: parseInt(enDate[1]), day: parseInt(enDate[2]) } };
@@ -304,11 +313,13 @@ router.post('/addEvent', function(req, res) {
             return eventController.addCustomerEventRelation(req.body, response4)
         })
         .then((response) => {
+
             res.send({ status: "202", response: JSON.stringify(response) });
         })
-        .catch((e) => {
-            res.send({ status: "501", response: "Error " + e });
-        })
+
+    .catch((e) => {
+        res.send({ status: "501", response: "Error " + e });
+    })
 });
 
 router.post('/addCategory', function(req, res) {
@@ -331,6 +342,38 @@ router.get('/items', function(req, res) {
 
 });
 
+router.post('/savefile', function(req, res) {
+    var reqObj = req.body;
+    var htmlBody = reqObj.htmlBody;
+    var eventCode = reqObj.eventCode;
+    console.log("htmlBody" + unescape(htmlBody));
+    // fs.write(__dirname + '/' + eventCode + '.html', htmlBody, function(err) {
+    //     if (err) throw err;
+    //     console.log('Saved!');
+    // });
+    var options = { format: 'Letter' };
+
+    pdf.create(unescape(htmlBody), options).toFile('./businesscard.pdf', function(err, res) {
+        if (err) return console.log(err);
+        console.log(res); // { filename: '/app/businesscard.pdf' }
+    });
+    res.send({ status: "202", reposne: "Suucess" });
+});
+
+
+router.get('/invoicehtml', function(req, res) {
+    console.log(__dirname);
+    fs.readFile(__dirname + '/print.html', 'utf-8', function read(err, data) {
+        if (err) {
+            throw err;
+        }
+        res.send({ status: "202", data: data });
+    });
+});
+
+function processFile() {
+    console.log(content);
+}
 router.get('/itemquantity', function(req, res) {
     console.log(req.query);
     var startDate = req.query.hasOwnProperty("start_date") ? req.query.start_date : '';

@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
-import { FormData, customerInfo, eventCostDetails, eventDetails, eventRequisites, itemSelector, item, finance, itemData } from './form.model';
+import { FormData, responseStatus, customerInfo, eventCostDetails, eventDetails, eventRequisites, itemSelector, item, finance, itemData } from './form.model';
 import { Subject } from 'rxjs/Subject';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import * as _ from 'underscore';
+
 import * as _lodash from 'lodash';
+import { resolve } from 'url';
+import { saveAs } from 'file-saver/FileSaver'
+import { DatePipe } from '@angular/common';
+import { CommonService } from '../../common.service';
+import * as jsPDF from 'jspdf'
 
 @Injectable()
 export class FormService {
@@ -40,6 +46,15 @@ export class FormService {
     }
 
     return eventRequisites;
+  }
+
+  setResponseStatus(res) {
+    console.log(res);
+    this.formData.responseStatus.status = res.status == "202" ? true: false;
+  }
+
+  getResponseStatus() {
+    return this.formData.responseStatus;
   }
 
 
@@ -255,7 +270,7 @@ export class FormService {
     eventObject.finance = this.getFinanceDetails();
     eventObject = this.createItemQuery(eventObject);
     console.log(JSON.stringify(eventObject));
-    commonService.saveEvent(eventObject);
+    return commonService.saveEvent(eventObject);
 
   }
 
@@ -485,9 +500,74 @@ export class FormService {
 
     console.log("postData " + JSON.stringify(postData));
 
-    commonService.updateEvent(postData);
+    return commonService.updateEvent(postData);
   
 	} 
+
+
+  printInvoice (eventCode, commonService) {
+    return commonService.getInvoiceHtml();
+  }
+
+  printData(template, commonService, eventCode) {
+    var response1;
+    var response2;
+    commonService.getEventDetailsForUpdate(eventCode).subscribe(res=>{
+        response1 = res;
+        commonService.getItemsForUpdate(eventCode).subscribe(response=>{
+          response2 = response;
+          this.manipulatePrintData(template, response1, response2, commonService);
+
+        });
+    });
+  } 
+
+  manipulatePrintData(template, response1, itemResponse, commonService) {
+    
+
+    console.log("response2   " + JSON.stringify(itemResponse))
+
+    var itemArray = _lodash.filter(itemResponse, {checked: true});
+    itemArray = this.splitIntoSubArray(itemArray, 3);
+    console.log("itemArray   " + JSON.stringify(itemArray))
+   var datePipe = new DatePipe("en-US");
+    response1.todayDate = datePipe.transform(new Date(), 'yyyy-MM-dd');
+    response1.totalItems = itemArray.length;
+    console.log("response1   " + JSON.stringify(response1))
+    var data = {
+      eventObj: response1,
+      eventItem: itemArray
+    };
+    var compiledTemplate = _lodash.template(template);
+
+    var bodyHtml = compiledTemplate(data);
+    commonService.saveFile({ htmlBody: escape(bodyHtml), eventCode: response1.events_code})
+    // this.saveToFileSystem(bodyHtml, response1.events_code);
+    // var doc = new jsPDF({
+    //   orientation: 'landscape',
+    //   unit: 'in',
+    //   format: [4, 2]
+    // })
+    
+    // doc.text(bodyHtml, 1, 1)
+    // doc.save('two-by-four.pdf')
+    
+    // console.log(bodyHtml)
+  }
+
+  private saveToFileSystem(bodyHtml, eventCode) {
+    const filename = eventCode + '.html';
+    const blob = new Blob([bodyHtml], { type: 'text/plain' });
+    saveAs(blob, filename);
+  }
+
+splitIntoSubArray(arr, count) {
+    var newArray = [];
+    while (arr.length > 0) {
+      newArray.push(arr.splice(0, count)); 
+    }
+    return newArray;
+  }
 
   saveItem(commonService: any){
     var itemObject: any = {};

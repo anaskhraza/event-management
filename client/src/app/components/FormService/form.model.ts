@@ -62,6 +62,12 @@ export class itemData {
     category: string = '';
 }
 
+export class responseStatus {
+    status: boolean = false;
+    error: string = "";
+    message: string = "";
+}
+
 export class FormData {
     name: string = '';
     email: string = '';
@@ -89,6 +95,7 @@ export class FormData {
     totalAmountRecieved: boolean = false;
     itemSelector: itemSelector = null;
     itemArray: any = '';
+    responseStatus: responseStatus = {error: '', message: '', status: false};
 
     clear() {
         this.name = '';

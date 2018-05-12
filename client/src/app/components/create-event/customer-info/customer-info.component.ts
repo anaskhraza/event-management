@@ -21,6 +21,7 @@ export class CustomerInfoComponent implements OnInit {
   name = '';
   email = '';
   number = '';
+  responseStatus = false;
   eventTitleValid = false;
   eventTimeBeginValid = false;
   eventTimeEndValid = false;
@@ -117,6 +118,8 @@ export class CustomerInfoComponent implements OnInit {
     this.formDataService.setPersonal(this.personal);
     console.log("222"+ this.eventCode);
     this.formDataService.saveEvent(this.commonService, this.eventCode);
+    var response = this.formDataService.getResponseStatus();
+    console.log("response "  + response);
   }
 
 }

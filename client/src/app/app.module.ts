@@ -28,6 +28,10 @@ export const router: Routes = [
       loadChildren: 'app/components/search-events/search-event.module#SearchEventModule',
     },
     {
+      path: 'searchEventsDue',
+      loadChildren: 'app/components/search-events-due/search-event-due.module#SearchEventDueModule',
+    },
+    {
       path: 'searchItems',
       loadChildren: 'app/components/search-items/search-items.module#SearchItemsModule',
     }

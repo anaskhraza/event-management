@@ -50,27 +50,12 @@
                 </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="updatebtn">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass3"> Update </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource" class="customWidthClass3">
-                    <button mat-raised-button color="primary" (click)="goToNext(itemSource.events_code)">Update</button>
-                </mat-cell>
-            </ng-container>
-
             <ng-container matColumnDef="chargebilling">
                 <mat-header-cell *matHeaderCellDef class="customWidthClass3"> Recieve Amount </mat-header-cell>
                 <mat-cell *matCellDef="let itemSource" class="customWidthClass3">
                     <button mat-raised-button color="accent" (click)="openDialog(itemSource.events_code, itemSource.amount_balance)">RecieveAmount</button>
                 </mat-cell>
             </ng-container>
-
-            <ng-container matColumnDef="deleteevent">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass3"> DeleteEvent </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource" class="customWidthClass3">
-                    <button mat-raised-button (click)="openDialogDeleteEvent(itemSource.events_code)" style="background-color:#C62828; color: #FFF">Delete</button>
-                </mat-cell>
-            </ng-container>
-
 
             <mat-header-row *matHeaderRowDef="displayedColumns "></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns; ">
@@ -82,7 +67,7 @@
 
     <div class="row">
         <div class="align-center btn-custom col-md-12 btn-color-1">
-            <button type="button" mat-raised-button color="primary" (click)="newEvent()">Add Event</button>
+            <button type="button" mat-raised-button color="primary" (click)="goToNext()">Add Event</button>
         </div>
     </div>
 </div>

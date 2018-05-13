@@ -30,6 +30,7 @@ export class CreateEventComponent implements OnInit {
   constructor(private formDataService: FormService, private _formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
+    this.formDataService.clear();
     this.eventRequisites = this.formDataService.getEventRequisites();
   }
 

@@ -36,6 +36,11 @@ class ItemController extends BaseController {
         return itemPromise;
     }
 
+    deleteItem(itemObj) {
+        let itemPromise = ItemService.deleteItem(itemObj.items_code);
+        return itemPromise;
+    }
+
     getTotalItems() {
         let itemPromise = ItemService.getTotalItems();
         return itemPromise;

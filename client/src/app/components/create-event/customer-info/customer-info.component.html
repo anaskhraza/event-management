@@ -24,7 +24,7 @@
 
                 <div class="row">
                     <mat-form-field class="example-full-width">
-                        <input matInput placeholder="number" [(ngModel)]="personal.number" [formControl]="numberFormControl" value="">
+                        <input matInput placeholder="number" [(ngModel)]="personal.number" [formControl]="numberFormControl1" value="">
                         <mat-error *ngIf="numberFormControl.hasError('pattern')">
                             Please enter a valid number
                         </mat-error>
@@ -117,7 +117,7 @@
                 <div class="row">
 
                     <mat-form-field class="example-full-width">
-                        <input matInput disabled placeholder="Balance" [(ngModel)]="finance.amountRemaining" value="{{ getBalance(finance.netAmount, finance.advance) }}">
+                        <input matInput disabled placeholder="Balance" [(ngModel)]="finance.amountRemaining" value="{{ getBalance(finance.netAmount, finance.amountPaid) }}">
                     </mat-form-field>
                 </div>
 

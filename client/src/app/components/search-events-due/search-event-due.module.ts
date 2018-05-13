@@ -13,21 +13,20 @@ import { HttpClientModule } from '@angular/common/http';
 
 /* Feature Components */
 import { FormService }    from './../FormService/form.service';
-import { SearchEventsComponent, dialogReceivePayment, dialogDeleteEvent} from './search-events.component';
-import { UpdateEventComponent, dialogConfirmMessage } from './update-event/update-event.component';
+import { SearchEventsDueComponent, dialogReceivePayment} from './search-events-due.component';
+
 const Search_Event_Router: Routes =[
   {
       path: '',
-      component: SearchEventsComponent
-  },
-  { path: 'updateEvent/:id', component: UpdateEventComponent }
+      component: SearchEventsDueComponent
+  }
 ];
 
-export const searchEventRouter = RouterModule.forChild(Search_Event_Router);
+export const searchEventRouter1 = RouterModule.forChild(Search_Event_Router);
 @NgModule({
   imports: [
     CommonModule,
-    searchEventRouter,
+    searchEventRouter1,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -35,8 +34,8 @@ export const searchEventRouter = RouterModule.forChild(Search_Event_Router);
     MyDateRangePickerModule,
     HttpClientModule
   ],
-  entryComponents: [SearchEventsComponent, dialogReceivePayment, dialogConfirmMessage, dialogDeleteEvent],
+  entryComponents: [SearchEventsDueComponent, dialogReceivePayment],
   providers: [CommonService, { provide: FormService, useClass: FormService }],
-  declarations: [SearchEventsComponent, UpdateEventComponent, dialogReceivePayment, dialogConfirmMessage, dialogDeleteEvent]
+  declarations: [SearchEventsDueComponent, dialogReceivePayment]
 })
-export class SearchEventModule { }
+export class SearchEventDueModule { }

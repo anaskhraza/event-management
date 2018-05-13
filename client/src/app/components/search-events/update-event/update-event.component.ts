@@ -104,6 +104,7 @@ toggle: boolean = false;
    var eventCode = urlArary[3];
 
    this.commonService.getEventDetailsForUpdate(eventCode).subscribe(res => {
+ console.log("update    ------>   " + JSON.stringify(res));
      let response: any = res;
     this.personal = {};
     this.eventCode = response.events_code;
@@ -118,6 +119,13 @@ toggle: boolean = false;
     this.grossAmount = response.gross_amount;
     this.discount = response.discount_amount;
     this.advance = response.recieved_amount;
+    this.noOfGuests = (!!response.noOfGuests && response.noOfGuests != "0") ? response.noOfGuests : '';
+    this.perHead = (!!response.perHeadCost && response.perHeadCost != "0") ? response.perHeadCost : '';
+    console.log(this.noOfGuests);
+    console.log(this.perHead);
+    if(this.noOfGuests && this.perHead) {
+      this.toggle = true;
+    }
      //this.personal.gross_amount = res.gross_amount,
    });
 

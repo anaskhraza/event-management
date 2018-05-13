@@ -28,7 +28,7 @@ export class UpdateItemsComponent implements OnInit {
   categories: any;
   selectedCategory = '';
   color = '';
- constructor(private formDataService: FormService, private commonService: CommonService, private _formBuilder: FormBuilder, private route: ActivatedRoute) {}
+ constructor(private router: Router, private formDataService: FormService, private commonService: CommonService, private _formBuilder: FormBuilder, private route: ActivatedRoute) {}
  numberFormControl = new FormControl('', [
     Validators.pattern("^[0-9]+$"),
     Validators.required
@@ -73,6 +73,7 @@ export class UpdateItemsComponent implements OnInit {
       colors: this.color
     }
     this.commonService.updateItem(postData);
+    this.router.navigateByUrl('/searchItems');
     
   }
 

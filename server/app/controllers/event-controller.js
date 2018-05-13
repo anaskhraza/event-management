@@ -40,6 +40,19 @@ class EventController extends BaseController {
             let itemPromise = EventService.deleteEventItems(eventObject.events_code);
             return itemPromise;
         }
+
+        if (eventObject.hasOwnProperty("items_code")) {
+            let itemPromise = EventService.deleteEventItems(null, eventObject.items_code);
+            return itemPromise;
+        }
+
+    }
+
+    deleteCompleteEvent(eventObject) {
+        if (eventObject.hasOwnProperty("events_code")) {
+            let itemPromise = EventService.deleteCompleteEvent(eventObject.events_code);
+            return itemPromise;
+        }
     }
 
     addEventDetails(eventObject) {
@@ -120,6 +133,10 @@ class EventController extends BaseController {
         return itemPromise;
     }
 
+    getAmountDueEvents() {
+        let itemPromise = EventService.getAmountDueEvents();
+        return itemPromise;
+    }
     getItemById(id) {
 
         let cachedData = this.getCachedInfo(id);

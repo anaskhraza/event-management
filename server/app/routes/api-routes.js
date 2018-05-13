@@ -21,7 +21,7 @@ router.get('/customers', function(req, res) {
     customer.getCustomers().then((response) => {
         res.json(response);
     }).catch(function(err) {
-        console.log(err);
+
     });
 
 });
@@ -31,12 +31,36 @@ router.get('/events', function(req, res) {
 
     eventController.getEvents().then((response) => {
 
-        console.log(JSON.stringify(response));
+
         var resd = JSON.stringify(response);
         resd = JSON.parse(resd);
-        console.log(resd);
+
         for (var i = 0; i < resd.length; i++) {
-            console.log('x' + resd[i]);
+
+            var startDate = resd[i].event_date_start.split("T");
+
+            resd[i].event_date_start = moment(startDate[0]).add(1, 'days').format('YYYY-MM-DD');
+            var endDate = resd[i].event_date_end.split("T");
+
+            resd[i].event_date_end = moment(endDate[0]).add(1, 'days').format('YYYY-MM-DD');;
+        }
+        res.json(resd);
+    }).catch(function(err) {
+        console.log(err);
+    });
+
+});
+
+router.get('/amountdueevents', function(req, res) {
+
+    eventController.getAmountDueEvents().then((response) => {
+
+
+        var resd = JSON.stringify(response);
+        resd = JSON.parse(resd);
+
+        for (var i = 0; i < resd.length; i++) {
+
             var startDate = resd[i].event_date_start.split("T");
 
             resd[i].event_date_start = moment(startDate[0]).add(1, 'days').format('YYYY-MM-DD');
@@ -57,13 +81,13 @@ router.get('/specificeventitems/:id', function(req, res) {
         var resd = JSON.stringify(response);
         var resd1 = '';
         resd = JSON.parse(resd);
-        console.log("11" + JSON.stringify(resd));
+
         itemController.getItems().then((response1) => {
             resd1 = JSON.stringify(response1);
             resd1 = JSON.parse(resd1);
 
             var finalRes = _.unionBy(resd, resd1, "items_code");
-            console.log("11" + JSON.stringify(finalRes));
+
             for (var i = 0; i < finalRes.length; i++) {
                 var startDate = finalRes[i].event_date_start ? finalRes[i].event_date_start.split("T") : [];
                 finalRes[i].event_date_start = startDate.length > 0 ? moment(startDate[0]).add(1, 'days').format('YYYY-MM-DD') : "";
@@ -91,16 +115,47 @@ router.get('/specificeventitems/:id', function(req, res) {
 
 });
 
+router.post('/deleteEvent', function(req, res) {
+    var obj = req.body;
+    var eventCode = obj.eventCode;
+    eventController
+        .deleteEventItems({ events_code: eventCode })
+        .then((response) => {
+            eventController.deleteCompleteEvent({ events_code: eventCode })
+        })
+        .then((response) => {
+            res.send({ status: "202", response: eventCode.toString() });
+        })
+        .catch((e) => {
+            res.send({ status: "501", response: "Error " + e });
+        })
+});
+
+router.post('/deleteItem', function(req, res) {
+    var obj = req.body;
+    var itemCode = obj.itemCode;
+    eventController
+        .deleteEventItems({ items_code: itemCode })
+        .then((response) => {
+            itemController.deleteItem({ items_code: itemCode })
+        })
+        .then((response) => {
+            res.send({ status: "202", response: itemCode.toString() });
+        })
+        .catch((e) => {
+            res.send({ status: "501", response: "Error " + e });
+        })
+});
 
 
 router.post('/updateEvent', function(req, res) {
-    console.log("req", req.body)
+
     var obj = req.body;
     var eventCode = obj.events_code;
     eventController
         .updateEvent(req.body)
         .then((response) => {
-            console.log("gere1");
+
             eventController.deleteEventItems(req.body)
         })
         .then((response) => {
@@ -123,6 +178,7 @@ router.get('/monthlytargets/:id', function(req, res) {
 });
 
 router.get('/monthlysales/:id', function(req, res) {
+    console.log("gere");
     let id = req.param('id');
     eventController.getMontlySales(id).then((response) => {
         res.json(response);
@@ -159,7 +215,7 @@ router.get('/bookingitems', function(req, res) {
 
 router.get('/todayevents', function(req, res) {
     var date = moment().format('YYYY-MM-DD');
-    console.log(date);
+
     eventController.getTodayEvents().then((response) => {
         res.json(response);
     });
@@ -233,7 +289,7 @@ router.get('/eventcodes', function(req, res) {
 
 router.get('/customer/:id', function(req, res) {
     let id = req.param('id');
-    console.log("Customer Id Requested", id);
+
     customerController.getCustomerById(id).then((response) => {
         res.json(response);
     }).catch(function(err) {
@@ -249,7 +305,7 @@ router.post('/receiveAmount', function(req, res) {
     eventController
         .getSpecificEventDetails(eventCode)
         .then((response) => {
-            console.log("res" + JSON.stringify(response))
+
 
             if (response.length > 0) {
                 obj.netAmount = response[0].total_amount;
@@ -293,7 +349,7 @@ router.post('/addItem', function(req, res) {
 });
 
 router.post('/addEvent', function(req, res) {
-    console.log(req.body);
+
     eventController
         .createEvent(req.body)
         .then((response) => {
@@ -306,11 +362,11 @@ router.post('/addEvent', function(req, res) {
             return customerController.addCustomer(req.body)
         })
         .then((response3) => {
-            console.log("xx" + JSON.stringify(response3));
+
             return customerController.getSpecificCustomer(req.body)
         })
         .then((response4) => {
-            console.log("xx1" + JSON.stringify(response4));
+
             return eventController.addCustomerEventRelation(req.body, response4)
         })
         .then((response) => {
@@ -345,7 +401,7 @@ router.post('/savefile', function(req, res) {
     var reqObj = req.body;
     var htmlBody = reqObj.htmlBody;
     var eventCode = reqObj.eventCode;
-    console.log("htmlBody" + unescape(htmlBody));
+
     // fs.write(__dirname + '/' + eventCode + '.html', htmlBody, function(err) {
     //     if (err) throw err;
     //     console.log('Saved!');
@@ -361,7 +417,7 @@ router.post('/savefile', function(req, res) {
 
 
 router.get('/invoicehtml', function(req, res) {
-    console.log(__dirname);
+
     fs.readFile(__dirname + '/print.html', 'utf-8', function read(err, data) {
         if (err) {
             throw err;
@@ -371,10 +427,10 @@ router.get('/invoicehtml', function(req, res) {
 });
 
 function processFile() {
-    console.log(content);
+
 }
 router.get('/itemquantity', function(req, res) {
-    console.log(req.query);
+
     var startDate = req.query.hasOwnProperty("start_date") ? req.query.start_date : '';
     var endDate = req.query.hasOwnProperty("end_date") ? req.query.end_date : '';
     var finalResponse = '';

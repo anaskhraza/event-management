@@ -161,24 +161,12 @@
             <div class="container tab-pane fade in active" *ngIf="toggle">
                 <div class="row">
                     <mat-form-field class="example-full-width">
-                        <input matInput placeholder="Per Head" [(ngModel)]="perHead" [formControl]="numberFormControl" value="">
-                        <mat-error *ngIf="numberFormControl.hasError('pattern')">
-                            Please enter a valid number
-                        </mat-error>
-                        <mat-error *ngIf="numberFormControl.hasError('required')">
-                            Number is <strong>required</strong>
-                        </mat-error>
+                        <input matInput placeholder="Per Head" [(ngModel)]="perHead" value="">
                     </mat-form-field>
                 </div>
                 <div class="row">
                     <mat-form-field class="example-full-width">
-                        <input matInput placeholder="no of guests" [(ngModel)]="noOfGuests" [formControl]="numberFormControl" value="">
-                        <mat-error *ngIf="numberFormControl.hasError('pattern')">
-                            Please enter a valid number
-                        </mat-error>
-                        <mat-error *ngIf="numberFormControl.hasError('required')">
-                            Number is <strong>required</strong>
-                        </mat-error>
+                        <input matInput placeholder="no of guests" [(ngModel)]="noOfGuests" value="">
                     </mat-form-field>
                 </div>
             </div>`

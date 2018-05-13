@@ -30,7 +30,7 @@ export class AddItemsComponent implements OnInit {
     colors: ''
   };
   categories: any;
-  constructor(private alertService: AlertService, private formDataService: FormService, private commonService:CommonService) { }
+  constructor(private router: Router, private alertService: AlertService, private formDataService: FormService, private commonService:CommonService) { }
   ngOnInit() {
 
     this.commonService.getItemCategories().subscribe(res => {
@@ -55,6 +55,7 @@ export class AddItemsComponent implements OnInit {
     if(this.itemDetails.name && this.itemDetails.sku && this.itemDetails.quantity && this.itemDetails.rate){
       this.itemDetails.colors = this.colors;
       this.commonService.createItem(this.itemDetails);
+      this.router.navigateByUrl('/searchItems');
     } else{
       this.error("Filture");
     }

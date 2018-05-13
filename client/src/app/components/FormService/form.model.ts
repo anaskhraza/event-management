@@ -76,8 +76,8 @@ export class FormData {
     title: string = '';
     perHead: string = '';
     noOfGuests: string = '';
-    beginDate: myDatePicker;
-    endDate: myDatePicker;
+    beginDate;
+    endDate;
     bookingStart: string = '';
     bookingEnd: string = '';
     formatted: string = '';
@@ -105,6 +105,9 @@ export class FormData {
         this.bookingEnd = '';
         this.eventType = '';
         this.number = '';
+        this.beginDate = '';
+        this.endDate = '';
+        this.formatted = '';
         this.grossTotal = '';
         this.netTotal = '';
         this.amountPaid = '';

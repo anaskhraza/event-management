@@ -15,12 +15,12 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-events',
-  templateUrl: './search-events.component.html',
-  styleUrls: ['./search-events.component.css']
+  templateUrl: './search-events-due.component.html',
+  styleUrls: ['./search-events-due.component.css']
 })
-export class SearchEventsComponent implements OnInit {
+export class SearchEventsDueComponent implements OnInit {
 
-  displayedColumns = ['eventcode', 'eventdatestart', 'eventdateend', 'totalamount', 'amountremaining', 'updatebtn', 'chargebilling', 'deleteevent'];
+  displayedColumns = ['eventcode', 'eventdatestart', 'eventdateend', 'totalamount', 'amountremaining', 'chargebilling'];
   dataSource: MatTableDataSource<ItemData>;
   list = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -37,7 +37,7 @@ export class SearchEventsComponent implements OnInit {
   }
 
   refresh() {
-    this.commonService.getEvents().subscribe(res => {
+    this.commonService.getEventswithAMountDue().subscribe(res => {
       console.log(JSON.stringify(res));
       this.eventSource = res;
       this.dataSource = new MatTableDataSource(this.eventSource);
@@ -50,10 +50,6 @@ export class SearchEventsComponent implements OnInit {
 
   goToNext(eventCode) {
     console.log("eventCOde "+ eventCode);
-    this.router.navigateByUrl('/searchEvents/updateEvent/' + eventCode);
-  }
-
-  newEvent() {
     this.router.navigateByUrl('/createEvent');
   }
 
@@ -77,21 +73,6 @@ export class SearchEventsComponent implements OnInit {
         this.refresh();
       });
     }
-  }
-
-  openDialogDeleteEvent(eventCode) {
-      let dialogRef = this.dialog.open(dialogDeleteEvent, {
-        width: '250px',
-        data: { name: eventCode, action: "delete"}
-      });
-  
-      dialogRef.afterClosed().subscribe(result => {
-        if(result == "delete") {
-        console.log('The dialog was closed' + result);
-        this.commonService.deleteEvent(eventCode);
-        this.refresh();
-        }
-      });
   }
 
   refreshTable() {
@@ -130,21 +111,6 @@ export class dialogReceivePayment {
   }
 }
 
-@Component({
-  selector: 'dialog-overview-example-dialog-1',
-  templateUrl: '../dialog-delete-event/dialog-delete-event.html',
-})
-
-export class dialogDeleteEvent {
-
-  constructor(
-    public dialogRef: MatDialogRef<dialogDeleteEvent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-}
 export interface ItemData {
   id: string;
   name: string;

@@ -6,7 +6,7 @@ import { BrowserModule }      from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule }        from '@angular/forms';
 import { MaterialModule } from '../material.module';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
-import { SearchItemsComponent } from './search-items.component';
+import { SearchItemsComponent, dialogDeleteItem } from './search-items.component';
 import { CommonService } from '../../common.service'
 import { HttpClientModule } from '@angular/common/http';
 
@@ -42,7 +42,8 @@ export const searchItemsRouter = RouterModule.forChild(Search_Items_Router);
     MyDateRangePickerModule,
     HttpClientModule
   ],
+  entryComponents: [ SearchItemsComponent ,dialogDeleteItem],
   providers: [AlertService, CommonService, { provide: FormService, useClass: FormService }],
-  declarations: [SearchItemsComponent, AddItemsComponent, UpdateItemsComponent, AlertComponent, AddCategoryComponent],
+  declarations: [SearchItemsComponent, AddItemsComponent, UpdateItemsComponent, AlertComponent, AddCategoryComponent, dialogDeleteItem],
 })
 export class SearchItemsModule { }

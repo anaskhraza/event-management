@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, NgModule } from '@angular/core';
+import { Component, OnInit, ViewChild, NgModule, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from "@angular/router";
 import { FormService } from './../FormService/form.service';
-
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -22,13 +22,13 @@ import { Router } from '@angular/router';
 export class SearchItemsComponent implements OnInit{
   
 
-  displayedColumns = ['id', 'sku', 'name',  'unitprice', 'category', 'quantity', 'color', 'update'];
+  displayedColumns = ['id', 'sku', 'name',  'unitprice', 'category', 'quantity', 'color', 'update', 'deleteitem'];
   dataSource: MatTableDataSource<ItemData>;
   list = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private formDataService: FormService, private commonService: CommonService, private router: Router) {
+  constructor(public dialog: MatDialog, private formDataService: FormService, private commonService: CommonService, private router: Router) {
   }
   itemSource: any = [];
   categories:any;
@@ -66,7 +66,21 @@ export class SearchItemsComponent implements OnInit{
 		// this.commonService.getItems().subscribe(res =>{
 		//  console.log(res);
 		// })
-	}
+  }
+  
+  openDialogDeleteItem(itemCode) {
+    let dialogRef = this.dialog.open(dialogDeleteItem, {
+      width: '250px',
+      data: { name: itemCode, action: "delete"}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result == "delete") {
+      console.log('The dialog was closed' + result);
+      this.commonService.deleteItem(itemCode);
+      }
+    });
+}
   
 
 
@@ -82,6 +96,23 @@ export class SearchItemsComponent implements OnInit{
   }
 
 }
+
+@Component({
+  selector: 'dialog-overview-example-dialog-2',
+  templateUrl: '../dialog-delete-event/dialog-delete-event.html',
+})
+
+export class dialogDeleteItem {
+
+  constructor(
+    public dialogRef: MatDialogRef<dialogDeleteItem>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
 export interface ItemData {
   id: string;
   name: string;

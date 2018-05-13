@@ -110,6 +110,7 @@ class ItemService {
         });
     }
 
+
     getItemCategories(filters) {
         return new Promise(function(resolve, reject) {
             let query = "select * from items_category";

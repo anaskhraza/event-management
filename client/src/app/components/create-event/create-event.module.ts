@@ -9,7 +9,7 @@ import { MaterialModule } from '../material.module';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateEventComponent } from './create-event.component';
-import { CustomerInfoComponent } from './customer-info/customer-info.component';
+import { CustomerInfoComponent, dialogConfirmMessage } from './customer-info/customer-info.component';
 /* Feature Components */
 import { FormService } from '../FormService/form.service';
 import { EventDetailsComponent } from './event-details/event-details.component';
@@ -33,7 +33,8 @@ export const createEventRouter = RouterModule.forChild(Create_Event_Router);
     MyDateRangePickerModule,
     HttpClientModule
   ],
+  entryComponents: [CustomerInfoComponent, dialogConfirmMessage],
   providers: [CommonService, { provide: FormService, useClass: FormService }],
-  declarations: [CreateEventComponent, CustomerInfoComponent, EventDetailsComponent]
+  declarations: [CreateEventComponent, CustomerInfoComponent, EventDetailsComponent, dialogConfirmMessage]
 })
 export class CreateEventModule { }

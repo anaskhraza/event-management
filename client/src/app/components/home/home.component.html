@@ -128,9 +128,11 @@
                 </mat-card>
             </div>
         </div>
-        <div *ngIf="todayEvents?.length==0">
-            <div class="alert alert-danger">
-                <strong>Sorry!</strong> No Records Found.
+        <div class="col-md-12 contents" style="margin-top: 10px;">
+            <div *ngIf="recentEvents?.length==0">
+                <div class="alert alert-danger notice">
+                    <strong>Sorry!</strong> No Records Found.
+                </div>
             </div>
         </div>
     </div>

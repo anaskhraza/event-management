@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>Success!</h1>
+<div mat-dialog-content>
+    <h4> {{data.name.response}} </h4>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onPrint(data.name)" style="color: #FFFFFF; background-color: #ffd740">Print</button>
+    <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial style="color: #FFFFFF; background-color: #673ab7">Ok</button>
+</div>

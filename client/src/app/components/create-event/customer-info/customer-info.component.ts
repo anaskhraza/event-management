@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { customerInfo, finance, eventDetails } from '../../FormService/form.model'
 import { FormService } from '../../FormService/form.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
@@ -21,6 +21,7 @@ export class CustomerInfoComponent implements OnInit {
   name = '';
   email = '';
   number = '';
+  responseStatus;
   eventTitleValid = false;
   eventTimeBeginValid = false;
   eventTimeEndValid = false;
@@ -39,7 +40,8 @@ export class CustomerInfoComponent implements OnInit {
   finance: any;
   eventDetails: any;
   form: any;
-  constructor(private formDataService: FormService, private commonService:CommonService) { }
+  constructor(public dialog: MatDialog, private formDataService: FormService, private commonService:CommonService,
+              private router: Router) { }
   toggle: boolean = false;
 
   numberFormControl = new FormControl('', [
@@ -111,12 +113,55 @@ export class CustomerInfoComponent implements OnInit {
     
   }
 
+  openDialog(eventCode, amountRemaining) {
+    let dialogRef = this.dialog.open(dialogConfirmMessage, {
+      width: '300px',
+      height: '300px',
+      data: { name: eventCode, payment: amountRemaining }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigateByUrl('/searchEvents');
+      console.log('The dialog was closed' + result);
+    });
+  
+}
+
   saveEvent(){
     this.formDataService.setEventDetails(this.eventDetails);
     this.formDataService.setFinanceDetails(this.finance);
     this.formDataService.setPersonal(this.personal);
     console.log("222"+ this.eventCode);
-    this.formDataService.saveEvent(this.commonService, this.eventCode);
+    this.formDataService.saveEvent(this.commonService, this.eventCode).then((response) => {
+      console.log(response);
+      this.responseStatus = response;
+      if(this.responseStatus.status == "202") {
+        this.openDialog(response, "");
+      }
+    });;
+    // var response = this.formDataService.getResponseStatus();
+    // console.log("response "  + response);
   }
 
+}
+
+@Component({
+  selector: 'dialog-confirm-example-dialog',
+  templateUrl: '../../dialog-confirm/dialog-confirm.html',
+})
+
+export class dialogConfirmMessage {
+
+  constructor(
+    private router: Router, public dialogRef: MatDialogRef<dialogConfirmMessage>,
+    @Inject(MAT_DIALOG_DATA) public data: any, private formDataService: FormService, private commonService: CommonService) { }
+
+  onPrint(obj): void {
+    var eventCode = obj.response;
+    this.formDataService.printInvoice(eventCode, this.commonService).subscribe(res => {
+      var template = res.data;
+      this.formDataService.printData(template, this.commonService, eventCode);
+      this.router.navigateByUrl('/searchEvents');
+    });;
+  }
 }

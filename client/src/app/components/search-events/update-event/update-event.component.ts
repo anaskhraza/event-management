@@ -256,7 +256,11 @@ toggle: boolean = false;
       .then((response) => {
         console.log(response);
         this.responseStatus = response;
-        this.openDialog(response, "");
+        console.log(this.responseStatus);
+        if(this.responseStatus.status == "202") {
+          this.openDialog(response, "");
+        }
+        
       });
     
     //this.router.navigateByUrl('/searchEvents');
@@ -271,7 +275,7 @@ toggle: boolean = false;
 export class dialogConfirmMessage {
 
   constructor(
-    public dialogRef: MatDialogRef<dialogConfirmMessage>,
+    private router: Router, public dialogRef: MatDialogRef<dialogConfirmMessage>,
     @Inject(MAT_DIALOG_DATA) public data: any, private formDataService: FormService, private commonService: CommonService) { }
 
   onPrint(obj): void {
@@ -279,6 +283,7 @@ export class dialogConfirmMessage {
     this.formDataService.printInvoice(eventCode, this.commonService).subscribe(res => {
       var template = res.data;
       this.formDataService.printData(template, this.commonService, eventCode);
+      this.router.navigateByUrl('/searchEvents');
     });;
   }
 }

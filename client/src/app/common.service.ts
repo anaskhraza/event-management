@@ -195,7 +195,7 @@ export class CommonService {
 		return this.http.get('/api/specificeventitems/' + eventCode,{})
 	}
 	saveFile(postData) {
-		const myheader = new HttpHeaders().set('Content-Type', 'application/json')
+		const myheader = new HttpHeaders().set('Content-Type', 'application/json');
 		  this.http.post('/api/savefile',
           postData, {
             headers: myheader
@@ -219,17 +219,22 @@ export class CommonService {
 		return this.http.get('/api/events',{})
 	}
 
-	saveEvent(event){
+	saveEvent(postData){
 		const myheader = new HttpHeaders().set('Content-Type', 'application/json')
-		  this.http.post('/api/addEvent',
-          event, {
-            headers: myheader
-          })
-          .subscribe(data => {
-				//alert(JSON.stringify(data));
-				return data;
-          }, error => {
-              console.log(JSON.stringify(error.json()));
-          });
+		//   this.http.post('/api/addEvent',
+        //   event, {
+        //     headers: myheader
+        //   })
+        //   .subscribe(data => {
+		// 		//alert(JSON.stringify(data));
+		// 		return data;
+        //   }, error => {
+        //       console.log(JSON.stringify(error.json()));
+		//   });
+		return this.http
+            .post('/api/addEvent', postData, {headers: myheader})
+            .toPromise()
+            .then(this.extractData)
+            .catch(this.handleError);
 	}
 }

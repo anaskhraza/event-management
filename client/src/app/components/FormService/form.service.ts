@@ -7,10 +7,8 @@ import * as _ from 'underscore';
 
 import * as _lodash from 'lodash';
 import { resolve } from 'url';
-import { saveAs } from 'file-saver/FileSaver'
 import { DatePipe } from '@angular/common';
 import { CommonService } from '../../common.service';
-import * as jsPDF from 'jspdf'
 
 @Injectable()
 export class FormService {
@@ -281,14 +279,15 @@ export class FormService {
         let items = eventObject.items;
 
         for(var i = 0; i< items.length; i++) {
-          
+          var count = 0;
           let selectedColor = '';
           let item = items[i];
-          if(item.checked){
-            if(i != 0){
+          if(item.hasOwnProperty("checked") &&  item.checked){
+
+            if(count != 0){
               sql += ',';
             }
-            
+            count = count + 1;
             if(item.hasOwnProperty("formatted")){
             dateSelected = item.formatted.split(" - ");
           } else{
@@ -527,12 +526,13 @@ export class FormService {
 
     console.log("response2   " + JSON.stringify(itemResponse))
 
-    var itemArray = _lodash.filter(itemResponse, {checked: true});
-    itemArray = this.splitIntoSubArray(itemArray, 3);
+    var itemArrayTemp = _lodash.filter(itemResponse, {checked: true});
+    response1.totalItems = itemArrayTemp.length;
+    var itemArray = this.splitIntoSubArray(itemArrayTemp, 3);
     console.log("itemArray   " + JSON.stringify(itemArray))
    var datePipe = new DatePipe("en-US");
     response1.todayDate = datePipe.transform(new Date(), 'yyyy-MM-dd');
-    response1.totalItems = itemArray.length;
+    
     console.log("response1   " + JSON.stringify(response1))
     var data = {
       eventObj: response1,
@@ -541,6 +541,10 @@ export class FormService {
     var compiledTemplate = _lodash.template(template);
 
     var bodyHtml = compiledTemplate(data);
+    var x=window.open();
+    x.document.open();
+    x.document.write(bodyHtml);
+    x.document.close();
     commonService.saveFile({ htmlBody: escape(bodyHtml), eventCode: response1.events_code})
     // this.saveToFileSystem(bodyHtml, response1.events_code);
     // var doc = new jsPDF({
@@ -555,11 +559,11 @@ export class FormService {
     // console.log(bodyHtml)
   }
 
-  private saveToFileSystem(bodyHtml, eventCode) {
-    const filename = eventCode + '.html';
-    const blob = new Blob([bodyHtml], { type: 'text/plain' });
-    saveAs(blob, filename);
-  }
+  // private saveToFileSystem(bodyHtml, eventCode) {
+  //   const filename = eventCode + '.html';
+  //   const blob = new Blob([bodyHtml], { type: 'text/plain' });
+  //   saveAs(blob, filename);
+  // }
 
 splitIntoSubArray(arr, count) {
     var newArray = [];
@@ -589,3 +593,4 @@ splitIntoSubArray(arr, count) {
     this.itemObject = null;
   }
 }
+declare function escape(s:string): string;

@@ -1,503 +1,268 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" type="text/css" href="custom.css"> -->
-    <style type="text/css" title="alternative style sheet" media="all">
-        body {
-            background-color: #F6F6F6;
-        }
-        
-        .brandSection {
-            border: 1px solid #417482;
-        }
-        
-        .headerLeft h1 {
-            color: #fff;
-            margin: 0px;
-            font-size: 28px;
-        }
-        
-        .invoiceDate {
-            color: #000000;
-            font-family: sans-serif;
-            float: right;
-            margin-top: -40px;
-            text-align: center;
-            padding-right: 10%;
-        }
-        
-        .invoiceDate h1 {
-            font-size: 54px !important;
-        }
-        
-        .invoiceSpecifics {
-            color: #000000;
-            font-family: sans-serif;
-            float: right;
-            text-align: center;
-            padding-right: 10%;
-        }
-        
-        .totalAmount {
-            color: #000000;
-            font-family: sans-serif;
-            padding-top: 12%;
-            text-align: center;
-        }
-        
-        .eventDate {
-            color: #000000;
-            font-family: sans-serif;
-            text-align: center;
-        }
-        
-        .invoiceSpecs {
-            margin-top: 20px;
-            padding-top: 5px;
-            padding-bottom: 2%;
-            max-height: 115px;
-            border-bottom: 1px solid #e8e8e8;
-        }
-        
-        .invoiceDetails {
-            margin-top: 20px;
-            padding-top: 5px;
-            padding-bottom: 2%;
-            border-bottom: 1px solid #e8e8e8;
-        }
-        
-        .recipientAddress {
-            float: left;
-            padding-left: 5%;
-            line-height: 8px;
+    <meta charset="utf-8">
+    <title>A simple, clean, and responsive HTML invoice template</title>
+
+    <style>
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .15);
             font-size: 12px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+            line-height: 16px;
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            color: #555;
         }
         
-        .headerCenter {
-            color: #000000;
-            margin: 0px;
-            font-size: 10px;
-            align-content: center;
-            padding-left: 20%;
-            line-height: 8px;
-        }
-        
-        .header {
-            background-color: #417482;
-            border-bottom: 2px solid #417482;
-            padding: 10px;
-        }
-        
-        .headerRight p {
-            margin: 0px;
-            font-size: 10px;
-            color: #88CFE3;
-            text-align: right;
-        }
-        
-        .contentSection {
-            background-color: #fff;
-            padding: 0px;
-        }
-        
-        .content {
-            background-color: #fff;
-            padding: 20px;
-        }
-        
-        .content h1 {
-            font-size: 22px;
-            margin: 0px;
-        }
-        
-        .content p {
-            margin: 0px;
-            font-size: 11px;
-        }
-        
-        .content span {
-            font-size: 11px;
-            color: #F2635F;
-        }
-        
-        .panelPart {
-            background-color: #fff;
-        }
-        
-        .panel-body {
-            background-color: #3BA4C2;
-            color: #fff;
-            padding: 5px;
-        }
-        
-        .panel-footer {
-            background-color: #fff;
-        }
-        
-        .panel-footer h1 {
-            font-size: 20px;
-            padding: 15px;
-            border: 1px dotted #DDDDDD;
-        }
-        
-        .panel-footer p {
-            font-size: 13px;
-            background-color: #F6F6F6;
-            padding: 5px;
-        }
-        
-        .tableSection {
-            background-color: #fff;
-        }
-        
-        .tableSection h1 {
-            font-size: 18px;
-            margin: 0px;
-        }
-        
-        th {
-            background-color: #383C3D;
-            color: #fff;
-        }
-        
-        .table {
-            padding-bottom: 10px;
-            margin: 0px;
-            border: 1px solid #DDDDDD;
-        }
-        
-        td:nth-child(2) {
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
             text-align: left;
         }
         
-        td {
-            height: 100%;
+        .invoice-box table td {
+            vertical-align: top;
         }
         
-        .bg {
-            background-color: #f00;
-            width: 100%;
-            height: 100%;
-            display: block;
+        .invoice-box table tr td:nth-child(2) {
+            text-align: right;
         }
         
-        .lastSectionleft {
-            background-color: #fff;
-            padding-top: 20px;
+        .invoice-box table tr.top table td {
+            padding-bottom: 20px;
         }
         
-        .Sectionleft p {
-            border: 1px solid #DDDDDD;
-            height: 140px;
-            padding: 5px;
+        .invoice-box table tr.top table td.title {
+            font-size: 45px;
+            line-height: 45px;
+            color: #333;
         }
         
-        .Sectionleft span {
-            color: #42A5C5;
+        .invoice-box table tr.information table td {
+            padding: 1px;
+            padding-bottom: 40px;
         }
         
-        .lastPanel {
-            text-align: center;
+        .invoice-box table tr.heading td {
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
         }
         
-        .panelLastLeft p,
-        .panelLastRight p {
-            font-size: 11px;
-            padding: 5px 2px 5px 10px;
+        .invoice-box table tr.heading th {
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
         }
         
-        @media print {
-            body {
-                display: none !important;
+        .invoice-box table tr.details td {
+            padding-bottom: 20px;
+        }
+        
+        .invoice-box table tr.item td {
+            border-bottom: 1px solid #eee;
+        }
+        
+        .invoice-box table tr.item.last td {
+            border-bottom: none;
+        }
+        
+        .invoice-box table tr.total td:nth-child(2) {
+            border-top: 2px solid #eee;
+            font-weight: bold;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .invoice-box table tr.top table td {
+                width: 100%;
+                display: block;
+                text-align: center;
             }
-            .brandSection {
-                display: none !important;
+            .invoice-box table tr.information table td {
+                width: 100%;
+                display: block;
+                text-align: center;
             }
-            .headerLeft h1 {
-                display: none !important;
-            }
-            .invoiceDate {
-                display: none !important;
-            }
-            .invoiceDate h1 {
-                display: none !important;
-            }
-            .invoiceSpecifics {
-                display: none !important;
-            }
-            .totalAmount {
-                display: none !important;
-            }
-            .eventDate {
-                display: none !important;
-            }
-            .invoiceSpecs {
-                display: none !important;
-            }
-            .invoiceDetails {
-                display: none !important;
-            }
-            .recipientAddress {
-                display: none !important;
-            }
-            .headerCenter {
-                display: none !important;
-            }
-            .header {
-                display: none !important;
-            }
-            .headerRight p {
-                display: none !important;
-            }
-            .contentSection {
-                display: none !important;
-            }
-            .content {
-                display: none !important;
-            }
-            .content h1 {
-                display: none !important;
-            }
-            .content p {
-                display: none !important;
-            }
-            .content span {
-                display: none !important;
-            }
-            .panelPart {
-                display: none !important;
-            }
-            .panel-body {
-                display: none !important;
-            }
-            .panel-footer {
-                display: none !important;
-            }
-            .panel-footer h1 {
-                display: none !important;
-            }
-            .panel-footer p {
-                display: none !important;
-            }
-            .tableSection {
-                display: none !important;
-            }
-            .tableSection h1 {
-                display: none !important;
-            }
-            th {
-                display: none !important;
-            }
-            .table {
-                display: none !important;
-            }
-            td:nth-child(2) {
-                display: none !important;
-            }
-            td {
-                display: none !important;
-            }
-            .bg {
-                display: none !important;
-            }
-            .lastSectionleft {
-                display: none !important;
-            }
-            .Sectionleft p {
-                display: none !important;
-            }
-            .Sectionleft span {
-                display: none !important;
-            }
-            .lastPanel {
-                display: none !important;
-            }
-            .panelLastLeft p,
-            .panelLastRight p {
-                display: none !important;
-            }
+        }
+        /** RTL **/
+        
+        .rtl {
+            direction: rtl;
+            font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+        }
+        
+        .rtl table {
+            text-align: right;
+        }
+        
+        .rtl table tr td:nth-child(2) {
+            text-align: left;
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12 brandSection">
-                <div class="row">
-                    <div class="col-md-12 col-sm-12 header">
-                        <div class="col-md-3 col-sm-3 headerLeft">
-                            <h1>Brand Logo</h1>
-                        </div>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                <img src="https://www.sparksuite.com/images/logo.png" style="width:100%; max-width:300px;">
+                            </td>
 
-                        <div class="col-md-6 col-sm-6 headerCenter">
-                            <p>Address1</p>
-                            <p>Address2</p>
-                            <p>Karachi, Pakistan</p>
-                        </div>
+                            <td>
+                                Invoice #:
+                                <%-eventObj.events_code%><br> Created:
+                                    <%-eventObj.todayDate%><br>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
 
-                        <div class="col-md-3 col-sm-3 headerRight">
-                            <p>www.yourbrand.com</p>
-                            <p>mail@yourbrand.com</p>
-                            <p>(000)555 555 55</p>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-sm-12 invoiceDetails">
-                        <div class="row">
-                            <div class="col-md-4 col-sm-4">
-                                <div class="recipientAddress">
-                                    <p>Invoice To:</p>
-                                    <h4>
-                                        <%-eventObj.name%>
-                                    </h4>
-                                    <p>
-                                        <%-eventObj.location%>
-                                    </p>
-                                    <p>Karachi, Pakistan</p>
-                                    <p>Phone No:
-                                        <%-eventObj.number%>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-4">
-                                <div class="totalAmount">
-                                    <h1>PKR - Rs
-                                        <%-eventObj.total_amount%>
-                                    </h1>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-4">
-                                <div class="invoiceDate">
-                                    <h1>INVOICE</h1>
-                                    <p> Date:
-                                        <%-eventObj.todayDate%>
-                                    </p>
-                                    <h4>Invoice #:
-                                        <%-eventObj.events_code%>
-                                    </h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-sm-12 invoiceSpecs">
-                        <div class="row">
-                            <div class="col-md-4 col-sm-4">
-                                <div class="recipientAddress">
-                                    <p>Event Details:</p>
-                                    <h4>Title:
-                                        <%-eventObj.event_name%>
-                                    </h4>
-                                    <p>
-                                        <%-eventObj.location%>
-                                    </p>
-                                    <p>Karachi, Pakistan</p>
-                                    <p>Phone No:
-                                        <%-eventObj.number%>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-4">
-                                <div class="eventDate">
-                                    <h2>
-                                        <%-eventObj.event_date_start%> to
-                                            <%-eventObj.event_date_end%>
-                                    </h2>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-4">
-                                <div class="invoiceSpecifics">
-                                    <p>Amount Due: PKR
-                                        <%-eventObj.amount_balance%>
-                                    </p>
-                                    <p>Total Item Count:
-                                        <%-eventObj.totalItems%>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-12 col-sm-12 tableSection">
-                        <h1>ITEMS</h1>
-                        <table class="table text-center">
-                            <thead>
-                                <tr class="tableHead">
-                                    <th style="width:30px;">Quantity</th>
-                                    <th style="width:260px">Description</th>
-                                    <th style="width:100px;text-align:center; border-right:1px solid #e8e8e8">TOTAL</th>
-                                    <th style="width:30px;">Quantity</th>
-                                    <th style="width:260px">Description</th>
-                                    <th style="width:100px;text-align:center; border-right:1px solid #e8e8e8">TOTAL</th>
-                                    <th style="width:30px;">Quantity</th>
-                                    <th style="width:260px">Description</th>
-                                    <th style="width:100px;text-align:center;">TOTAL</th>
+            <tr class="information">
+                <td colspan="2" style="border-bottom: 1px solid black;">
+                    <table>
+                        <tr>
+                            <td>
+                                Sparksuite, Inc.<br> 12345 Sunny Road<br> Sunnyville, CA 12345
+                            </td>
+
+                            <td>
+                                Invoice To:
+                                <br>
+                                <%-eventObj.name%><br>
+                                    <%-eventObj.location%><br> Karachi, Pakistan <br> Phone No:
+                                        <%-eventObj.number%> <br>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="information">
+                <td colspan="2" style="border-bottom: 1px solid black;">
+                    <table>
+                        <tr>
+                            <td>
+                                Event Date<br>
+                                <%-eventObj.event_date_start%> to
+                                    <%-eventObj.event_date_end%> <br> <span style="font-size: 18px;">Amount Due: PKR
+                                        <%-eventObj.amount_balance%></span><br> Total Item Count:
+                                        <%-eventObj.totalItems%><br>
+                            </td>
+                            <td style="float: left; text-align: center; font-size: 20px;">
+                                PKR - Rs
+                                <%-eventObj.total_amount%><br>
+                            </td>
+                            <td style="float: right;">
+                                Event Details:<br> Title:
+                                <%-eventObj.event_name%> <br>
+                                    <%-eventObj.location%> <br> Karachi, Pakistan <br> Phone No:
+                                        <%-eventObj.number%><br>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <table class="table text-center">
+                        <thead>
+                            <tr class="heading">
+                                <th style="width:30px;">Quantity</th>
+                                <th style="width:260px">Description</th>
+                                <th style="width:100px;text-align:center; border-right:1px solid #e8e8e8">TOTAL</th>
+                                <th style="width:30px;">Quantity</th>
+                                <th style="width:260px">Description</th>
+                                <th style="width:100px;text-align:center; border-right:1px solid #e8e8e8">TOTAL</th>
+                                <th style="width:30px;">Quantity</th>
+                                <th style="width:260px">Description</th>
+                                <th style="width:100px;text-align:center;">TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% _.forEach(eventItem, function(itemArray, index) {%>
+                                <tr>
+                                    <% _.forEach(itemArray, function(item, index) {%>
+                                        <td>
+                                            <%-item.quantity_booked%>
+                                        </td>
+                                        <td style="text-align: left">
+                                            <%-item.name%>
+                                        </td>
+                                        <%itemCost = parseInt(item.quantity_booked) * parseInt(item.price) %>
+                                            <td style="border-right:1px solid #e8e8e8">
+                                                <%-itemCost%>
+                                            </td>
+                                            <%});%>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <% _.forEach(eventItem, function(itemArray, index) {%>
-                                    <tr>
-                                        <% _.forEach(itemArray, function(item, index) {%>
-                                            <td>
-                                                <%-item.quantity_booked%>
-                                            </td>
-                                            <td>
-                                                <%-item.name%>
-                                            </td>
-                                            <%itemCost = parseInt(item.quantity_booked) * parseInt(item.price) %>
-                                                <td style="border-right:1px solid #e8e8e8">
-                                                    <%-itemCost%>
-                                                </td>
-                                                <%});%>
-                                    </tr>
-                                    <%});%>
-                            </tbody>
+                                <%});%>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <table>
+                <tr>
+                    <td style="width: 75%;">
+                        <table>
+                            <tr class="heading">
+                                <td>
+                                    Instruction
+                                </td>
+                            </tr>
+                            <tr class="details">
+                                <td style="border: 1px solid black; height:75px;">
+
+                                </td>
+                            </tr>
                         </table>
-                    </div>
-                    <div class="col-md-12 col-sm-12 lastSectionleft ">
-                        <div class="row">
-                            <div class="col-md-8 col-sm-6 Sectionleft">
-                                <p><i>Special Notes</i></p>
-                                <span><i></i> </span>
-                            </div>
-                            <div class="col-md-4 col-sm-6">
-                                <div class="panel panel-default">
-                                    <div class="panel-body lastPanel">
-                                        AMOUNT DUE
-                                    </div>
-                                    <div class="panel-footer lastFooter">
-                                        <div class="row">
-                                            <div class="col-md-5 col-sm-6 col-xs-6 panelLastLeft">
-                                                <p>SUBTOTAL</p>
-                                                <%if(eventObj.discount_amount && parseInt(eventObj.discount_amount) > 0) {%>
-                                                    <p>DISCOUNT</p>
-                                                    <%}%>
-                                                        <p></p>
-                                                        <p>TOTAL</p>
-                                            </div>
-                                            <div class="col-md-7 col-sm-6 col-xs-6 panelLastRight">
-                                                <p>
-                                                    <%-eventObj.gross_amount%>
-                                                </p>
-                                                <%if(eventObj.discount_amount && parseInt(eventObj.discount_amount) > 0) {%>
-                                                    <p>
-                                                        <%-eventObj.discount_amount%>
-                                                    </p>
-                                                    <%}%>
-                                                        <p></p>
-                                                        <p><strong><%-eventObj.total_amount%></strong></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    </td>
+                    <td align="right" style="width: 25%;">
+                        <table>
+                            <tr class="heading">
+                                <td>
+                                    Payment Info
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>SUBTOTAL</td>
+                                <td>
+                                    <%-eventObj.gross_amount%>
+                                </td>
+                            </tr>
+                            <%if(eventObj.discount_amount && parseInt(eventObj.discount_amount) > 0) {%>
+                                <tr>
+                                    <td>DISCOUNT</td>
+                                    <td>
+                                        <%-eventObj.discount_amount%>
+                                    </td>
+                                </tr>
+                                <%}%>
+                                    <tr>
+                                        <td>
+
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr style="background-color: #e7e7e7; border: 1px solid black">
+                                        <td>TOTAL</td>
+                                        <td>
+                                            <%-eventObj.total_amount%>
+                                        </td>
+                                    </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
     </div>
 </body>
 

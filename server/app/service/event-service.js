@@ -301,6 +301,8 @@ class EventService {
             console.log("item" + JSON.stringify(eventObject))
             let query = 'INSERT INTO `booking_items` (`items_code`, `quantity_booked`, `event_date_start`,  `event_date_end`, `events_code`)' +
                 'VALUES' + eventObject.sql
+
+            console.log("sql quer " + query);
             connection.query(query, function(err, results, fields) {
 
                 if (!err) {

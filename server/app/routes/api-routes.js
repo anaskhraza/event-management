@@ -5,6 +5,7 @@ let customerController = require('../controllers/customer-controller');
 let itemController = require('../controllers/item-controller');
 let eventController = require('../controllers/event-controller');
 let bodyParser = require('body-parser');
+var pdf = require('html-pdf');
 var _ = require('lodash');
 var moment = require('moment');
 var fs = require('fs');
@@ -313,13 +314,11 @@ router.post('/addEvent', function(req, res) {
             return eventController.addCustomerEventRelation(req.body, response4)
         })
         .then((response) => {
-
-            res.send({ status: "202", response: JSON.stringify(response) });
+            res.send({ status: "202", response: JSON.stringify(req.body.eventCode) });
         })
-
-    .catch((e) => {
-        res.send({ status: "501", response: "Error " + e });
-    })
+        .catch((e) => {
+            res.send({ status: "501", response: "Error " + e });
+        })
 });
 
 router.post('/addCategory', function(req, res) {
@@ -353,7 +352,7 @@ router.post('/savefile', function(req, res) {
     // });
     var options = { format: 'Letter' };
 
-    pdf.create(unescape(htmlBody), options).toFile('./businesscard.pdf', function(err, res) {
+    pdf.create(unescape(htmlBody), options).toFile('../../../invoices/' + eventCode + '.pdf', function(err, res) {
         if (err) return console.log(err);
         console.log(res); // { filename: '/app/businesscard.pdf' }
     });

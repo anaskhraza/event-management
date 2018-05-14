@@ -210,8 +210,11 @@
                                         <%itemCost = parseInt(item.quantity_booked) * parseInt(item.price) %>
                                             <td style="border-right:1px solid #e8e8e8">
                                                 <%if(eventObj.noOfGuests && parseInt(eventObj.noOfGuests) > 0) {%>
-                                                    <%-itemCost%>
-                                                        <%}%>
+                                                    <%itemCost = 0 %>
+                                                        <%-itemCost%>
+                                                            <%} else {%>
+                                                                <%-itemCost%>
+                                                                    <%}%>
                                             </td>
                                             <%});%>
                                 </tr>

@@ -27,11 +27,13 @@ export class CustomerInfoComponent implements OnInit {
   eventTimeEndValid = false;
   eventLocationValid = false;
   eventTitle = '';
+  
   eventAddress = '';
   eventCode = '';
   perHead = '';
   noOfGuests = '';
   discount = '';
+  amountPaid = '';
   netAmount = 0;
   totalCost: number = 0;
   eventPerHead = true;
@@ -45,6 +47,11 @@ export class CustomerInfoComponent implements OnInit {
   toggle: boolean = false;
 
   numberFormControl = new FormControl('', [
+    Validators.pattern("^[0-9]+$"),
+    Validators.required
+  ])
+
+  numberFormControl1 = new FormControl('', [
     Validators.pattern("^[0-9]+$"),
     Validators.required
   ])
@@ -75,6 +82,7 @@ export class CustomerInfoComponent implements OnInit {
       if (!noOfGuests) {
         this.eventDetails.noOfGuests = 0;
       }
+
       this.finance.totalCost = parseFloat(noOfGuests) * parseFloat(perHead);
     }
   }
@@ -104,10 +112,8 @@ export class CustomerInfoComponent implements OnInit {
   }
 
   getBalance(netAmount, advance){
-      var advanceAmount: string = "0";
-      if(advance){
-        advanceAmount = advance || 0;
-      }
+        var advanceAmount = advance ? advance :  0;
+
       this.finance.amountPaid = advanceAmount;
       this.finance.amountRemaining = parseFloat(netAmount) - parseFloat(advanceAmount);
     

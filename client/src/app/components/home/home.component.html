@@ -148,72 +148,70 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 contents" style="margin-top: 10px;">
-            <div *ngFor="let c of recentEvents;">
-                <div class="event_dashboard">
-                    <mat-card class="event_card">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <tbody>
-                                    <tr class="table-row" style="font-weight: 600; border-top: none;">
-                                        <td colspan="2" style="border-top: none;">
-                                            {{c.events_code}}
-                                        </td>
-                                    </tr>
-                                    <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
-                                        <td>
-                                            Event Name
-                                        </td>
-                                        <td>
-                                            {{c.event_name}}
-                                        </td>
-                                    </tr>
-                                    <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
-                                        <td>
-                                            Date Start
-                                        </td>
-                                        <td>
-                                            {{c.event_date_start}}
-                                        </td>
-                                    </tr>
-                                    <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
-                                        <td>
-                                            Total Amount
-                                        </td>
-                                        <td>
-                                            {{c.total_amount}}
-                                        </td>
-                                    </tr>
-                                    <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
-                                        <td>
-                                            Recieve Amount
-                                        </td>
-                                        <td>
-                                            {{c.recieved_amount}}
-                                        </td>
-                                    </tr>
-                                    <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
-                                        <td>
-                                            Amount Balance
-                                        </td>
-                                        <td>
-                                            {{c.amount_balance}}
-                                        </td>
-                                    </tr>
-                                    <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
-                                        <td>
-                                            <button mat-raised-button color="primary" (click)="goToNext(c.events_code)">Update</button>
+        <div class="col-md-4 contents" *ngFor="let c of recentEvents;" style="margin-top: 10px;">
+            <div class="event_dashboard">
+                <mat-card class="event_card">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tbody>
+                                <tr class="table-row" style="font-weight: 600; border-top: none;">
+                                    <td colspan="2" style="border-top: none;">
+                                        {{c.events_code}}
+                                    </td>
+                                </tr>
+                                <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
+                                    <td>
+                                        Event Name
+                                    </td>
+                                    <td>
+                                        {{c.event_name}}
+                                    </td>
+                                </tr>
+                                <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
+                                    <td>
+                                        Date Start
+                                    </td>
+                                    <td>
+                                        {{c.event_date_start}}
+                                    </td>
+                                </tr>
+                                <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
+                                    <td>
+                                        Total Amount
+                                    </td>
+                                    <td>
+                                        {{c.total_amount}}
+                                    </td>
+                                </tr>
+                                <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
+                                    <td>
+                                        Recieve Amount
+                                    </td>
+                                    <td>
+                                        {{c.recieved_amount}}
+                                    </td>
+                                </tr>
+                                <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
+                                    <td>
+                                        Amount Balance
+                                    </td>
+                                    <td>
+                                        {{c.amount_balance}}
+                                    </td>
+                                </tr>
+                                <tr class="table-row" style="font-weight: 300; border-top: 1px solid #e5e9ec">
+                                    <td>
+                                        <button mat-raised-button color="primary" (click)="goToNext(c.events_code)">Update</button>
 
-                                        </td>
-                                        <td>
-                                            <button mat-raised-button color="accent" (click)="openDialog(c.events_code, c.amount_balance)">RecieveAmount</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </mat-card>
-                </div>
+                                    </td>
+                                    <td>
+                                        <button mat-raised-button color="accent" (click)="openDialog(c.events_code, c.amount_balance)">RecieveAmount</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-card>
             </div>
         </div>
         <div class="col-md-12 contents" style="margin-top: 10px;">

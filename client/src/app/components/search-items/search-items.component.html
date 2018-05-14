@@ -73,6 +73,13 @@
                 <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> <button type="button" mat-raised-button color="primary" (click)="updateItem(itemSource)">Update Item</button> </mat-cell>
             </ng-container>
 
+            <ng-container matColumnDef="deleteitem">
+                <mat-header-cell *matHeaderCellDef class="customWidthClass3"> Delete Item </mat-header-cell>
+                <mat-cell *matCellDef="let itemSource" class="customWidthClass3">
+                    <button mat-raised-button (click)="openDialogDeleteItem(itemSource.items_code)" style="background-color:#C62828; color: #FFF">Delete</button>
+                </mat-cell>
+            </ng-container>
+
             <mat-header-row *matHeaderRowDef="displayedColumns "></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns; " (click)="selection.toggle(row) ">
             </mat-row>

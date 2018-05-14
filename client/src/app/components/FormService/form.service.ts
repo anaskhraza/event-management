@@ -147,11 +147,14 @@ export class FormService {
     console.log(JSON.stringify(data));
 
     var itemsArray = this.getItemsArray();
-
+    if(itemsArray) {
+      data = itemsArray
+    }
+    console.log("data   --  "  +  JSON.stringify(data) )
     var eventRequisiteObj: any = {};
     var parsedData: any;
     eventRequisiteObj.dates = this.getEventRequisites();
-
+    
     let startDate = '';
     let endDate = '';
     var datesSplit = eventRequisiteObj.hasOwnProperty("dates") &&  eventRequisiteObj.dates? eventRequisiteObj.dates.formatted.split(" - "): [];
@@ -159,14 +162,20 @@ export class FormService {
       startDate = datesSplit[0];
       endDate = datesSplit[1];
     }
+    if(itemsArray && itemsArray.length > 0) {
     parsedData = _.map(data, function (obj: any) {
-
-        obj["color"] = !!obj["color"] ? obj["color"].split(",") : [];
         return  _.extend(obj, eventRequisiteObj);
     });
-    if(itemsArray) {
-      parsedData = itemsArray
-    }
+  } else {
+    parsedData = _.map(data, function (obj: any) {
+
+      obj["color"] = !!obj["color"] ? obj["color"].split(",") : [];
+      return  _.extend(obj, eventRequisiteObj);
+  });
+  }
+    
+
+    console.log("eventRequisiteObj.dates " +  JSON.stringify(itemsArray))
 
     return parsedData;
   }
@@ -277,9 +286,9 @@ export class FormService {
       let dateSelected = '';
       if(eventObject.hasOwnProperty("items")) {
         let items = eventObject.items;
-
+        var count = 0;
         for(var i = 0; i< items.length; i++) {
-          var count = 0;
+          
           let selectedColor = '';
           let item = items[i];
           if(item.hasOwnProperty("checked") &&  item.checked){
@@ -452,16 +461,17 @@ export class FormService {
     let dateSelected = '';
     if(eventObject.hasOwnProperty("items")) {
       let items = eventObject.items;
-
+      var count = 0;
       for(var i = 0; i< items.length; i++) {
        
         let selectedColor = '';
         let item = items[i];
         console.log(i + " dd" + item);
         if(item.checked) {
-        if(i != 0) {
+        if(count != 0) {
         sql += ','
         }
+        count = count + 1;
         if(item.hasOwnProperty("formatted")){
           dateSelected = item.formatted.split(" - ");
         } else{
@@ -564,7 +574,9 @@ export class FormService {
   //   const blob = new Blob([bodyHtml], { type: 'text/plain' });
   //   saveAs(blob, filename);
   // }
-
+clear() {
+  this.formData.clear();
+}
 splitIntoSubArray(arr, count) {
     var newArray = [];
     while (arr.length > 0) {

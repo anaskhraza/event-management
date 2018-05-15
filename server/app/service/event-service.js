@@ -73,6 +73,40 @@ class EventService {
 
         });
     }
+
+    createTarget(postData) {
+        return new Promise(function(resolve, reject) {
+
+            let query = 'Insert into projected_revenue (Month, Target, Year) Values ("' + postData.month + '" , "' + postData.target + '", "' + postData.year + '")';
+
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+
+        });
+    }
+
+    deleteTarget(obj) {
+        return new Promise(function(resolve, reject) {
+
+            let query = 'Delete from projected_revenue where month = "' + obj.month + '" And year = "' + obj.year + '"';
+
+            console.log(" query   --------   " + query);
+
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+
+        });
+    }
     deleteCompleteEvent(eventCode) {
 
         return new Promise(function(resolve, reject) {
@@ -169,6 +203,20 @@ class EventService {
     getMontlyTargetSales(month) {
         return new Promise(function(resolve, reject) {
             let query = 'SELECT DATE_FORMAT(`date_created`,"%M") AS month, SUM(`total_amount`) AS amount FROM cost_booking where YEAR(date_created)= "' + month + '"  GROUP BY month';
+            connection.query(query, function(err, results, fields) {
+                if (!err) {
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+
+        });
+    }
+
+    getTargets() {
+        return new Promise(function(resolve, reject) {
+            let query = 'Select * from projected_revenue';
             connection.query(query, function(err, results, fields) {
                 if (!err) {
                     resolve(results);

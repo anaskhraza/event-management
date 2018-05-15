@@ -206,6 +206,37 @@ router.get('/monthlysalestarget/:id', function(req, res) {
         })
 });
 
+router.get('/targets', function(req, res) {
+
+    eventController.getTargets().then((response) => {
+        res.json(response);
+    });
+});
+
+router.post('/deletetarget', function(req, res) {
+    eventController
+        .deleteTarget(req.body)
+        .then((response) => {
+            res.send({ status: "202", response: JSON.stringify(response) });
+        })
+        .catch((e) => {
+            res.send({ status: "501", response: "Error " + e });
+        })
+});
+
+
+router.post('/createtarget', function(req, res) {
+    eventController
+        .createTarget(req.body)
+        .then((response) => {
+            res.send({ status: "202", response: JSON.stringify(response) });
+        })
+        .catch((e) => {
+            res.send({ status: "501", response: "Error " + e });
+        })
+});
+
+
 router.get('/bookingitems', function(req, res) {
     let id = req.param('id');
     eventController.getBookingItems().then((response) => {

@@ -1,0 +1,33 @@
+<div class="body">
+
+
+    <div class="row">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Year" [(ngModel)]="monthlyTarget.year" value="">
+        </mat-form-field>
+    </div>
+
+    <div class="row">
+        <mat-form-field>
+            <mat-select placeholder="Select Month" [(ngModel)]="monthlyTarget.month">
+                <mat-option *ngFor="let month of monthArray" [value]="month">
+                    {{ month}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="row">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Target" [(ngModel)]="monthlyTarget.target" value="">
+
+        </mat-form-field>
+    </div>
+
+    <div class="row">
+        <div class="align-center btn-custom col-md-12 btn-color-1">
+            <button type="button" mat-raised-button color="primary" (click)="saveItem()">Save</button>
+        </div>
+    </div>
+
+</div>

@@ -13,16 +13,15 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { CommonService } from '../../common.service';
 import { Router } from '@angular/router';
 
-
 @Component({
-  selector: 'app-search-items',
-  templateUrl: './search-items.component.html',
-  styleUrls: ['./search-items.component.css']
+  selector: 'app-search-monthly-target',
+  templateUrl: './search-monthly-target.component.html',
+  styleUrls: ['./search-monthly-target.component.css']
 })
-export class SearchItemsComponent implements OnInit{
-  
+export class SearchMonthlyTargetComponent implements OnInit {
+
   isLoadingResults = false;
-  displayedColumns = ['id', 'sku', 'name',  'unitprice', 'category', 'quantity', 'color', 'update', 'deleteitem'];
+  displayedColumns = ['month', 'target', 'year', 'deletetarget'];
   dataSource: MatTableDataSource<ItemData>;
   list = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -31,17 +30,11 @@ export class SearchItemsComponent implements OnInit{
   constructor(public dialog: MatDialog, private formDataService: FormService, private commonService: CommonService, private router: Router) {
   }
   itemSource: any = [];
-  categories:any;
-  categoryArray: any;
 
   ngOnInit(){
     this.refresh();
-    this.commonService.getItemCategories().subscribe(res => {
-      this.categories = res;
-      this.categoryArray = res;
-      this.categoryArray = this.categoryArray.slice(1);
-    });
   }
+
   refreshTable() {
     this.isLoadingResults = true;
    setTimeout(() => {
@@ -49,64 +42,36 @@ export class SearchItemsComponent implements OnInit{
     this.refresh();
     }, 1000);
   }
-  
-  filterChange(filter) {
-    this.applyFilter(filter);
-  }
 
   refresh() {
-    var itemsArray = this.formDataService.getItemsArray();
-    this.commonService.getItems().subscribe(res => {
+    this.commonService.getTargets().subscribe(res => {
       this.itemSource = this.formDataService.parseItemsResponse(res, null, null);
       this.dataSource = new MatTableDataSource(this.itemSource);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     });
   }
-
-  goToNext() {
-    this.formDataService.setItemArray(this.itemSource);
-    this.router.navigateByUrl('/searchItems/addItem');
-  }
-
-  goToCategory() {
-    this.router.navigateByUrl('/searchItems/addCategory');
-  }
-
-  getAllItems(){
-    var res= '';
-		// this.commonService.getItems().subscribe(res =>{
-		//  console.log(res);
-		// })
-  }
-  
-  openDialogDeleteItem(itemCode) {
+  openDialogDeleteItem(year, month) {
     let dialogRef = this.dialog.open(dialogDeleteItem, {
       width: '250px',
-      data: { name: itemCode, action: "delete"}
+      data: { name: year + "  " + month, action: "delete"}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result == "delete") {
       console.log('The dialog was closed' + result);
-      this.commonService.deleteItem(itemCode);
+      this.commonService.deleteTarget({year: year, month: month});
       }
     });
 }
-  
-
-
+  goToNext() {
+    this.router.navigateByUrl('/searchMonthlyTarget/addMonthlyTarget');
+  }
   applyFilter(filterValue: string) {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
     this.dataSource.filter = filterValue;
   }
-
-  updateItem(itemObject){
-    this.formDataService.setTempItemObjectInstace(itemObject);
-    this.router.navigateByUrl('/searchItems/updateItem/'+itemObject.items_code);
-  }
-
 }
 
 @Component({
@@ -124,11 +89,9 @@ export class dialogDeleteItem {
     this.dialogRef.close();
   }
 }
-
 export interface ItemData {
   id: string;
   name: string;
   quantity: string;
   color: string;
 }
-

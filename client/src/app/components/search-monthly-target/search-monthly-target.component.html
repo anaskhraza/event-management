@@ -1,0 +1,60 @@
+<div class="body">
+    <div class="example-header">
+        <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+        </mat-form-field>
+    </div>
+    <div class="custom-table">
+        <button type="button" style="width:50px; height: 50px; background-color: transparent; border:none;" (click)="refreshTable()"><i style="color:#673ab7" class="fa fa-refresh fa-2x"></i></button>
+        <div class="head-table example-container mat-elevation-z8">
+
+            <div class="example-loading-shade" *ngIf="isLoadingResults">
+                <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+            </div>
+        </div>
+        <div class="example-container mat-elevation-z8">
+
+            <mat-table [dataSource]="dataSource" matSort>
+
+
+                <ng-container matColumnDef="month">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass2 ">
+                        Month
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> {{itemSource.Month}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="target">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass1"> Target </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
+                        {{itemSource.Target}}
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="year">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass3 "> Year </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource " class="customWidthClass3 "> {{itemSource.Year}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="deletetarget">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass3"> Delete Item </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource" class="customWidthClass3">
+                        <button mat-raised-button (click)="openDialogDeleteItem(itemSource.Year, itemSource.Month)" style="background-color:#C62828; color: #FFF">Delete</button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns "></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns; " (click)="selection.toggle(row) ">
+                </mat-row>
+            </mat-table>
+
+            <mat-paginator [pageSizeOptions]="[25, 75, 100] "></mat-paginator>
+        </div>
+    </div>
+    <div class="row">
+        <div class="align-center btn-custom col-md-12 btn-color-1">
+            <button type="button" mat-raised-button color="primary" (click)="goToNext()">Add Monthly Target</button>
+        </div>
+    </div>
+</div>

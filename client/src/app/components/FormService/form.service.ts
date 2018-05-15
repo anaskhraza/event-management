@@ -164,6 +164,8 @@ export class FormService {
     }
     if(itemsArray && itemsArray.length > 0) {
     parsedData = _.map(data, function (obj: any) {
+        obj["checked"] = false;
+        obj["quantityOrdered"] = '';
         return  _.extend(obj, eventRequisiteObj);
     });
   } else {

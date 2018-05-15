@@ -107,6 +107,21 @@ class EventController extends BaseController {
         return itemPromise;
     }
 
+    createTarget(postData) {
+        let itemPromise = EventService.createTarget(postData);
+        return itemPromise;
+    }
+
+    deleteTarget(postData) {
+        let itemPromise = EventService.deleteTarget(postData);
+        return itemPromise;
+    }
+
+    getTargets() {
+        let itemPromise = EventService.getTargets();
+        return itemPromise;
+    }
+
     getMonthlyTargets(year) {
         let itemPromise = EventService.getMonthlyTargets(year);
         return itemPromise;

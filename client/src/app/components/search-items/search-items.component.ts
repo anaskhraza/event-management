@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./search-items.component.css']
 })
 export class SearchItemsComponent implements OnInit{
-  
+  selectedcategory = '';
   isLoadingResults = false;
   displayedColumns = ['id', 'sku', 'name',  'unitprice', 'category', 'quantity', 'color', 'update', 'deleteitem'];
   dataSource: MatTableDataSource<ItemData>;

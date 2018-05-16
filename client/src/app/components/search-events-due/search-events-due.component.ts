@@ -48,8 +48,7 @@ export class SearchEventsDueComponent implements OnInit {
     
   }
 
-  goToNext(eventCode) {
-    console.log("eventCOde "+ eventCode);
+  goToNext() {
     this.router.navigateByUrl('/createEvent');
   }
 

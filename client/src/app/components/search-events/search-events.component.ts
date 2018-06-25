@@ -20,7 +20,7 @@ import { Router } from '@angular/router';
 })
 export class SearchEventsComponent implements OnInit {
 
-  displayedColumns = ['eventcode', 'eventdatestart', 'eventdateend', 'totalamount', 'amountremaining', 'updatebtn', 'chargebilling', 'deleteevent'];
+  displayedColumns = ['eventcode', 'name', 'number','eventdatestart', 'eventdateend', 'totalamount', 'amountremaining', 'updatebtn', 'chargebilling', 'deleteevent'];
   dataSource: MatTableDataSource<ItemData>;
   list = [];
   @ViewChild(MatPaginator) paginator: MatPaginator;

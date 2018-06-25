@@ -26,6 +26,7 @@ export class EventDetailsComponent implements OnInit {
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
+  selectedItemText = "";
 
 
   itemSource: any = [];
@@ -122,6 +123,22 @@ export class EventDetailsComponent implements OnInit {
       itemSource.quantityOrdered = 0;
     } else if (!itemSource.quantityOrdered || itemSource.quantityOrdered == 0) {
       itemSource.quantityOrdered = 1;
+    }
+
+    if(this.selectedItemText) {
+      var itemsArray = this.selectedItemText.split(",");
+      console.log(itemsArray);
+      console.log(itemSource.name);
+      console.log(itemsArray.indexOf(itemSource.name) > -1);
+      if(itemsArray.indexOf(itemSource.name) > -1) {
+        var index = itemsArray.indexOf(itemSource.name);
+        itemsArray.splice(index,1);
+        this.selectedItemText = itemsArray.toString();
+      } else {
+        this.selectedItemText = this.selectedItemText + "," + itemSource.name; 
+      }
+    } else {
+      this.selectedItemText = itemSource.name;
     }
 
   }

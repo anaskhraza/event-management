@@ -18,7 +18,7 @@
 
         <mat-table [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="select">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass1">
+                <mat-header-cell *matHeaderCellDef class="customWidthClass1" mat-sort-header>
                     Select
                 </mat-header-cell>
                 <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
@@ -99,7 +99,7 @@
             </mat-row>
         </mat-table>
 
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100] "></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[50, 75, 100] "></mat-paginator>
     </div>
 
     <div class="row">
@@ -107,5 +107,17 @@
             <button type="button" mat-raised-button color="primary" (click)="goToNext()">Event Details</button>
         </div>
     </div>
+
+</div>
+
+<div>
+    <ng-container>
+        <mat-header-cell *matHeaderCellDef class="customWidthClass1"> Selected Item Tect </mat-header-cell>
+
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Item" value="" [(ngModel)]="selectedItemText">
+        </mat-form-field>
+
+    </ng-container>
 
 </div>

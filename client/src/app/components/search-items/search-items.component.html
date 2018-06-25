@@ -13,79 +13,87 @@
             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
         </mat-form-field>
     </div>
+    <div class="custom-table">
+        <button type="button" style="width:50px; height: 50px; background-color: transparent; border:none;" (click)="refreshTable()"><i style="color:#673ab7" class="fa fa-refresh fa-2x"></i></button>
+        <div class="head-table example-container mat-elevation-z8">
 
-    <div class="example-container mat-elevation-z8">
+            <div class="example-loading-shade" *ngIf="isLoadingResults">
+                <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+            </div>
+        </div>
+        <div class="example-container mat-elevation-z8">
 
-        <mat-table [dataSource]="dataSource" matSort>
+            <mat-table [dataSource]="dataSource" matSort>
 
-            <!-- Position Column -->
-            <ng-container matColumnDef="id">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass5"></mat-header-cell>
-                <mat-cell *matCellDef="let itemSource" [ngStyle]="{'background-color': itemSource.quantity <= 4? 'green' : 'red'}" class="customWidthClass5 example-full-width" matTooltip="{{itemSource.quantity}}">
-                    <span>&nbsp;</span>
-                </mat-cell>
-            </ng-container>
+                <!-- Position Column -->
+                <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass5"></mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource" [ngStyle]="{'background-color': itemSource.quantity <= 4? 'red' : 'green'}" class="customWidthClass5 example-full-width" matTooltip="{{itemSource.quantity}}">
+                        <span>&nbsp;</span>
+                    </mat-cell>
+                </ng-container>
 
-            <ng-container matColumnDef="sku">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass2 ">
-                    SKU
-                </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> {{itemSource.items_code}} </mat-cell>
-            </ng-container>
+                <ng-container matColumnDef="sku">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass2 ">
+                        SKU
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> {{itemSource.items_code}} </mat-cell>
+                </ng-container>
 
-            <ng-container matColumnDef="unitprice">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass1"> Unit Price </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
-                    {{itemSource.price}}
-                </mat-cell>
-            </ng-container>
+                <ng-container matColumnDef="unitprice">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass1"> Unit Price </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
+                        {{itemSource.price}}
+                    </mat-cell>
+                </ng-container>
 
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass3 "> Name </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource " class="customWidthClass3 "> {{itemSource.name}} </mat-cell>
-            </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass3 "> Name </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource " class="customWidthClass3 "> {{itemSource.name}} </mat-cell>
+                </ng-container>
 
-            <!-- Name Column -->
-            <ng-container matColumnDef="category">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass2 "> Category </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> {{itemSource.category}} </mat-cell>
-            </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="category">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass2 "> Category </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> {{itemSource.category}} </mat-cell>
+                </ng-container>
 
-            <ng-container matColumnDef="quantity">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass2 ">
-                    Quantity
-                </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> {{itemSource.quantity}} </mat-cell>
-            </ng-container>
+                <ng-container matColumnDef="quantity">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass2 ">
+                        Quantity
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> {{itemSource.quantity}} </mat-cell>
+                </ng-container>
 
-            <ng-container matColumnDef="color">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass2 ">
-                    Color
-                </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> {{itemSource.color}} </mat-cell>
-            </ng-container>
+                <ng-container matColumnDef="color">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass2 ">
+                        Color
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> {{itemSource.color}} </mat-cell>
+                </ng-container>
 
-            <ng-container matColumnDef="update">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass2 ">
-                    Update
-                </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> <button type="button" mat-raised-button color="primary" (click)="updateItem(itemSource)">Update Item</button> </mat-cell>
-            </ng-container>
+                <ng-container matColumnDef="update">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass2 ">
+                        Update
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource " class="customWidthClass2 "> <button type="button" mat-raised-button color="primary" (click)="updateItem(itemSource)">Update Item</button> </mat-cell>
+                </ng-container>
 
-            <ng-container matColumnDef="deleteitem">
-                <mat-header-cell *matHeaderCellDef class="customWidthClass3"> Delete Item </mat-header-cell>
-                <mat-cell *matCellDef="let itemSource" class="customWidthClass3">
-                    <button mat-raised-button (click)="openDialogDeleteItem(itemSource.items_code)" style="background-color:#C62828; color: #FFF">Delete</button>
-                </mat-cell>
-            </ng-container>
+                <ng-container matColumnDef="deleteitem">
+                    <mat-header-cell *matHeaderCellDef class="customWidthClass3"> Delete Item </mat-header-cell>
+                    <mat-cell *matCellDef="let itemSource" class="customWidthClass3">
+                        <button mat-raised-button (click)="openDialogDeleteItem(itemSource.items_code)" style="background-color:#C62828; color: #FFF">Delete</button>
+                    </mat-cell>
+                </ng-container>
 
-            <mat-header-row *matHeaderRowDef="displayedColumns "></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns; " (click)="selection.toggle(row) ">
-            </mat-row>
-        </mat-table>
+                <mat-header-row *matHeaderRowDef="displayedColumns "></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns; " (click)="selection.toggle(row) ">
+                </mat-row>
+            </mat-table>
 
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100] "></mat-paginator>
+            <mat-paginator [pageSizeOptions]="[50, 75, 100] "></mat-paginator>
+        </div>
     </div>
 
     <div class="row">

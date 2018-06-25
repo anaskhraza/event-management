@@ -1,0 +1,59 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.example-header {
+    min-height: 64px;
+    padding: 8px 24px 0;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+
+.mat-table {
+    overflow: auto;
+    max-height: 500px;
+}
+
+.datepicker {
+    overflow: unset !important;
+}
+
+.align-center {
+    align-content: center;
+    text-align: center;
+}
+
+.date-picker {
+    padding-top: 2em;
+}
+
+.mat-header-row,
+.mat-row {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px !important;
+    padding-right: 0px;
+}
+
+.example-full-width {
+    width: 100% !important;
+}
+
+.customWidthClass1 {
+    flex: 0 0 100px !important;
+    text-align: center;
+}
+
+.customWidthClass3 {
+    flex: 0 0 250px !important;
+    text-align: center;
+}
+
+.customWidthClass2 {
+    flex: 0 0 250px !important;
+    text-align: center;
+}

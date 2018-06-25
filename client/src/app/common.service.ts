@@ -219,6 +219,38 @@ export class CommonService {
 		return this.http.get('/api/events',{})
 	}
 
+	createTarget(postData) {
+		console.log(postData);
+		const myheader = new HttpHeaders().set('Content-Type', 'application/json')
+		this.http.post('/api/createtarget',
+		postData, {
+            headers: myheader
+          })
+          .subscribe(data => {
+                alert(JSON.stringify(data));
+          }, error => {
+              console.log(JSON.stringify(error.json()));
+          });
+	}
+
+	deleteTarget(postData) {
+		console.log(postData);
+		const myheader = new HttpHeaders().set('Content-Type', 'application/json')
+		this.http.post('/api/deletetarget',
+		postData, {
+            headers: myheader
+          })
+          .subscribe(data => {
+                alert(JSON.stringify(data));
+          }, error => {
+              console.log(JSON.stringify(error.json()));
+          });
+	}
+
+	getTargets() {
+		return this.http.get('/api/targets',{})
+	}
+
 	getEventswithAMountDue() {
 		return this.http.get('/api/amountdueevents',{})
 	}

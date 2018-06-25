@@ -34,6 +34,10 @@ export const router: Routes = [
     {
       path: 'searchItems',
       loadChildren: 'app/components/search-items/search-items.module#SearchItemsModule',
+    },
+    {
+      path: 'searchMonthlyTarget',
+      loadChildren: 'app/components/search-monthly-target/search-monthly-target.module#SearchMonthlyTargetModule',
     }
 ];
 

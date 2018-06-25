@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.7.20)
 # Database: event_management
-# Generation Time: 2018-05-01 12:33:02 +0000
+# Generation Time: 2018-06-25 15:20:17 +0000
 # ************************************************************
 
 
@@ -29,8 +29,8 @@ CREATE TABLE `booking_items` (
   `events_code` int(11) NOT NULL,
   `items_code` varchar(150) NOT NULL,
   `quantity_booked` int(11) NOT NULL,
-  `event_date_start` date NOT NULL,
-  `event_date_end` date NOT NULL,
+  `event_date_start` datetime NOT NULL,
+  `event_date_end` datetime NOT NULL,
   `selectedColor` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`events_code`,`items_code`),
   KEY `items_code` (`items_code`),
@@ -43,11 +43,15 @@ LOCK TABLES `booking_items` WRITE;
 
 INSERT INTO `booking_items` (`events_code`, `items_code`, `quantity_booked`, `event_date_start`, `event_date_end`, `selectedColor`)
 VALUES
-	(10000037,'TNT_10001',1,'2018-04-19','2018-04-20',NULL),
-	(10000037,'TNT_10002',1,'2018-04-19','2018-04-20',NULL),
-	(10000037,'TNT_10003',3,'2018-04-19','2018-04-20',NULL),
-	(10000038,'TNT_10001',1,'2018-04-19','2018-04-20',NULL),
-	(10000038,'TNT_10002',1,'2018-04-19','2018-04-20',NULL);
+	(10000052,'CH_1003',1,'2018-05-16 00:00:00','2018-05-17 00:00:00',NULL),
+	(10000052,'ddlml_ss3',1,'2018-05-16 00:00:00','2018-05-17 00:00:00',NULL),
+	(10000054,'CH_1003',1,'2018-05-15 00:00:00','2018-05-16 00:00:00',NULL),
+	(10000055,'CH_1003',35,'2018-05-16 00:00:00','2018-05-17 00:00:00',NULL),
+	(10000055,'ddlml_ss3',1,'2018-05-16 00:00:00','2018-05-17 00:00:00',NULL),
+	(10000055,'ojojos-knkn',1,'2018-05-16 00:00:00','2018-05-17 00:00:00',NULL),
+	(10000055,'TNT_10001',1,'2018-05-16 00:00:00','2018-05-17 00:00:00',NULL),
+	(10000055,'TNT_10002',1,'2018-05-16 00:00:00','2018-05-17 00:00:00',NULL),
+	(10000055,'TNT_10003',1,'2018-05-16 00:00:00','2018-05-17 00:00:00',NULL);
 
 /*!40000 ALTER TABLE `booking_items` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -67,8 +71,8 @@ CREATE TABLE `cost_booking` (
   `amount_balance` double NOT NULL,
   `recieved_amount` double NOT NULL,
   `recieved` tinyint(1) NOT NULL,
-  `perHeadCost` int(11) DEFAULT NULL,
-  `noOfGuests` int(11) DEFAULT NULL,
+  `perHeadCost` varchar(11) DEFAULT NULL,
+  `noOfGuests` varchar(11) DEFAULT NULL,
   PRIMARY KEY (`events_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -77,8 +81,16 @@ LOCK TABLES `cost_booking` WRITE;
 
 INSERT INTO `cost_booking` (`events_code`, `gross_amount`, `discount_amount`, `total_amount`, `date_created`, `amount_balance`, `recieved_amount`, `recieved`, `perHeadCost`, `noOfGuests`)
 VALUES
-	(10000037,3100,200,2900,'2018-04-05 23:27:10',2730,170,0,0,0),
-	(10000038,1900,0,1900,'2018-04-05 23:30:09',0,1900,0,0,0);
+	(10000039,1900,0,1900,'2018-05-01 23:30:09',0,1900,1,'0','0'),
+	(10000040,1900,0,1900,'2018-05-01 23:30:09',0,1900,0,'0','0'),
+	(10000041,8700,200,0,'2018-05-05 16:57:46',0,0,0,NULL,NULL),
+	(10000042,17546,200,17346,'2018-05-05 16:58:48',17346,0,0,NULL,NULL),
+	(10000045,23,0,23,'2018-05-13 16:41:49',0,23,1,NULL,NULL),
+	(10000046,23,0,23,'2018-05-13 16:46:29',23,0,0,NULL,NULL),
+	(10000047,23,0,23,'2018-05-13 16:53:34',23,0,0,NULL,NULL),
+	(10000052,2524,0,2524,'2018-05-13 19:37:15',2274,250,0,NULL,NULL),
+	(10000054,600,0,600,'2018-05-13 20:20:42',577,23,0,'25','24'),
+	(10000055,83564,355,83209,'2018-05-15 00:46:56',11660,71549,0,'0','0');
 
 /*!40000 ALTER TABLE `cost_booking` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -93,7 +105,7 @@ CREATE TABLE `customer` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
   `email` varchar(80) DEFAULT NULL,
-  `number` int(11) DEFAULT NULL,
+  `number` int(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -104,7 +116,16 @@ INSERT INTO `customer` (`id`, `name`, `email`, `number`)
 VALUES
 	(1,'sknsk','knkn@knkn.com',872872872),
 	(2,'fkjfjm','jdkdkn@knkn.com',278278222),
-	(3,'slslm','',9090909);
+	(3,'slslm','',9090909),
+	(4,'maju','',0),
+	(5,'dkndknaknak','bilal@gmail.com',20002333),
+	(6,'kdndkndkn','kndkn@kk',868687989),
+	(7,'Bilala','',30042482),
+	(8,'ANas','',30044245),
+	(9,'Anas','',3004558),
+	(10,'Anas','',300455333),
+	(11,'ANas','',2333222),
+	(12,'ansknk','',223232332);
 
 /*!40000 ALTER TABLE `customer` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -127,8 +148,8 @@ LOCK TABLES `customer_booking` WRITE;
 
 INSERT INTO `customer_booking` (`id`, `events_code`, `customer_id`)
 VALUES
-	(1,10000037,1),
-	(2,10000038,1);
+	(10,10000054,8),
+	(14,10000055,12);
 
 /*!40000 ALTER TABLE `customer_booking` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -143,8 +164,8 @@ CREATE TABLE `event_booking` (
   `S.No` int(11) NOT NULL AUTO_INCREMENT,
   `events_code` int(11) NOT NULL,
   `event_name` varchar(200) NOT NULL,
-  `event_date_start` date NOT NULL,
-  `event_date_end` date NOT NULL,
+  `event_date_start` datetime NOT NULL,
+  `event_date_end` datetime NOT NULL,
   `booking_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `location` varchar(250) NOT NULL,
   `event_date_time` time DEFAULT NULL,
@@ -158,8 +179,15 @@ LOCK TABLES `event_booking` WRITE;
 
 INSERT INTO `event_booking` (`S.No`, `events_code`, `event_name`, `event_date_start`, `event_date_end`, `booking_date`, `location`, `event_date_time`)
 VALUES
-	(31,10000037,'knsknk','2018-04-20','2018-04-21','2018-04-05 23:27:10','knknkn',NULL),
-	(32,10000038,'knknk','2018-04-20','2018-04-21','2018-04-05 23:30:09','knknkn',NULL);
+	(33,10000039,'knknk','2018-05-05 00:00:00','2018-05-08 00:00:00','2018-05-01 23:30:09','knknkn',NULL),
+	(34,10000040,'knknks','2018-05-05 00:00:00','2018-05-08 00:00:00','2018-05-01 23:30:09','knknknss',NULL),
+	(35,10000041,'barat','2018-05-03 00:00:00','2018-05-08 00:00:00','2018-05-05 16:57:46','maju',NULL),
+	(39,10000045,'sskmksmk','2018-05-16 00:00:00','2018-05-17 00:00:00','2018-05-13 16:41:49','dojlmlmdlmf',NULL),
+	(40,10000046,'dojlmlmdlmf','2018-05-16 00:00:00','2018-05-17 00:00:00','2018-05-13 16:46:29','dojlmlmdlmf',NULL),
+	(41,10000047,'kdkdkd','2018-05-16 00:00:00','2018-05-17 00:00:00','2018-05-13 16:53:34','dndkndknd',NULL),
+	(46,10000052,'anas','2018-05-16 00:00:00','2018-05-17 00:00:00','2018-05-13 19:37:15','pioneer',NULL),
+	(48,10000054,'Anas','2018-05-16 00:00:00','2018-05-17 00:00:00','2018-05-13 20:20:42','Anas',NULL),
+	(52,10000055,'lmslmlm','2018-05-17 00:00:00','2018-05-18 00:00:00','2018-05-15 00:46:56','lmlmlmllk',NULL);
 
 /*!40000 ALTER TABLE `event_booking` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -187,8 +215,9 @@ LOCK TABLES `Items` WRITE;
 
 INSERT INTO `Items` (`items_code`, `name`, `quantity`, `allow_back_order`, `price`, `package`, `color`, `category`)
 VALUES
-	('CH_10004','Curved Chair',12,0,123,NULL,'Green, Blue','Chair'),
-	('CH_1003','Standard Chair',25,0,2332,NULL,'Red, Brown, Green, Blue','Chair'),
+	('CH_1003','Standard Chair',25,0,2332,NULL,'Red, Brown, Green, Blue, Purple','Chair'),
+	('ddlml_ss3','aass',23,0,23,NULL,'',''),
+	('ojojos-knkn','joj-sosojo',12,0,21,NULL,'','Chair'),
 	('TNT_10001','Tent',20,1,700,NULL,'Blue, Green, White','Tent'),
 	('TNT_10002','Banquet Style Tent',4,0,1200,NULL,'Blue, Pink, Green','Tent'),
 	('TNT_10003','SImple Tent',15,0,400,NULL,NULL,NULL);
@@ -223,18 +252,28 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table projectedRevenue
+# Dump of table projected_revenue
 # ------------------------------------------------------------
 
-DROP TABLE IF EXISTS `projectedRevenue`;
+DROP TABLE IF EXISTS `projected_revenue`;
 
-CREATE TABLE `projectedRevenue` (
+CREATE TABLE `projected_revenue` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `Month` varchar(11) DEFAULT NULL,
   `Target` int(11) DEFAULT NULL,
+  `Year` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+LOCK TABLES `projected_revenue` WRITE;
+/*!40000 ALTER TABLE `projected_revenue` DISABLE KEYS */;
+
+INSERT INTO `projected_revenue` (`id`, `Month`, `Target`, `Year`)
+VALUES
+	(2,'June',20000,2018);
+
+/*!40000 ALTER TABLE `projected_revenue` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 

@@ -1,0 +1,118 @@
+.btn-default {
+    border-color: #ccc;
+}
+
+.tab-content .choice {
+    text-align: center;
+    cursor: pointer;
+    margin-top: 38px;
+}
+
+.tab-content .choice i {
+    font-size: 32px;
+    line-height: 55px;
+}
+
+.custom-table {
+    border: 1px solid #BFBFBF;
+    background-color: white;
+    box-shadow: 10px 10px 5px #aaaaaa;
+}
+
+.example-loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 56px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-radio {
+    width: 100%;
+}
+
+.img-radio {
+    opacity: 0.8;
+    margin-bottom: 5px;
+}
+
+.space-20 {
+    margin-top: 20px;
+}
+
+
+/* active buttons */
+
+#status-buttons a.active span.round-tabs.one {
+    background: rgb(34, 194, 34);
+    color: #fff
+}
+
+#status-buttons a.active span.round-tabs.two {
+    background: #febe29;
+    color: #fff
+}
+
+#status-buttons a.active span.round-tabs.three {
+    background: #3e5e9a;
+    color: #fff
+}
+
+#status-buttons a.active span.round-tabs.four {
+    background: #f1685e;
+    color: #fff
+}
+
+.iradio_buttons {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    width: 22px;
+    height: 22px;
+    background: #febe29 no-repeat;
+    border: none;
+    cursor: pointer;
+}
+
+.iradio_buttons {
+    background-position: -120px 0;
+}
+
+.iradio_buttons.hover {
+    background-position: -144px 0;
+}
+
+.iradio_buttons.checked {
+    background-position: -168px 0;
+}
+
+body {
+    margin-top: 65px;
+}
+
+.headings {
+    height: 40px;
+    margin-top: 20px;
+    color: #3f51b5;
+    font-size: 40px;
+    font-family: sans-serif;
+    font-weight: 600;
+    border-bottom: 1px solid #e7e7e7;
+    text-align: center;
+}
+
+.contents {
+    margin-top: 20px;
+}
+
+.notice {
+    font-size: 15px;
+    font-family: sans-serif;
+}

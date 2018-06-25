@@ -220,6 +220,7 @@ export class FormService {
   getTotalCostOnUpdate(data: any) {
     var totalCost = 0;
     var itemsArray = data;
+    console.log("itemsArray" + JSON.stringify(itemsArray));
     var checkItemArray = _.where(itemsArray, { "checked": true });
     _.map(checkItemArray, function (checkItem: any) {
       if (checkItem.cost) {

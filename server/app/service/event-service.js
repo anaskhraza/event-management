@@ -327,7 +327,7 @@ class EventService {
 
     getEvents() {
         return new Promise(function(resolve, reject) {
-            let query = 'SELECT event_booking.events_code, event_booking.event_date_start, event_booking.event_date_end, cost_booking.gross_amount, cost_booking.discount_amount, cost_booking.total_amount, cost_booking.amount_balance, cost_booking.recieved_amount, customer.name, customer.number FROM `event_booking` LEFT JOIN  `cost_booking` ON event_booking.events_code = cost_booking.events_code INNER JOIN `customer_booking` ON event_booking.events_code = customer_booking.events_code INNER JOIN `customer` ON customer_booking.customer_id = customer.id ORDER BY event_booking.event_date_start';
+            let query = 'SELECT event_booking.events_code, event_booking.event_date_start, event_booking.event_date_end, cost_booking.gross_amount, cost_booking.discount_amount, cost_booking.total_amount, cost_booking.amount_balance, cost_booking.recieved_amount, customer.name, customer.number FROM `event_booking` LEFT JOIN  `cost_booking` ON event_booking.events_code = cost_booking.events_code INNER JOIN `customer_booking` ON event_booking.events_code = customer_booking.events_code INNER JOIN `customer` ON customer_booking.customer_id = customer.id ORDER BY event_booking.event_date_start DESC';
 
             connection.query(query, function(err, results, fields) {
                 if (!err) {
@@ -344,7 +344,7 @@ class EventService {
 
     getAmountDueEvents() {
         return new Promise(function(resolve, reject) {
-            let query = 'SELECT event_booking.events_code, event_booking.event_date_start, event_booking.event_date_end, cost_booking.gross_amount, cost_booking.discount_amount, cost_booking.total_amount, cost_booking.amount_balance, cost_booking.recieved_amount FROM `event_booking` LEFT JOIN  `cost_booking` ON event_booking.events_code = cost_booking.events_code INNER JOIN `customer_booking` ON event_booking.events_code = customer_booking.events_code INNER JOIN `customer` ON customer_booking.customer_id = customer.id Where cost_booking.`amount_balance` > 0 ORDER BY event_booking.event_date_start';
+            let query = 'SELECT event_booking.events_code, event_booking.event_date_start, event_booking.event_date_end, cost_booking.gross_amount, cost_booking.discount_amount, cost_booking.total_amount, cost_booking.amount_balance, cost_booking.recieved_amount, customer.name, customer.number FROM `event_booking` LEFT JOIN  `cost_booking` ON event_booking.events_code = cost_booking.events_code INNER JOIN `customer_booking` ON event_booking.events_code = customer_booking.events_code INNER JOIN `customer` ON customer_booking.customer_id = customer.id Where cost_booking.`amount_balance` > 0 ORDER BY event_booking.event_date_start DESC';
 
             connection.query(query, function(err, results, fields) {
                 if (!err) {

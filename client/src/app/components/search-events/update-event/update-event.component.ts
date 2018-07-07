@@ -58,7 +58,7 @@ export class UpdateEventComponent implements OnInit {
   finance: any;
   eventDetails: any;
   form: any;
-  responseStatus: any = {status: 203};;
+  responseStatus: any = { status: 203 };;
 
 
   itemSource: any = [];
@@ -72,12 +72,12 @@ export class UpdateEventComponent implements OnInit {
     editableDateRangeField: false,
     openSelectorOnInputClick: true,
   };
-  constructor(public dialog: MatDialog,private formDataService: FormService, private commonService: CommonService,
-              private router: Router, private activatedRoute: ActivatedRoute) {
+  constructor(public dialog: MatDialog, private formDataService: FormService, private commonService: CommonService,
+    private router: Router, private activatedRoute: ActivatedRoute) {
   }
   selection = new SelectionModel(true, []);
 
-toggle: boolean = false;
+  toggle: boolean = false;
 
   numberFormControl = new FormControl('', [
     Validators.pattern("^[0-9]+$"),
@@ -99,57 +99,57 @@ toggle: boolean = false;
     // this.finance = this.formDataService.getFinanceDetails();
     // this.eventDetails = this.formDataService.getEventDetails();
     // subscribe to router event
-   var url = this.router.url;
-   var urlArary = url.split("/");
-   var eventCode = urlArary[3];
+    var url = this.router.url;
+    var urlArary = url.split("/");
+    var eventCode = urlArary[3];
 
-   this.commonService.getEventDetailsForUpdate(eventCode).subscribe(res => {
- console.log("update    ------>   " + JSON.stringify(res));
-     let response: any = res;
-    this.personal = {};
-    this.eventCode = response.events_code;
-     this.name = response.name;
-     this.number = response.number;
-     this.email = response.email;
-    this.eventRequisites = response.dates;
-    this.eventDetails = response.eventDetails;
-    this.title = response.event_name;
-    this.location = response.location;
-    this.totalCost = response.gross_amount;
-    this.grossAmount = response.gross_amount;
-    this.discount = response.discount_amount;
-    this.advance = response.recieved_amount;
-    this.noOfGuests = (!!response.noOfGuests && response.noOfGuests != "0") ? response.noOfGuests : '';
-    this.perHead = (!!response.perHeadCost && response.perHeadCost != "0") ? response.perHeadCost : '';
-    console.log(this.noOfGuests);
-    console.log(this.perHead);
-    if(this.noOfGuests && this.perHead) {
-      this.toggle = true;
-    }
-     //this.personal.gross_amount = res.gross_amount,
-   });
+    this.commonService.getEventDetailsForUpdate(eventCode).subscribe(res => {
+      console.log("update    ------>   " + JSON.stringify(res));
+      let response: any = res;
+      this.personal = {};
+      this.eventCode = response.events_code;
+      this.name = response.name;
+      this.number = response.number;
+      this.email = response.email;
+      this.eventRequisites = response.dates;
+      this.eventDetails = response.eventDetails;
+      this.title = response.event_name;
+      this.location = response.location;
+      this.totalCost = response.gross_amount;
+      this.grossAmount = response.gross_amount;
+      this.discount = response.discount_amount;
+      this.advance = response.recieved_amount;
+      this.noOfGuests = (!!response.noOfGuests && response.noOfGuests != "0") ? response.noOfGuests : '';
+      this.perHead = (!!response.perHeadCost && response.perHeadCost != "0") ? response.perHeadCost : '';
+      console.log(this.noOfGuests);
+      console.log(this.perHead);
+      if (this.noOfGuests && this.perHead) {
+        this.toggle = true;
+      }
+      //this.personal.gross_amount = res.gross_amount,
+    });
 
-  //  var itemsArray = this.formDataService.getItemsArray();
-   this.commonService.getItemsForUpdate(eventCode).subscribe(res => {
-     
-     this.itemSource = res
-     this.itemSource = this.formDataService.parseItemsUpdateResponse(this.itemSource, this.eventRequisites);
-     this.dataSource = new MatTableDataSource(this.itemSource);
-     this.dataSource.paginator = this.paginator;
-     this.dataSource.sort = this.sort;
-   });
+    //  var itemsArray = this.formDataService.getItemsArray();
+    this.commonService.getItemsForUpdate(eventCode).subscribe(res => {
+
+      this.itemSource = res
+      this.itemSource = this.formDataService.parseItemsUpdateResponse(this.itemSource, this.eventRequisites);
+      this.dataSource = new MatTableDataSource(this.itemSource);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    });
 
 
-   this.commonService.getItemCategories().subscribe(res => {
-     this.categories = res;
-   });
+    this.commonService.getItemCategories().subscribe(res => {
+      this.categories = res;
+    });
 
 
 
   }
 
   getTotal(qtyOrdered, price, itemSource) {
-    
+
     if (!qtyOrdered) {
       qtyOrdered = 0;
     }
@@ -160,11 +160,13 @@ toggle: boolean = false;
     this.applyFilter(filter);
   }
 
- itemChecked(event, itemSource) {
+  itemChecked(event, itemSource) {
     if (!event) {
       itemSource.quantity_booked = 0;
+      this.getTotal(0, itemSource.price, itemSource);
     } else if (!itemSource.quantity_booked || itemSource.quantity_booked == 0) {
       itemSource.quantity_booked = 1;
+      this.getTotal(1, itemSource.price, itemSource);
     }
 
   }
@@ -176,7 +178,7 @@ toggle: boolean = false;
     return numSelected === numRows;
   }
 
-    /** Selects all rows if they are not all selected; otherwise clear selection. */
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected() ?
       this.selection.clear() :
@@ -184,7 +186,7 @@ toggle: boolean = false;
   }
 
   getTotalCost(perHead, noOfGuests) {
-    
+
     if (!this.toggle) {
       this.totalCost = this.grossAmount;
     } else {
@@ -200,37 +202,37 @@ toggle: boolean = false;
   }
 
   openDialog(eventCode, amountRemaining) {
-      let dialogRef = this.dialog.open(dialogConfirmMessage, {
-        width: '300px',
-        height: '300px',
-        data: { name: eventCode, payment: amountRemaining }
-      });
-  
-      dialogRef.afterClosed().subscribe(result => {
-        this.router.navigateByUrl('/searchEvents');
-        console.log('The dialog was closed' + result);
-      });
-    
+    let dialogRef = this.dialog.open(dialogConfirmMessage, {
+      width: '300px',
+      height: '300px',
+      data: { name: eventCode, payment: amountRemaining }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigateByUrl('/searchEvents');
+      console.log('The dialog was closed' + result);
+    });
+
   }
 
   getNetAmount(totalCost, discount) {
-    if(totalCost){
-      this.discount = discount? discount: 0;
-      this.grossAmount =  this.totalCost;
+    if (totalCost) {
+      this.discount = discount ? discount : 0;
+      this.grossAmount = this.totalCost;
       this.netAmount = this.totalCost - parseFloat(this.discount);
-    }else{
+    } else {
       this.netAmount = 0;
     }
   }
 
-  getBalance(netAmount, advance){
-      var advanceAmount = 0;
-      if(advance){
-        advanceAmount = parseFloat(advance) || 0;
-      }
-      this.amountPaid = advanceAmount;
-      this.amountRemaining = parseFloat(netAmount) - advanceAmount;
-    
+  getBalance(netAmount, advance) {
+    var advanceAmount = 0;
+    if (advance) {
+      advanceAmount = parseFloat(advance) || 0;
+    }
+    this.amountPaid = advanceAmount;
+    this.amountRemaining = parseFloat(netAmount) - advanceAmount;
+
   }
 
   applyFilter(filterValue: string) {
@@ -241,36 +243,37 @@ toggle: boolean = false;
 
   }
 
-  updatePrice(){
+  updatePrice() {
     console.log(JSON.stringify(this.itemSource));
     this.totalCost = this.formDataService.getTotalCostOnUpdate(this.itemSource);
     this.grossAmount = this.totalCost;
   }
 
-   onChange(event: any) {
+  onChange(event: any) {
+    console.log("changed " + event);
     this.eventPerHead = false;
     this.eventGuests = false;
     this.getTotalCost(this.perHead, this.noOfGuests);
   }
 
   saveEvent() {
-    if(!this.noOfGuests && !this.perHead){
+    if (!this.noOfGuests && !this.perHead) {
       this.noOfGuests = 0;
       this.perHead = 0;
     }
-    this.formDataService.updateEvent(this.commonService, this.itemSource, this.totalCost, 
-      this.discount, this.netAmount, this.amountPaid, this.amountRemaining, 
+    this.formDataService.updateEvent(this.commonService, this.itemSource, this.totalCost,
+      this.discount, this.netAmount, this.amountPaid, this.amountRemaining,
       this.perHead, this.noOfGuests, this.eventDetails, this.eventCode)
       .then((response) => {
         console.log(response);
         this.responseStatus = response;
         console.log(this.responseStatus);
-        if(this.responseStatus.status == "202") {
+        if (this.responseStatus.status == "202") {
           this.openDialog(response, "");
         }
-        
+
       });
-    
+
     //this.router.navigateByUrl('/searchEvents');
   }
 }

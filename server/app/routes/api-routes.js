@@ -104,6 +104,7 @@ router.get('/specificeventitems/:id', function(req, res) {
                     }
                 }
             }
+            console.log(finalRes);
             res.json(finalRes);
         }).catch(function(err) {
             console.log(err);

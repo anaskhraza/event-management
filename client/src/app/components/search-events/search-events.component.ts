@@ -38,7 +38,7 @@ export class SearchEventsComponent implements OnInit {
 
   refresh() {
     this.commonService.getEvents().subscribe(res => {
-      console.log(JSON.stringify(res));
+      console.log(JSON.stringify("232" + JSON.stringify(res)));
       this.eventSource = res;
       this.dataSource = new MatTableDataSource(this.eventSource);
       this.dataSource.paginator = this.paginator;

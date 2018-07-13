@@ -223,6 +223,7 @@ export class FormService {
     var totalCost = 0;
     var itemsArray = data;
     var checkItemArray = _.where(itemsArray, { "checked": true });
+    console.log("checkItemArray   :", checkItemArray);
     _.map(checkItemArray, function (checkItem: any) {
       if (checkItem.cost) {
         totalCost += checkItem.cost
@@ -480,7 +481,7 @@ export class FormService {
           dateSelected = eventObject.eventDetails.dates;
         }
         sql += '(';
-        sql+= '"' + item.items_code + '", "'+ item.quantity_booked + '", "'+ dateSelected[0].trim() + '", "' + dateSelected[1].trim() + '", "' + eventObject.events_code + '"'
+        sql+= '"' + item.items_code + '", "'+ item.quantity_booked + '", "'+ dateSelected[0].trim() + '", "' + dateSelected[1].trim() + '", "' + eventObject.events_code + '", "' + item.no_of_days + '"' 
         if(i == items.length - 1 ) {
           sql += ');'
         } else {
@@ -493,7 +494,7 @@ export class FormService {
     return eventObject;
   }
 
-  updateEvent(commonService, itemData, totalCost, discount,  netAmount, advance, remaining, perHead, noOfGuests, eventDetails, eventCode) {
+  updateEvent(commonService, itemData, totalCost, discount,  netAmount, advance, remaining, perHead, noOfGuests, eventDetails, eventCode, noOfDays) {
 
 		var postData = {
 			events_code: eventCode,
@@ -505,7 +506,8 @@ export class FormService {
 			remaining: remaining,
 			perHead: perHead,
 			noOfGuests: noOfGuests,
-      eventDetails: eventDetails
+      eventDetails: eventDetails,
+      noOfDays: noOfDays
 		}
     postData = this.createItemQueryUpdate(postData);
 

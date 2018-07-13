@@ -16,7 +16,7 @@ export class FormService {
   eventCode;
 
   constructor(private http: HttpClient) { }
-
+  
   getPersonal(): customerInfo {
     // Return the Personal data
     var personal: customerInfo = {
@@ -48,7 +48,7 @@ export class FormService {
 
   setResponseStatus(res) {
     console.log(res);
-    this.formData.responseStatus.status = res.status == "202" ? true : false;
+    this.formData.responseStatus.status = res.status == "202" ? true: false;
   }
 
   getResponseStatus() {
@@ -64,13 +64,13 @@ export class FormService {
 
     let startDate = '';
     let endDate = '';
-    var datesSplit = eventRequisiteObj.hasOwnProperty("dates") && eventRequisiteObj.dates ? eventRequisiteObj.dates.formatted.split(" - ") : [];
-    if (datesSplit.length > 0) {
+    var datesSplit = eventRequisiteObj.hasOwnProperty("dates") &&  eventRequisiteObj.dates? eventRequisiteObj.dates.formatted.split(" - "): [];
+    if(datesSplit.length > 0){
       startDate = datesSplit[0];
       endDate = datesSplit[1];
     }
-
-    return commonService.getItemsWithCalculatedQuantity(startDate, endDate);
+    
+    return  commonService.getItemsWithCalculatedQuantity(startDate, endDate);
 
   }
 
@@ -133,7 +133,7 @@ export class FormService {
   }
 
   setItemArray(data: any) {
-
+    
     this.formData.itemArray = data;
   }
 
@@ -147,65 +147,60 @@ export class FormService {
     console.log(JSON.stringify(data));
 
     var itemsArray = this.getItemsArray();
-    if (itemsArray) {
+    if(itemsArray) {
       data = itemsArray
     }
-    console.log("data   --  " + JSON.stringify(data))
+    console.log("data   --  "  +  JSON.stringify(data) )
     var eventRequisiteObj: any = {};
     var parsedData: any;
     eventRequisiteObj.dates = this.getEventRequisites();
-
+    
     let startDate = '';
     let endDate = '';
-    var datesSplit = eventRequisiteObj.hasOwnProperty("dates") && eventRequisiteObj.dates ? eventRequisiteObj.dates.formatted.split(" - ") : [];
-    if (datesSplit.length > 0) {
+    var datesSplit = eventRequisiteObj.hasOwnProperty("dates") &&  eventRequisiteObj.dates? eventRequisiteObj.dates.formatted.split(" - "): [];
+    if(datesSplit.length > 0){
       startDate = datesSplit[0];
       endDate = datesSplit[1];
     }
-    if (itemsArray && itemsArray.length > 0) {
-      parsedData = _.map(data, function (obj: any) {
+    if(itemsArray && itemsArray.length > 0) {
+    parsedData = _.map(data, function (obj: any) {
         obj["checked"] = false;
         obj["quantityOrdered"] = '';
-        return _.extend(obj, eventRequisiteObj);
-      });
-    } else {
-      parsedData = _.map(data, function (obj: any) {
+        return  _.extend(obj, eventRequisiteObj);
+    });
+  } else {
+    parsedData = _.map(data, function (obj: any) {
 
-        obj["color"] = !!obj["color"] ? obj["color"].split(",") : [];
-        return _.extend(obj, eventRequisiteObj);
-      });
-    }
+      obj["color"] = !!obj["color"] ? obj["color"].split(",") : [];
+      return  _.extend(obj, eventRequisiteObj);
+  });
+  }
+    
 
-
-    console.log("eventRequisiteObj.dates " + JSON.stringify(itemsArray))
+    console.log("eventRequisiteObj.dates " +  JSON.stringify(itemsArray))
 
     return parsedData;
   }
 
-  parseItemsUpdateResponse(data: any, eventRequisites) {
-    console.log("data " + JSON.stringify(data));
-
+  parseItemsUpdateResponse( data: any, eventRequisites) {
+    console.log("data "+ JSON.stringify(data));
+    
     var parsedData = _.map(data, function (obj: any) {
-      if (!obj.event_date_end && !obj.event_date_start) {
-        console.log("obj " + JSON.stringify(obj));
-        var extObj = { dates: eventRequisites }
-
-        return _.extend(obj, extObj);
-
-      } else {
-        if (obj.quantity_booked) {
-          obj.cost = obj.quantity_booked * obj.price;
-        }
+      if(!obj.event_date_end && !obj.event_date_start) {
+        console.log("obj "+ JSON.stringify(obj));
+        var extObj = {dates: eventRequisites}
+        return  _.extend(obj, extObj);
+      } else{
         return obj;
       }
     });
-    console.log("parsedData " + JSON.stringify(parsedData));
+     console.log("parsedData "+ JSON.stringify(parsedData));
     parsedData = _.assign(data, parsedData);
     return parsedData;
   }
 
-  getItemsFromDatabase(commonService) {
-    var itemsArray = commonService.getItems().subscribe(res => {
+  getItemsFromDatabase(commonService){
+   var itemsArray = commonService.getItems().subscribe(res => {
 
     });
   }
@@ -227,8 +222,8 @@ export class FormService {
   getTotalCostOnUpdate(data: any) {
     var totalCost = 0;
     var itemsArray = data;
-    console.log("itemsArray" + JSON.stringify(itemsArray));
     var checkItemArray = _.where(itemsArray, { "checked": true });
+    console.log("checkItemArray   :", checkItemArray);
     _.map(checkItemArray, function (checkItem: any) {
       if (checkItem.cost) {
         totalCost += checkItem.cost
@@ -238,9 +233,9 @@ export class FormService {
     return totalCost;
   }
 
-  getItemData(): itemData {
-    // Return the Personal data
-    var itemData: itemData = {
+  getItemData(): itemData{
+     // Return the Personal data
+     var itemData: itemData = {
       itemName: this.formData.itemName,
       rate: this.formData.rate,
       quantity: this.formData.quantity,
@@ -258,27 +253,27 @@ export class FormService {
     this.formData.category = data.category;
   }
 
-  getEventCodes(commonService: any): any {
+  getEventCodes(commonService: any): any  {
     this.eventCode = 10000001;
     var eventCodes;
     commonService.getEventCodes().subscribe(res => {
       console.log(JSON.stringify(res));
       eventCodes = res;
-      if (eventCodes.length > 0) {
+      if(eventCodes.length > 0){
         this.eventCode = parseInt(eventCodes[0].events_code) + 1;
-      }
+     }
     });
   }
 
-  saveEvent(commonService: any, eventCode) {
+  saveEvent(commonService: any, eventCode){
     var eventObject: any = {};
     eventObject.eventCode = this.eventCode;
     eventObject.items = this.getItemsArray();
-    console.log(JSON.stringify("evnet" + eventObject));
+     console.log(JSON.stringify("evnet" + eventObject));
     eventObject.eventRequisite = this.getEventRequisites();
     eventObject.personal = this.getPersonal();
-    if (!eventObject.personal.number || parseInt(eventObject.personal.number) == 0) {
-      return { status: 301, Error: "Invalid Input value" };
+    if(!eventObject.personal.number || parseInt(eventObject.personal.number) == 0 ) {
+      return {status: 301, Error: "Invalid Input value"};
     }
     eventObject.eventDetails = this.getEventDetails();
     eventObject.eventDetails.dates = eventObject.eventRequisite.formatted.split(" - ");
@@ -289,83 +284,83 @@ export class FormService {
 
   }
 
-  createItemQuery(eventObject) {
-    let sql = '';
-    let dateSelected = '';
-    if (eventObject.hasOwnProperty("items")) {
-      let items = eventObject.items;
-      var count = 0;
-      for (var i = 0; i < items.length; i++) {
+    createItemQuery(eventObject) {
+      let sql = '';
+      let dateSelected = '';
+      if(eventObject.hasOwnProperty("items")) {
+        let items = eventObject.items;
+        var count = 0;
+        for(var i = 0; i< items.length; i++) {
+          
+          let selectedColor = '';
+          let item = items[i];
+          if(item.hasOwnProperty("checked") &&  item.checked){
 
-        let selectedColor = '';
-        let item = items[i];
-        if (item.hasOwnProperty("checked") && item.checked) {
-
-          if (count != 0) {
-            sql += ',';
-          }
-          count = count + 1;
-          if (item.hasOwnProperty("formatted")) {
+            if(count != 0){
+              sql += ',';
+            }
+            count = count + 1;
+            if(item.hasOwnProperty("formatted")){
             dateSelected = item.formatted.split(" - ");
-          } else {
+          } else{
             dateSelected = eventObject.eventDetails.dates;
           }
           sql += '(';
-          sql += '"' + item.items_code + '", "' + item.quantityOrdered + '", "' + dateSelected[0].trim() + '", "' + dateSelected[1].trim() + '", "' + eventObject.eventCode + '"'
-          if (i == items.length - 1) {
+          sql+= '"' + item.items_code + '", "'+ item.quantityOrdered + '", "'+ dateSelected[0].trim() + '", "' + dateSelected[1].trim() + '", "' + eventObject.eventCode + '"'
+          if(i == items.length - 1 ) {
             sql += ');'
           } else {
             sql += ')'
           }
         }
+        }
       }
-    }
-    eventObject.sql = sql;
-    return eventObject;
-  }
-
-  getEventChartsData(eventArray) {
-    var countOfOrderDue = 0;
-    console.log("events" + JSON.stringify(eventArray));
-    var totalRevenue = _lodash.sumBy(eventArray, function (o: any) {
-      return o.total_amount
-    })
-
-    var amountDue = _lodash.sumBy(eventArray, function (o: any) {
-      if (parseInt(o.amount_balance) > 0) {
-        countOfOrderDue = countOfOrderDue + 1;
-      }
-      return o.amount_balance
-    })
-    console.log("events amountDue " + amountDue);
-
-    return {
-      totalRevenue: totalRevenue,
-      amountDue: amountDue,
-      countOfOrderDue: countOfOrderDue
+      eventObject.sql = sql;
+      return eventObject;
     }
 
-  }
+    getEventChartsData(eventArray) {
+      var countOfOrderDue = 0;
+      console.log("events" + JSON.stringify(eventArray));
+      var totalRevenue = _lodash.sumBy(eventArray, function(o: any) {
+        return o.total_amount
+      })
 
-  getMonthlySalesData(array) {
-    var monthsSalesArray =
-      [{ "label": "January", "value": 0 },
-      { "label": "February", "value": 0 },
-      { "label": "March", "value": 0 },
-      { "label": "April", "value": 0 },
-      { "label": "May", "value": 0 },
-      { "label": "June", "value": 0 },
-      { "label": "July", "value": 0 },
-      { "label": "August", "value": 0 },
-      { "label": "September", "value": 0 },
-      { "label": "October", "value": 0 },
-      { "label": "November", "value": 0 },
-      { "label": "December", "value": 0 }
-      ];
-    var response = array;
-    for (var i = 0; i < response.length; i++) {
-      _.map(monthsSalesArray, function (obj) {
-        if (response[i].label == obj.label) {
+      var amountDue = _lodash.sumBy(eventArray, function(o: any) {
+        if(parseInt(o.amount_balance) > 0) {
+          countOfOrderDue = countOfOrderDue + 1;
+        }
+        return o.amount_balance
+      })
+      console.log("events amountDue " + amountDue);
+
+      return {
+        totalRevenue: totalRevenue,
+        amountDue: amountDue,
+        countOfOrderDue: countOfOrderDue
+      }
+
+    }
+
+    getMonthlySalesData(array) {
+      var monthsSalesArray  = 
+      [{ "label": "January", "value": 0},
+      { "label": "February", "value": 0},
+      { "label": "March", "value": 0},
+      { "label": "April", "value": 0},
+      { "label": "May", "value": 0},
+      { "label": "June", "value": 0},
+      { "label": "July", "value": 0},
+      { "label": "August", "value": 0},
+      { "label": "September", "value": 0},
+      { "label": "October", "value": 0},
+      { "label": "November","value": 0},
+      { "label": "December", "value": 0}
+    ];
+      var response = array;
+      for(var  i = 0; i < response.length; i++ ) {
+      _.map(monthsSalesArray, function(obj) {
+        if(response[i].label == obj.label) {
           obj.value = response[i].value;
         }
       });
@@ -374,124 +369,124 @@ export class FormService {
     return monthsSalesArray
   }
 
-  getMontlyTargetSales(object) {
-
-    var monthsArraySales = [{ "label": "January", "value": 0 },
-    { "label": "February", "value": 0 },
-    { "label": "March", "value": 0 },
-    { "label": "April", "value": 0 },
-    { "label": "May", "value": 0 },
-    { "label": "June", "value": 0 },
-    { "label": "July", "value": 0 },
-    { "label": "August", "value": 0 },
-    { "label": "September", "value": 0 },
-    { "label": "October", "value": 0 },
-    { "label": "November", "value": 0 },
-    { "label": "December", "value": 0 }
+    getMontlyTargetSales (object) {
+      
+      var monthsArraySales  = [{ "label": "January", "value": 0},
+      { "label": "February", "value": 0},
+      { "label": "March", "value": 0},
+      { "label": "April", "value": 0},
+      { "label": "May", "value": 0},
+      { "label": "June", "value": 0},
+      { "label": "July", "value": 0},
+      { "label": "August", "value": 0},
+      { "label": "September", "value": 0},
+      { "label": "October", "value": 0},
+      { "label": "November","value": 0},
+      { "label": "December", "value": 0}
     ]
-    var monthsArrayTargets = [{ "label": "January", "value": 0 },
-    { "label": "February", "value": 0 },
-    { "label": "March", "value": 0 },
-    { "label": "April", "value": 0 },
-    { "label": "May", "value": 0 },
-    { "label": "June", "value": 0 },
-    { "label": "July", "value": 0 },
-    { "label": "August", "value": 0 },
-    { "label": "September", "value": 0 },
-    { "label": "October", "value": 0 },
-    { "label": "November", "value": 0 },
-    { "label": "December", "value": 0 }
+      var monthsArrayTargets = [{ "label": "January", "value": 0},
+      { "label": "February", "value": 0},
+      { "label": "March", "value": 0},
+      { "label": "April", "value": 0},
+      { "label": "May", "value": 0},
+      { "label": "June", "value": 0},
+      { "label": "July", "value": 0},
+      { "label": "August", "value": 0},
+      { "label": "September", "value": 0},
+      { "label": "October", "value": 0},
+      { "label": "November","value": 0},
+      { "label": "December", "value": 0}
     ];
-    var finalObject = {
-      charts: {},
-      categories: [],
-      dataset: []
-    }
-    console.log("events1" + JSON.stringify(monthsArrayTargets));
-    var monthlySales = JSON.parse(object.response.monthlySalesTarget);
+      var finalObject = {
+        charts: {},
+        categories:[],
+        dataset: []
+      }
+      console.log("events1" + JSON.stringify(monthsArrayTargets));
+      var monthlySales = JSON.parse(object.response.monthlySalesTarget);
 
-    var monthlyTargets = JSON.parse(object.response.monthlyTarget);
+      var monthlyTargets = JSON.parse(object.response.monthlyTarget);
 
-    for (var i = 0; i < monthlySales.length; i++) {
-      _.map(monthsArraySales, function (obj) {
-        if (monthlySales[i].month == obj.label) {
+      for(var  i = 0; i < monthlySales.length; i++ ) {
+      _.map(monthsArraySales, function(obj) {
+        if(monthlySales[i].month == obj.label) {
           obj.value = monthlySales[i].amount;
         }
       });
     }
 
-    for (var i = 0; i < monthlyTargets.length; i++) {
-      _.map(monthsArrayTargets, function (obj) {
-        if (monthlyTargets[i].Month == obj.label) {
+    for(var  i = 0; i < monthlyTargets.length; i++ ) {
+      _.map(monthsArrayTargets, function(obj) {
+        if(monthlyTargets[i].Month == obj.label) {
           obj.value = monthlyTargets[i].Target;
         }
       });
     }
 
-    var categoryObj = { category: [] };
-    var categoryArray = [];
-    _.map(monthsArraySales, function (obj) {
-      categoryArray.push({ label: obj.label });
+    var categoryObj = {category:[]};
+    var categoryArray  = [];
+   _.map(monthsArraySales, function (obj){
+      categoryArray.push({label: obj.label});
     })
     categoryObj.category = categoryArray;
     finalObject.categories.push(categoryObj);
 
-    var dataSet1 = { seriesname: "Actual Revenue", data: [] };
+    var dataSet1 = {seriesname: "Actual Revenue", data: []};
 
-    var dataSet1Array = [];
+    var dataSet1Array  = [];
+    
+    _.map(monthsArraySales, function (obj){
+      dataSet1Array.push({value: obj.value});
+     })
+    
+     dataSet1.data = dataSet1Array;
 
-    _.map(monthsArraySales, function (obj) {
-      dataSet1Array.push({ value: obj.value });
-    })
+     finalObject.dataset.push(dataSet1);
 
-    dataSet1.data = dataSet1Array;
+     var dataSet2 = {"seriesname": "Projected Revenue", "renderas": "line", "showvalues": "0", data: []};
 
-    finalObject.dataset.push(dataSet1);
+     var dataSet2Array  = [];
+     
+     _.map(monthsArrayTargets, function (obj){
+      dataSet2Array.push({value: obj.value});
+      })
+     
+      dataSet2.data = dataSet2Array;
+ 
+      finalObject.dataset.push(dataSet2);
 
-    var dataSet2 = { "seriesname": "Projected Revenue", "renderas": "line", "showvalues": "0", data: [] };
+     console.log("events3" + JSON.stringify(finalObject));  
+      return finalObject
+    }
 
-    var dataSet2Array = [];
-
-    _.map(monthsArrayTargets, function (obj) {
-      dataSet2Array.push({ value: obj.value });
-    })
-
-    dataSet2.data = dataSet2Array;
-
-    finalObject.dataset.push(dataSet2);
-
-    console.log("events3" + JSON.stringify(finalObject));
-    return finalObject
-  }
-
-  createItemQueryUpdate(eventObject) {
+    createItemQueryUpdate(eventObject) {
     let sql = '';
     let dateSelected = '';
-    if (eventObject.hasOwnProperty("items")) {
+    if(eventObject.hasOwnProperty("items")) {
       let items = eventObject.items;
       var count = 0;
-      for (var i = 0; i < items.length; i++) {
-
+      for(var i = 0; i< items.length; i++) {
+       
         let selectedColor = '';
         let item = items[i];
         console.log(i + " dd" + item);
-        if (item.checked) {
-          if (count != 0) {
-            sql += ','
-          }
-          count = count + 1;
-          if (item.hasOwnProperty("formatted")) {
-            dateSelected = item.formatted.split(" - ");
-          } else {
-            dateSelected = eventObject.eventDetails.dates;
-          }
-          sql += '(';
-          sql += '"' + item.items_code + '", "' + item.quantity_booked + '", "' + dateSelected[0].trim() + '", "' + dateSelected[1].trim() + '", "' + eventObject.events_code + '"'
-          if (i == items.length - 1) {
-            sql += ');'
-          } else {
-            sql += ')'
-          }
+        if(item.checked) {
+        if(count != 0) {
+        sql += ','
+        }
+        count = count + 1;
+        if(item.hasOwnProperty("formatted")){
+          dateSelected = item.formatted.split(" - ");
+        } else{
+          dateSelected = eventObject.eventDetails.dates;
+        }
+        sql += '(';
+        sql+= '"' + item.items_code + '", "'+ item.quantity_booked + '", "'+ dateSelected[0].trim() + '", "' + dateSelected[1].trim() + '", "' + eventObject.events_code + '", "' + item.no_of_days + '"' 
+        if(i == items.length - 1 ) {
+          sql += ');'
+        } else {
+          sql += ')'
+        }
         }
       }
     }
@@ -499,58 +494,59 @@ export class FormService {
     return eventObject;
   }
 
-  updateEvent(commonService, itemData, totalCost, discount, netAmount, advance, remaining, perHead, noOfGuests, eventDetails, eventCode) {
+  updateEvent(commonService, itemData, totalCost, discount,  netAmount, advance, remaining, perHead, noOfGuests, eventDetails, eventCode, noOfDays) {
 
-    var postData = {
-      events_code: eventCode,
-      items: itemData,
-      totalCost: totalCost,
-      netAmount: netAmount,
-      discount: discount,
-      advance: advance,
-      remaining: remaining,
-      perHead: perHead,
-      noOfGuests: noOfGuests,
-      eventDetails: eventDetails
-    }
+		var postData = {
+			events_code: eventCode,
+			items: itemData,
+			totalCost: totalCost,
+			netAmount: netAmount,
+			discount: discount,
+			advance: advance,
+			remaining: remaining,
+			perHead: perHead,
+			noOfGuests: noOfGuests,
+      eventDetails: eventDetails,
+      noOfDays: noOfDays
+		}
     postData = this.createItemQueryUpdate(postData);
 
     console.log("postData " + JSON.stringify(postData));
 
     return commonService.updateEvent(postData);
+  
+	} 
 
-  }
 
-
-  printInvoice(eventCode, commonService) {
+  printInvoice (eventCode, commonService) {
     return commonService.getInvoiceHtml();
   }
 
   printData(template, commonService, eventCode) {
     var response1;
     var response2;
-    commonService.getEventDetailsForUpdate(eventCode).subscribe(res => {
-      response1 = res;
-      commonService.getItemsForUpdate(eventCode).subscribe(response => {
-        response2 = response;
-        this.manipulatePrintData(template, response1, response2, commonService);
+    commonService.getEventDetailsForUpdate(eventCode).subscribe(res=>{
+        response1 = res;
+        commonService.getItemsForUpdate(eventCode).subscribe(response=>{
+          response2 = response;
+          this.manipulatePrintData(template, response1, response2, commonService);
 
-      });
+        });
     });
-  }
+  } 
 
   manipulatePrintData(template, response1, itemResponse, commonService) {
-
+    
 
     console.log("response2   " + JSON.stringify(itemResponse))
 
-    var itemArrayTemp = _lodash.filter(itemResponse, { checked: true });
+    var itemArrayTemp = _lodash.filter(itemResponse, {checked: true});
     response1.totalItems = itemArrayTemp.length;
     var itemArray = this.splitIntoSubArray(itemArrayTemp, 3);
     console.log("itemArray   " + JSON.stringify(itemArray))
-    var datePipe = new DatePipe("en-US");
+   var datePipe = new DatePipe("en-US");
     response1.todayDate = datePipe.transform(new Date(), 'yyyy-MM-dd');
-
+    
     console.log("response1   " + JSON.stringify(response1))
     var data = {
       eventObj: response1,
@@ -559,21 +555,21 @@ export class FormService {
     var compiledTemplate = _lodash.template(template);
 
     var bodyHtml = compiledTemplate(data);
-    var x = window.open();
+    var x=window.open();
     x.document.open();
     x.document.write(bodyHtml);
     x.document.close();
-    commonService.saveFile({ htmlBody: escape(bodyHtml), eventCode: response1.events_code })
+    commonService.saveFile({ htmlBody: escape(bodyHtml), eventCode: response1.events_code})
     // this.saveToFileSystem(bodyHtml, response1.events_code);
     // var doc = new jsPDF({
     //   orientation: 'landscape',
     //   unit: 'in',
     //   format: [4, 2]
     // })
-
+    
     // doc.text(bodyHtml, 1, 1)
     // doc.save('two-by-four.pdf')
-
+    
     // console.log(bodyHtml)
   }
 
@@ -582,35 +578,35 @@ export class FormService {
   //   const blob = new Blob([bodyHtml], { type: 'text/plain' });
   //   saveAs(blob, filename);
   // }
-  clear() {
-    this.formData.clear();
-  }
-  splitIntoSubArray(arr, count) {
+clear() {
+  this.formData.clear();
+}
+splitIntoSubArray(arr, count) {
     var newArray = [];
     while (arr.length > 0) {
-      newArray.push(arr.splice(0, count));
+      newArray.push(arr.splice(0, count)); 
     }
     return newArray;
   }
 
-  saveItem(commonService: any) {
+  saveItem(commonService: any){
     var itemObject: any = {};
     itemObject = this.getItemData();
     commonService.saveItem(itemObject);
   }
-  itemObject: any;
-
-  setTempItemObjectInstace(itemObject) {
+   itemObject: any;
+  
+  setTempItemObjectInstace(itemObject){
     this.itemObject = itemObject;
   }
+ 
 
-
-  getTempItemObjectInstace() {
+  getTempItemObjectInstace(){
     return this.itemObject;
   }
 
-  freeItemObjectInstance() {
+  freeItemObjectInstance(){
     this.itemObject = null;
   }
 }
-declare function escape(s: string): string;
+declare function escape(s:string): string;

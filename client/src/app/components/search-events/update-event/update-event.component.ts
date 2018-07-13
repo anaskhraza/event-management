@@ -3,7 +3,7 @@ import { itemSelector, item } from '../../FormService/form.model'
 import { FormService } from '../../FormService/form.service';
 import { MatPaginator, MatSort, MatTableDataSource, MatChipList, MatChipListChange, MatChipSelectionChange } from '@angular/material';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { IMyDrpOptions } from 'mydaterangepicker';
+import { IMyDrpOptions, IMyDateRangeModel, IMyDateRange, IMyInputFieldChanged, IMyCalendarViewChanged, IMyDateSelected } from 'mydaterangepicker';
 import { CommonService } from '../../../common.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
@@ -24,7 +24,7 @@ export class UpdateEventComponent implements OnInit {
   title = 'Please tell us about yourself.';
   cost: number = 0;
   itemSelector: itemSelector;
-  displayedColumns = ['id', 'select', 'name', 'quantity', 'unitprice', 'price', 'category', 'color', 'date'];
+  displayedColumns = ['id', 'select', 'name', 'quantity', 'unitprice', 'price', 'category', 'noOfDays', 'color', 'date',];
   dataSource: MatTableDataSource<ItemData>;
   selectedcategory: string = "";
   resultsLength = 0;
@@ -46,6 +46,7 @@ export class UpdateEventComponent implements OnInit {
   discount = '';
   netAmount = 0;
   grossAmount = 0;
+  numberOfDays = 0;
   advance = "0";
   balance = "0";
   totalCost: number = 0;
@@ -148,12 +149,25 @@ export class UpdateEventComponent implements OnInit {
 
   }
 
-  getTotal(qtyOrdered, price, itemSource) {
+  daysBetween(date1, date2) {   //Get 1 day in milliseconds   
+    if (!date1 || !date2) {
+      return 0;
+    }
+    var one_day = 60 * 60 * 24;    // Convert both dates to milliseconds    // Calculate the difference in milliseconds  
+    var difference_ms = date2 - date1;        // Convert back to days and return   
+    return Math.round(difference_ms / one_day);
+  }
+
+  getTotal(qtyOrdered, price, noOfDays, itemSource) {
 
     if (!qtyOrdered) {
       qtyOrdered = 0;
     }
-    itemSource.cost = parseInt(qtyOrdered) * parseInt(price);
+    if (!noOfDays) {
+      noOfDays = 1;
+    }
+    this.numberOfDays = noOfDays;
+    itemSource.cost = parseInt(qtyOrdered) * parseInt(price) * parseInt(noOfDays);
   }
 
   filterChange(filter) {
@@ -163,10 +177,8 @@ export class UpdateEventComponent implements OnInit {
   itemChecked(event, itemSource) {
     if (!event) {
       itemSource.quantity_booked = 0;
-      this.getTotal(0, itemSource.price, itemSource);
     } else if (!itemSource.quantity_booked || itemSource.quantity_booked == 0) {
       itemSource.quantity_booked = 1;
-      this.getTotal(1, itemSource.price, itemSource);
     }
 
   }
@@ -250,10 +262,16 @@ export class UpdateEventComponent implements OnInit {
   }
 
   onChange(event: any) {
-    console.log("changed " + event);
     this.eventPerHead = false;
     this.eventGuests = false;
     this.getTotalCost(this.perHead, this.noOfGuests);
+  }
+
+  onDateRangeChanged(event: IMyDateRangeModel, itemSource) {
+    console.log('onDateRangeChanged(): Begin: ', event.beginDate, ' - beginJsDate: ', new Date(event.beginJsDate).toLocaleDateString(), ' - End: ', event.endDate, ' - endJsDate: ', new Date(event.endJsDate).toLocaleDateString(), ' - formatted: ', event.formatted, ' - beginEpoc timestamp: ', event.beginEpoc, ' - endEpoc timestamp: ', event.endEpoc);
+    itemSource.no_of_days = this.daysBetween(event.beginEpoc, event.endEpoc);
+    this.numberOfDays = itemSource.no_of_days;
+    console.log(itemSource.no_of_days);
   }
 
   saveEvent() {
@@ -263,7 +281,7 @@ export class UpdateEventComponent implements OnInit {
     }
     this.formDataService.updateEvent(this.commonService, this.itemSource, this.totalCost,
       this.discount, this.netAmount, this.amountPaid, this.amountRemaining,
-      this.perHead, this.noOfGuests, this.eventDetails, this.eventCode)
+      this.perHead, this.noOfGuests, this.eventDetails, this.eventCode, this.numberOfDays)
       .then((response) => {
         console.log(response);
         this.responseStatus = response;

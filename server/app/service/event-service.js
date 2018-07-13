@@ -61,7 +61,7 @@ class EventService {
             if (totalAmount == recievedAmount) {
                 recieved = 1;
             }
-            let query = 'Update cost_booking Set amount_balance ="' + eventObject.remaining + '", recieved_amount ="' + eventObject.advance + '", total_amount ="' + eventObject.netAmount + '", recieved ="' + recieved + '", gross_amount ="' + eventObject.totalCost + '", perHeadCost ="' + eventObject.perHead + '", noOfGuests ="' + eventObject.noOfGuests + '", discount_amount ="' + eventObject.discount + '" where events_code = "' + eventObject.events_code + '"';
+            let query = 'Update cost_booking Set amount_balance ="' + eventObject.remaining + '", recieved_amount ="' + eventObject.advance + '", total_amount ="' + eventObject.netAmount + '", recieved ="' + recieved + '", gross_amount ="' + eventObject.totalCost + '", perHeadCost ="' + eventObject.perHead + '", noOfGuests ="' + eventObject.noOfGuests + '", discount_amount ="' + eventObject.discount + + '", no_of_days ="' + eventObject.noOfDays +  '" where events_code = "' + eventObject.events_code + '"';
 
             connection.query(query, function(err, results, fields) {
                 if (!err) {
@@ -401,7 +401,7 @@ class EventService {
     addEventItems(eventObject) {
         return new Promise(function(resolve, reject) {
 
-            let query = 'INSERT INTO `booking_items` (`items_code`, `quantity_booked`, `event_date_start`,  `event_date_end`, `events_code`)' +
+            let query = 'INSERT INTO `booking_items` (`items_code`, `quantity_booked`, `event_date_start`,  `event_date_end`, `events_code`, `no_of_days`)' +
                 'VALUES' + eventObject.sql
 
 

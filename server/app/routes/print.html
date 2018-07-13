@@ -205,9 +205,9 @@
                                             <%-item.quantity_booked%>
                                         </td>
                                         <td style="text-align: left">
-                                            <%-item.name%>
+                                            <%-item.name%> <% if(item.no_of_days != "" && item.no_of_days != 0  && item.no_of_days != 1) {%> (Days: <%-item.no_of_days%>) <%}%> 
                                         </td>
-                                        <%itemCost = parseInt(item.quantity_booked) * parseInt(item.price) %>
+                                        <% if(item.no_of_days != "" && item.no_of_days != 0 && item.no_of_days != 1) {itemCost = parseInt(item.quantity_booked) * parseInt(item.price) * parseInt(item.no_of_days)} else { itemCost = parseInt(item.quantity_booked) * parseInt(item.price)} %>
                                             <td style="border-right:1px solid #e8e8e8">
                                                 <%if(eventObj.noOfGuests && parseInt(eventObj.noOfGuests) > 0) {%>
                                                     <%itemCost = 0 %>

@@ -56,7 +56,7 @@
                     <mat-header-cell *matHeaderCellDef class="customWidthClass1"> Price </mat-header-cell>
                     <mat-cell *matCellDef="let itemSource" class="customWidthClass1">
                         <mat-form-field class="example-full-width">
-                            <input matInput disabled placeholder="Quantity" [(ngModel)]="itemSource.cost" value="{{ getTotal(itemSource.quantity_booked, itemSource.price, itemSource.no_of_days, itemSource) }}">
+                            <input matInput disabled placeholder="Price" [(ngModel)]="itemSource.cost" value="{{ getTotal(itemSource.quantity_booked, itemSource.price, itemSource.no_of_days, itemSource) }}">
                         </mat-form-field>
                     </mat-cell>
                 </ng-container>

@@ -46,7 +46,7 @@ export class UpdateEventComponent implements OnInit {
   discount = '';
   netAmount = 0;
   grossAmount = 0;
-  numberOfDays = 0;
+  numberOfDays;
   advance = "0";
   balance = "0";
   totalCost: number = 0;
@@ -163,7 +163,7 @@ export class UpdateEventComponent implements OnInit {
     if (!qtyOrdered) {
       qtyOrdered = 0;
     }
-    if (!noOfDays) {
+    if (!noOfDays || noOfDays == 0) {
       noOfDays = 1;
     }
     this.numberOfDays = noOfDays;
@@ -279,6 +279,13 @@ export class UpdateEventComponent implements OnInit {
       this.noOfGuests = 0;
       this.perHead = 0;
     }
+    console.log("number of day", this.numberOfDays);
+    if (this.numberOfDays) {
+      if (parseInt(this.numberOfDays) <= 1) {
+        this.numberOfDays = "";
+      }
+    }
+    console.log("number of day 1", this.numberOfDays);
     this.formDataService.updateEvent(this.commonService, this.itemSource, this.totalCost,
       this.discount, this.netAmount, this.amountPaid, this.amountRemaining,
       this.perHead, this.noOfGuests, this.eventDetails, this.eventCode, this.numberOfDays)

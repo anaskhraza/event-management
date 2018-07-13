@@ -186,6 +186,9 @@ export class FormService {
     console.log("data "+ JSON.stringify(data));
     
     var parsedData = _.map(data, function (obj: any) {
+      if(obj.no_of_days == "null") {
+        obj.no_of_days = "";
+      }
       if(!obj.event_date_end && !obj.event_date_start) {
         console.log("obj "+ JSON.stringify(obj));
         var extObj = {dates: eventRequisites}

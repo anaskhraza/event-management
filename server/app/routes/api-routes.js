@@ -160,7 +160,7 @@ router.post('/updateEvent', function(req, res) {
             eventController.deleteEventItems(req.body)
         })
         .then((response) => {
-            eventController.addEventItems(req.body)
+            eventController.addEventItemsForUpdate(req.body)
         })
         .then((response) => {
             res.send({ status: "202", response: eventCode.toString() });

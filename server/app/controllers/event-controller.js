@@ -66,6 +66,11 @@ class EventController extends BaseController {
         return eventPromise;
     }
 
+    addEventItemsForUpdate(eventObject) {
+        let eventPromise = EventService.addEventItemsForUpdate(eventObject);
+        return eventPromise;
+    }
+
     getSpecificEvents(eventCode) {
         let itemPromise = EventService.getSpecificEvents(eventCode);
         return itemPromise;

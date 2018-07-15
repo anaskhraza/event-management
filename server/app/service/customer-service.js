@@ -24,6 +24,7 @@ class CustomerService {
     getTotalCustomer() {
         return new Promise(function(resolve, reject) {
             let query = "Select COUNT(number) AS count from customer";
+            console.log("query2  " + query);
             connection.query(query, function(err, results, fields) {
 
                 if (!err) {
@@ -60,7 +61,7 @@ class CustomerService {
         return new Promise((resolve, reject) => {
             var personal = customerObject.personal;
             let query = 'SELECT * FROM customer where number="' + personal.number + '"';
-            console.log(query);
+            console.log("query3  " + query);
             connection.query(query, function(err, results, fields) {
                 if (!err) {
                     resolve(results);

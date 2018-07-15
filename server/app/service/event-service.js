@@ -7,7 +7,7 @@ class EventService {
     }
 
     updateAmount(eventObject) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             var totalAmount = parseFloat(eventObject.netAmount);
             var recievedAmount = parseFloat(eventObject.amountRecieved)
             var recieved = 0;
@@ -17,7 +17,7 @@ class EventService {
             let query = 'Update cost_booking Set amount_balance ="' + eventObject.amountBalanced + '", recieved ="' + recieved + '", recieved_amount ="' + eventObject.amountRecieved + '" where events_code = "' + eventObject.eventCode + '"';
 
 
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -29,7 +29,7 @@ class EventService {
     }
 
     addEvent(eventObject) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             console.log(JSON.stringify(eventObject));
             let eventCost = eventObject.finance;
             var totalAmount = parseFloat(eventCost.netAmount);
@@ -40,7 +40,8 @@ class EventService {
             }
             let query = 'INSERT INTO `cost_booking` (`events_code`,`gross_amount`, `discount_amount`, `total_amount`,  `amount_balance`, `recieved_amount`, `recieved`, `perHeadCost`, `noOfGuests`)' +
                 'VALUES ( "' + eventObject.eventCode + '", "' + eventCost.grossAmount + '", "' + eventCost.discount + '", "' + eventCost.netAmount + '", "' + eventCost.amountRemaining + '", "' + eventCost.amountPaid + '", "' + recieved + '", "' + eventObject.eventDetails.perHead + '", "' + eventObject.eventDetails.noOfGuests + '")';
-            connection.query(query, function(err, results, fields) {
+            console.log("query6  " + query);
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -53,7 +54,7 @@ class EventService {
 
 
     updateEvent(eventObject) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             var totalAmount = parseFloat(eventObject.netAmount);
             var recievedAmount = parseFloat(eventObject.amountRecieved)
 
@@ -61,9 +62,9 @@ class EventService {
             if (totalAmount == recievedAmount) {
                 recieved = 1;
             }
-            let query = 'Update cost_booking Set amount_balance ="' + eventObject.remaining + '", recieved_amount ="' + eventObject.advance + '", total_amount ="' + eventObject.netAmount + '", recieved ="' + recieved + '", gross_amount ="' + eventObject.totalCost + '", perHeadCost ="' + eventObject.perHead + '", noOfGuests ="' + eventObject.noOfGuests + '", discount_amount ="' + eventObject.discount + + '", no_of_days ="' + eventObject.noOfDays +  '" where events_code = "' + eventObject.events_code + '"';
-
-            connection.query(query, function(err, results, fields) {
+            let query = 'Update cost_booking Set amount_balance ="' + eventObject.remaining + '", recieved_amount ="' + eventObject.advance + '", total_amount ="' + eventObject.netAmount + '", recieved ="' + recieved + '", gross_amount ="' + eventObject.totalCost + '", perHeadCost ="' + eventObject.perHead + '", noOfGuests ="' + eventObject.noOfGuests + '", discount_amount ="' + eventObject.discount + + '", no_of_days ="' + eventObject.noOfDays + '" where events_code = "' + eventObject.events_code + '"';
+            console.log("query1.1   ", query);
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -75,11 +76,11 @@ class EventService {
     }
 
     createTarget(postData) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             let query = 'Insert into projected_revenue (Month, Target, Year) Values ("' + postData.month + '" , "' + postData.target + '", "' + postData.year + '")';
 
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -91,13 +92,13 @@ class EventService {
     }
 
     deleteTarget(obj) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             let query = 'Delete from projected_revenue where month = "' + obj.month + '" And year = "' + obj.year + '"';
 
             console.log(" query   --------   " + query);
 
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -109,12 +110,12 @@ class EventService {
     }
     deleteCompleteEvent(eventCode) {
 
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             let query = 'Delete a.*, b.*, c.* from customer_booking c Left Join event_booking b ON b.events_code = c.events_code Left Join cost_booking a ON a.events_code = c.events_code  where c.events_code ="' + eventCode + '"';
             console.log(" query   --------   " + query);
 
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -127,12 +128,12 @@ class EventService {
 
     deleteEventItems(eventCode, itemCode) {
         if (eventCode) {
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
 
                 let query = 'Delete From booking_items where events_code =' + eventCode;
+                console.log("query1.2   ", query);
 
-
-                connection.query(query, function(err, results, fields) {
+                connection.query(query, function (err, results, fields) {
                     if (!err) {
                         resolve(results);
                     } else {
@@ -142,11 +143,11 @@ class EventService {
 
             });
         } else {
-            return new Promise(function(resolve, reject) {
+            return new Promise(function (resolve, reject) {
 
                 let query = 'Delete From booking_items where items_code ="' + itemCode + '"';
                 console.log(query);
-                connection.query(query, function(err, results, fields) {
+                connection.query(query, function (err, results, fields) {
                     if (!err) {
                         resolve(results);
                     } else {
@@ -159,9 +160,9 @@ class EventService {
     }
 
     getSpecificEvents(eventCode) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let query = 'SELECT * FROM `booking_items` Left JOIN `items` ON items.items_code = booking_items.items_code  Where booking_items.events_code =' + eventCode;
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -173,9 +174,9 @@ class EventService {
     }
 
     getMontlySales(month) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let query = 'SELECT DATE_FORMAT(`booking_date`,"%M") AS label, COUNT(`booking_date`) AS value FROM event_booking where YEAR(booking_date) = "' + month + '" GROUP BY label';
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -187,9 +188,9 @@ class EventService {
     }
 
     getTotalEvents() {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let query = 'Select COUNT(events_code) AS count from cost_booking';
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -201,9 +202,9 @@ class EventService {
     }
 
     getMontlyTargetSales(month) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let query = 'SELECT DATE_FORMAT(`date_created`,"%M") AS month, SUM(`total_amount`) AS amount FROM cost_booking where YEAR(date_created)= "' + month + '"  GROUP BY month';
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -215,9 +216,9 @@ class EventService {
     }
 
     getTargets() {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let query = 'Select * from projected_revenue';
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -229,9 +230,9 @@ class EventService {
     }
 
     getMonthlyTargets(year) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let query = 'Select Target, Month from projected_revenue where Year = "' + year + '"';
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -243,11 +244,11 @@ class EventService {
     }
 
     getTodayEvents() {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let query = 'SELECT event_booking.events_code , event_booking.event_name, DATE_FORMAT(event_booking.event_date_start, "%d-%m-%y") AS event_date_start, cost_booking.total_amount, cost_booking.recieved_amount,cost_booking.amount_balance FROM `event_booking` ' +
                 'INNER JOIN `cost_booking` On event_booking.events_code = cost_booking.events_code ' +
                 'WHERE event_booking.event_date_start  = CURDATE() LIMIT 3';
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -259,12 +260,12 @@ class EventService {
     }
 
     getRecentEvents(dateEnd) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
             let query = 'SELECT event_booking.events_code , event_booking.event_name, DATE_FORMAT(event_booking.event_date_start, "%d-%m-%y") AS event_date_start, cost_booking.total_amount, cost_booking.recieved_amount, cost_booking.amount_balance FROM `event_booking` ' +
                 'INNER JOIN `cost_booking` On event_booking.events_code = cost_booking.events_code ' +
                 'WHERE event_booking.event_date_start  > CURDATE() AND event_booking.event_date_end <"' + dateEnd + '"  LIMIT 3';
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -276,9 +277,9 @@ class EventService {
     }
 
     getBookingItems() {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let query = 'SELECT * from booking_items Limit 8';
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -290,7 +291,7 @@ class EventService {
     }
 
     addCustomerEventRelation(eventObject, response) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             if (response.length > 0) {
                 var id = response[0].id;
                 let query = 'INSERT INTO customer_booking (events_code, customer_id)' +
@@ -298,7 +299,8 @@ class EventService {
                     ' WHERE NOT EXISTS (' +
                     'SELECT customer_id FROM customer_booking WHERE events_code = "' + eventObject.eventCode + '"' +
                     ') LIMIT 1';
-                connection.query(query, function(err, results, fields) {
+                console.log("query4  " + query);
+                connection.query(query, function (err, results, fields) {
                     if (!err) {
                         resolve(results);
                     } else {
@@ -312,9 +314,9 @@ class EventService {
     }
 
     getSpecificEventDetails(eventCode) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let query = 'SELECT cost_booking.events_code, cost_booking.gross_amount, cost_booking.discount_amount, cost_booking.total_amount, cost_booking.amount_balance, cost_booking.recieved_amount, event_booking.event_name, event_booking.event_date_start, event_booking.event_date_end, event_booking.location, cost_booking.perHeadCost, cost_booking.noOfGuests, event_booking.booking_date, customer.name, customer.number from cost_booking Left JOIN `event_booking` ON cost_booking.events_code = event_booking.events_code Left Join customer_booking ON  cost_booking.events_code = customer_booking.events_code Left Join customer ON  customer_booking.customer_id = customer.id Where event_booking.events_code =' + eventCode;
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -326,10 +328,10 @@ class EventService {
     }
 
     getEvents() {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let query = 'SELECT event_booking.events_code, event_booking.event_date_start, event_booking.event_date_end, cost_booking.gross_amount, cost_booking.discount_amount, cost_booking.total_amount, cost_booking.amount_balance, cost_booking.recieved_amount, customer.name, customer.number FROM `event_booking` LEFT JOIN  `cost_booking` ON event_booking.events_code = cost_booking.events_code INNER JOIN `customer_booking` ON event_booking.events_code = customer_booking.events_code INNER JOIN `customer` ON customer_booking.customer_id = customer.id ORDER BY event_booking.event_date_start DESC';
 
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
 
                     resolve(results);
@@ -343,10 +345,10 @@ class EventService {
     }
 
     getAmountDueEvents() {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let query = 'SELECT event_booking.events_code, event_booking.event_date_start, event_booking.event_date_end, cost_booking.gross_amount, cost_booking.discount_amount, cost_booking.total_amount, cost_booking.amount_balance, cost_booking.recieved_amount, customer.name, customer.number FROM `event_booking` LEFT JOIN  `cost_booking` ON event_booking.events_code = cost_booking.events_code INNER JOIN `customer_booking` ON event_booking.events_code = customer_booking.events_code INNER JOIN `customer` ON customer_booking.customer_id = customer.id Where cost_booking.`amount_balance` > 0 ORDER BY event_booking.event_date_start DESC';
 
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
 
                     resolve(results);
@@ -360,9 +362,9 @@ class EventService {
     }
 
     getEventCodes() {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let query = 'SELECT `events_code` FROM `cost_booking` ORDER BY `events_code` DESC LIMIT 1';
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
 
                 if (!err) {
                     resolve(results);
@@ -375,12 +377,12 @@ class EventService {
     }
 
     addEventDetails(eventObject) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let eventDetails = eventObject.eventDetails;
             let query = 'INSERT INTO `event_booking` (`events_code`, `event_name`, `event_date_start`, `event_date_end`,  `location`)' +
                 'VALUES ( "' + eventObject.eventCode + '", "' + eventDetails.title + '", "' + eventDetails.dates[0].trim() + '", "' + eventDetails.dates[1].trim() + '", "' + eventDetails.location + '")';
-
-            connection.query(query, function(err, results, fields) {
+            console.log("query  " + query);
+            connection.query(query, function (err, results, fields) {
                 if (!err) {
                     resolve(results);
                 } else {
@@ -398,14 +400,34 @@ class EventService {
     //     }
     // }
 
-    addEventItems(eventObject) {
-        return new Promise(function(resolve, reject) {
+    addEventItemsForUpdate(eventObject) {
+        return new Promise(function (resolve, reject) {
 
             let query = 'INSERT INTO `booking_items` (`items_code`, `quantity_booked`, `event_date_start`,  `event_date_end`, `events_code`, `no_of_days`)' +
                 'VALUES' + eventObject.sql
+            console.log("query1.3  " + query);
 
+            connection.query(query, function (err, results, fields) {
 
-            connection.query(query, function(err, results, fields) {
+                if (!err) {
+
+                    resolve(results);
+                } else {
+                    reject(err)
+                }
+            });
+
+        });
+    }
+
+    addEventItems(eventObject) {
+        return new Promise(function (resolve, reject) {
+
+            let query = 'INSERT INTO `booking_items` (`items_code`, `quantity_booked`, `event_date_start`,  `event_date_end`, `events_code`)' +
+                'VALUES' + eventObject.sql
+            console.log("query1.3  " + query);
+
+            connection.query(query, function (err, results, fields) {
 
                 if (!err) {
 
@@ -419,9 +441,9 @@ class EventService {
     }
 
     getItemCategories(filters) {
-        return new Promise(function(resolve, reject) {
+        return new Promise(function (resolve, reject) {
             let query = "select * from items_category";
-            connection.query(query, function(err, results, fields) {
+            connection.query(query, function (err, results, fields) {
 
                 if (!err) {
                     resolve(results);
@@ -437,7 +459,7 @@ class EventService {
         return new Promise((resolve, reject) => {
             if (!!id) {
                 let query = `SELECT * FROM customers where id=${id}`;
-                connection.query(query, function(err, results, fields) {
+                connection.query(query, function (err, results, fields) {
 
                     if (!err) {
                         resolve(results);

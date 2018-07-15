@@ -284,6 +284,8 @@ export class UpdateEventComponent implements OnInit {
       if (parseInt(this.numberOfDays) <= 1) {
         this.numberOfDays = "";
       }
+    } else if (!this.numberOfDays) {
+      this.numberOfDays = "";
     }
     console.log("number of day 1", this.numberOfDays);
     this.formDataService.updateEvent(this.commonService, this.itemSource, this.totalCost,
